@@ -50,9 +50,10 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospac
 .day.empty{background:transparent;border-color:transparent;min-height:0;pointer-events:none;}
 .day.off{background:#0f0f0f;opacity:.45;}
 .day.past{opacity:.35;}
-.day.is-esame{border-color:#555;border-width:1.5px;}.day.done::after{content:'\2713';position:absolute;top:3px;right:4px;font-size:10px;color:var(--green);font-weight:700;}
-.day.skipped::after{content:'\2717';position:absolute;top:3px;right:4px;font-size:10px;color:var(--red);font-weight:700;}
-.day-status{position:absolute;top:3px;right:4px;font-size:11px;font-weight:700;line-height:1;}
+.day.is-esame{border-color:#555;border-width:1.5px;}
+.day.done{border-color:var(--green)!important;border-width:1.5px;}
+.day.skipped{border-color:var(--red)!important;border-width:1.5px;opacity:.6;}
+.day-status{position:absolute;top:2px;right:4px;font-size:12px;font-weight:800;line-height:1;}
 .day-status.s-done{color:var(--green);}
 .day-status.s-skip{color:var(--red);}
 .day-num{font-size:10px;font-weight:500;color:var(--muted);line-height:1;margin-bottom:1px;flex-shrink:0;}
@@ -115,7 +116,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospac
 <div class="header">
   <div class="header-eyebrow">Piano di studio</div>
   <div class="header-title">Apr &rarr; Giu 2026</div>
-  <div class="header-sub">Tocca un giorno per segnare &#10003; fatto o &#10007; saltato</div>
+  <div class="header-sub">Tocca un giorno per segnare + fatto o x saltato</div>
 </div>
 <div class="stats-bar">
   <div class="stat"><div class="stat-n default" id="s-ore">316h</div><div class="stat-l">ore rimaste</div></div>
@@ -124,7 +125,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospac
   <div class="stat"><div class="stat-n default" id="s-rec">0h</div><div class="stat-l">da recuperare</div></div>
 </div>
 <div class="alert-box warn show" id="alert-warn">
-  <strong>Aprile &egrave; il mese critico.</strong> 79 ore in ~17 giorni attivi = 4.6h/giorno. Non c'&egrave; margine.
+  <strong>Aprile e' il mese critico.</strong> 79 ore in ~17 giorni attivi = 4.6h/giorno. Non c'e' margine.
 </div>
 <div class="alert-box recovery" id="alert-rec"></div>
 <div class="legend">
@@ -163,14 +164,13 @@ p(2026,4,17,'tecniche');p(2026,4,18,'esame:metodo');
 p(2026,4,19,'spagnolo');p(2026,4,20,'spagnolo');
 p(2026,4,21,'semiotica');p(2026,4,22,'semiotica');p(2026,4,23,'semiotica');p(2026,4,24,'semiotica');p(2026,4,25,'off');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');
 p(2026,4,28,'tecdigit');p(2026,4,29,'tecdigit');p(2026,4,30,'tecdigit');p(2026,4,31,'tecdigit');
-p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');
-p(2026,5,4,'tecdigit');p(2026,5,5,'esame:seo');
+p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');p(2026,5,4,'tecdigit');
+p(2026,5,5,'esame:seo');
 p(2026,5,6,'storia');p(2026,5,7,'storia');
 p(2026,5,8,'esame:community');p(2026,5,9,'esame:tecniche');p(2026,5,10,'esame:spagnolo');
 p(2026,5,11,'storia');
-p(2026,5,12,'semiotica');p(2026,5,13,'semiotica');p(2026,5,14,'semiotica');p(2026,5,15,'esame:semiotica');
-p(2026,5,16,'narra');p(2026,5,17,'esame:narra');
-p(2026,5,18,'esame:arti');
+p(2026,5,12,'semiotica');p(2026,5,13,'semiotica');p(2026,5,14,'semiotica');
+p(2026,5,15,'esame:semiotica');p(2026,5,16,'narra');p(2026,5,17,'esame:narra');p(2026,5,18,'esame:arti');
 p(2026,5,19,'tecdigit');p(2026,5,20,'storia');p(2026,5,21,'off');p(2026,5,22,'storia');
 p(2026,5,23,'esame:tecdigit');p(2026,5,24,'esame:storia');
 var PRE_EXAM={'2026-3-19':'diritto','2026-3-20':'audio','2026-4-17':'metodo','2026-5-4':'seo','2026-5-7':'community','2026-5-8':'tecniche','2026-5-9':'spagnolo','2026-5-14':'semiotica','2026-5-16':'narra','2026-5-17':'arti','2026-5-22':'tecdigit','2026-5-23':'storia'};
@@ -178,7 +178,7 @@ function getStatus(k){try{return localStorage.getItem('ps_'+k);}catch(e){return 
 function setStatus(k,v){try{if(v)localStorage.setItem('ps_'+k,v);else localStorage.removeItem('ps_'+k);}catch(e){}}
 var DOW=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 var MONTHS_IT=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-var DOW_IT=['Domenica','Luned&igrave;','Marted&igrave;','Mercoled&igrave;','Gioved&igrave;','Venerd&igrave;','Sabato'];
+var DOW_IT=['Domenica','Lunedi','Martedi','Mercoledi','Giovedi','Venerdi','Sabato'];
 function dowIdx(y,mo,d){return(new Date(y,mo,d).getDay()+6)%7;}
 function dim(y,mo){return new Date(y,mo+1,0).getDate();}
 function isStudyDay(st){return st&&st!=='off'&&!st.startsWith('esame:');}
@@ -186,13 +186,7 @@ function matKey(st){if(!st)return null;return st.replace('esame:','').replace('r
 function oreForDay(st){if(!isStudyDay(st))return 0;if(st.startsWith('ripasso:'))return 2;return ORE_PER_GIORNO;}
 function calcStats(){
   var base=0,fatte=0,saltate=0,skipByMat={},done=0,skip=0;
-  Object.keys(PLAN).forEach(function(k){
-    var st=PLAN[k];if(!isStudyDay(st))return;
-    var ore=oreForDay(st);base+=ore;
-    var s=getStatus(k);
-    if(s==='done'){fatte+=ore;done++;}
-    if(s==='skipped'){saltate+=ore;skip++;var mk=matKey(st);if(mk&&M[mk])skipByMat[mk]=(skipByMat[mk]||0)+ore;}
-  });
+  Object.keys(PLAN).forEach(function(k){var st=PLAN[k];if(!isStudyDay(st))return;var ore=oreForDay(st);base+=ore;var s=getStatus(k);if(s==='done'){fatte+=ore;done++;}if(s==='skipped'){saltate+=ore;skip++;var mk=matKey(st);if(mk&&M[mk])skipByMat[mk]=(skipByMat[mk]||0)+ore;}});
   return{oreRimaste:base-fatte,oreSaltate:saltate,doneCount:done,skipCount:skip,skipByMat:skipByMat};
 }
 function updateStats(){
@@ -203,16 +197,16 @@ function updateStats(){
   se.textContent=s.skipCount;se.className='stat-n '+(s.skipCount>3?'bad':s.skipCount>0?'warn':'default');
   re.textContent=Math.round(s.oreSaltate)+'h';re.className='stat-n '+(s.oreSaltate>8?'bad':s.oreSaltate>0?'warn':'default');
   var ra=document.getElementById('alert-rec');
-  if(s.oreSaltate>0){var txt='<strong>Ore da recuperare: '+Math.round(s.oreSaltate)+'h</strong> &mdash; ';var parts=[];Object.keys(s.skipByMat).forEach(function(k){if(M[k])parts.push(M[k].l.split(' ')[0]+': '+s.skipByMat[k]+'h');});txt+=parts.join(' &middot; ')+'. Aggiungi ~'+Math.ceil(s.oreSaltate/ORE_PER_GIORNO)+' giorni extra.';ra.innerHTML=txt;ra.classList.add('show');}else{ra.classList.remove('show');}
+  if(s.oreSaltate>0){var txt='<strong>Ore da recuperare: '+Math.round(s.oreSaltate)+'h</strong> - ';var parts=[];Object.keys(s.skipByMat).forEach(function(k){if(M[k])parts.push(M[k].l.split(' ')[0]+': '+s.skipByMat[k]+'h');});txt+=parts.join(', ')+'. Aggiungi ~'+Math.ceil(s.oreSaltate/ORE_PER_GIORNO)+' giorni extra.';ra.innerHTML=txt;ra.classList.add('show');}else{ra.classList.remove('show');}
   updateTable(s.skipByMat);
 }
 function renderTags(st){
   if(!st)return '';
   if(st==='off')return '<div class="tag tag-off">Riposo</div>';
   var isE=st.startsWith('esame:'),h='';
-  if(isE){var k=st.replace('esame:','');var m=M[k];h+='<div class="tag tag-esame">Esame'+(m?' &mdash; '+m.l.split(' ')[0]:'')+'</div>';}
+  if(isE){var k=st.replace('esame:','');var m=M[k];h+='<div class="tag tag-esame">Esame'+(m?' - '+m.l.split(' ')[0]:'')+'</div>';}
   else{var m=M[st];if(m)h+='<div class="tag tag-study" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
-  if(!isE)h+='<div class="tag tag-music">&#9834; EP</div>';
+  if(!isE)h+='<div class="tag tag-music">EP</div>';
   return h;
 }
 function buildCalendar(){
@@ -227,18 +221,14 @@ function buildCalendar(){
       var isE=st&&st.startsWith('esame:'),isOff=st==='off',status=getStatus(key);
       var cls='day'+(isE?' is-esame':'')+(isOff?' off':'')+(status==='done'?' done':'')+(status==='skipped'?' skipped':'');
       var tb='';if(st&&!isE&&!isOff){var k2=st;if(M[k2])tb='border-top:2px solid '+M[k2].c+';';}
-      var preEx=PRE_EXAM[key]&&M[PRE_EXAM[key]]?'<div class="tag tag-ripasso">&#127769; ripasso '+M[PRE_EXAM[key]].l.split(' ')[0]+'</div>':'';
-      return '<div class="'+cls+'" style="'+tb+'" data-key="'+key+'" data-y="'+y+'" data-mo="'+mo+'" data-d="'+d+'"><div class="day-num">'+d+'</div>'+renderTags(st)+preEx+'</div>';
+      var preEx=PRE_EXAM[key]&&M[PRE_EXAM[key]]?'<div class="tag tag-ripasso">ripasso '+M[PRE_EXAM[key]].l.split(' ')[0]+'</div>':'';
+      var sIcon=status==='done'?'<div class="day-status s-done">+</div>':status==='skipped'?'<div class="day-status s-skip">x</div>':'';
+      return '<div class="'+cls+'" style="'+tb+'" data-key="'+key+'" data-y="'+y+'" data-mo="'+mo+'" data-d="'+d+'"><div class="day-num">'+d+'</div>'+sIcon+renderTags(st)+preEx+'</div>';
     }).join('');
-var statusIcon='';
-if(status==='done') statusIcon='<div class="day-status s-done">+</div>';
-if(status==='skipped') statusIcon='<div class="day-status s-skip">x</div>';
-return '<div class="'+cls+'" style="'+tb+'" data-key="'+key+'" data-y="'+y+'" data-mo="'+mo+'" data-d="'+d+'"><div class="day-num">'+d+'</div>'+statusIcon+renderTags(st)+preEx+'</div>';
- }).join('');
+    return '<div class="month-block"><div class="month-name">'+name+'</div><div class="cal-grid">'+hdr+days+'</div></div>';
+  }).join('');
 }
-function buildTable(){
-  return Object.keys(M).map(function(k){var m=M[k];var pct=Math.round((m.ore/36)*100);return '<tr><td><div class="mat-name"><div class="mat-dot" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cfu-badge">'+m.cfu+'</span></td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+m.c+'" id="bar-'+k+'"></div></div></div></td><td class="ore-num" id="ore-'+k+'">'+m.ore+'h</td><td class="date-cell">'+m.esame+'</td></tr>';}).join('');
-}
+function buildTable(){return Object.keys(M).map(function(k){var m=M[k];var pct=Math.round((m.ore/36)*100);return '<tr><td><div class="mat-name"><div class="mat-dot" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cfu-badge">'+m.cfu+'</span></td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+m.c+'" id="bar-'+k+'"></div></div></div></td><td class="ore-num" id="ore-'+k+'">'+m.ore+'h</td><td class="date-cell">'+m.esame+'</td></tr>';}).join('');}
 function updateTable(sbm){sbm=sbm||{};Object.keys(M).forEach(function(k){var m=M[k],sk=sbm[k]||0,el=document.getElementById('ore-'+k);if(el){el.textContent=(m.ore-sk)+'h'+(sk>0?' (-'+sk+'h)':'');el.className='ore-num'+(sk>0?' ore-skipped':'');}});}
 var popupOpen=false,currentKey=null;
 function closePopup(){document.getElementById('popup').classList.remove('active');document.getElementById('overlay').classList.remove('active');popupOpen=false;currentKey=null;}
@@ -250,12 +240,12 @@ function openPopup(el,e){
   document.getElementById('p-date').textContent=DOW_IT[dateObj.getDay()]+' '+d+' '+MONTHS_IT[mo]+' '+y;
   var sj=document.getElementById('p-subject');
   if(!st||st==='off'){sj.textContent='Giorno libero';sj.className='popup-subject';sj.style.background='';}
-  else if(st.startsWith('esame:')){var mk=st.replace('esame:','');sj.textContent='&#127919; Esame &mdash; '+(M[mk]?M[mk].l:'?');sj.className='popup-subject esame';sj.style.background='';}
+  else if(st.startsWith('esame:')){var mk=st.replace('esame:','');sj.textContent='Esame - '+(M[mk]?M[mk].l:'?');sj.className='popup-subject esame';sj.style.background='';}
   else{var mat=M[st];sj.textContent=mat?mat.l:st;sj.className='popup-subject';sj.style.background=mat?mat.c:'';}
   var ore=oreForDay(st),pre=PRE_EXAM[key];
-  var ht=ore>0?ore+'h di studio':'Nessuna attivit&agrave;';
-  if(pre&&M[pre])ht+=' &middot; &#127769; Ripasso serale: '+M[pre].l;
-  document.getElementById('p-hours').innerHTML=ht;
+  var ht=ore>0?ore+'h di studio':'Nessuna attivita';
+  if(pre&&M[pre])ht+=' - Ripasso serale: '+M[pre].l;
+  document.getElementById('p-hours').textContent=ht;
   var btns=document.getElementById('p-btns');
   btns.style.display=isStudyDay(st)?'grid':'none';
   if(isStudyDay(st)){var s=getStatus(key);document.getElementById('btn-done').className='pbtn done-btn'+(s==='done'?' active':'');document.getElementById('btn-skip').className='pbtn skip-btn'+(s==='skipped'?' active':'');}
@@ -270,10 +260,15 @@ function setDayStatus(status){
   if(!currentKey)return;
   var cur=getStatus(currentKey);setStatus(currentKey,cur===status?null:status);
   var el=document.querySelector('[data-key="'+currentKey+'"]');
-  if(el){el.classList.remove('done','skipped')var old=el.querySelector('.day-status');if(old)old.remove();
-if(ns==='done')el.insertAdjacentHTML('afterbegin','<div class="day-status s-done">+</div>');
-if(ns==='skipped')el.insertAdjacentHTML('afterbegin','<div class="day-status s-skip">x</div>');
-;var ns=getStatus(currentKey);if(ns==='done')el.classList.add('done');if(ns==='skipped')el.classList.add('skipped');document.getElementById('btn-done').className='pbtn done-btn'+(ns==='done'?' active':'');document.getElementById('btn-skip').className='pbtn skip-btn'+(ns==='skipped'?' active':'');}
+  if(el){
+    el.classList.remove('done','skipped');
+    var old=el.querySelector('.day-status');if(old)old.remove();
+    var ns=getStatus(currentKey);
+    if(ns==='done'){el.classList.add('done');el.insertAdjacentHTML('afterbegin','<div class="day-status s-done">+</div>');}
+    if(ns==='skipped'){el.classList.add('skipped');el.insertAdjacentHTML('afterbegin','<div class="day-status s-skip">x</div>');}
+    document.getElementById('btn-done').className='pbtn done-btn'+(ns==='done'?' active':'');
+    document.getElementById('btn-skip').className='pbtn skip-btn'+(ns==='skipped'?' active':'');
+  }
   updateStats();closePopup();
 }
 document.addEventListener('DOMContentLoaded',function(){
@@ -286,7 +281,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('popup').addEventListener('click',function(e){e.stopPropagation();});
   document.getElementById('btn-done').addEventListener('click',function(e){e.stopPropagation();setDayStatus('done');});
   document.getElementById('btn-skip').addEventListener('click',function(e){e.stopPropagation();setDayStatus('skipped');});
-  document.getElementById('btn-reset').addEventListener('click',function(e){e.stopPropagation();setStatus(currentKey,null);var d=document.querySelector('[data-key="'+currentKey+'"]');if(d){d.classList.remove('done','skipped');}updateStats();closePopup();});
+  document.getElementById('btn-reset').addEventListener('click',function(e){e.stopPropagation();setStatus(currentKey,null);var d=document.querySelector('[data-key="'+currentKey+'"]');if(d){d.classList.remove('done','skipped');var old=d.querySelector('.day-status');if(old)old.remove();}updateStats();closePopup();});
 });
 </script>
 <div class="overlay" id="overlay"></div>
@@ -296,14 +291,14 @@ document.addEventListener('DOMContentLoaded',function(){
   <span class="popup-subject" id="p-subject"></span>
   <div class="popup-hours" id="p-hours"></div>
   <div class="popup-btns" id="p-btns">
-    <button class="pbtn done-btn" id="btn-done">&#10003; Fatto</button>
-    <button class="pbtn skip-btn" id="btn-skip">&#10007; Saltato</button>
-    <button class="pbtn reset-btn" id="btn-reset">&#8634; Reset</button>
+    <button class="pbtn done-btn" id="btn-done">+ Fatto</button>
+    <button class="pbtn skip-btn" id="btn-skip">x Saltato</button>
+    <button class="pbtn reset-btn" id="btn-reset">Reset</button>
   </div>
   <div class="popup-hint">tocca fuori per chiudere</div>
 </div>
 <div class="section">
-  <div class="sec-header"><div class="sec-title">Calendario</div><div class="sec-sub">tocca un giorno &rarr; segna fatto / saltato</div></div>
+  <div class="sec-header"><div class="sec-title">Calendario</div><div class="sec-sub">tocca un giorno - segna fatto / saltato</div></div>
   <div id="cal"></div>
 </div>
 <div class="section" style="padding-top:24px">
@@ -315,22 +310,22 @@ document.addEventListener('DOMContentLoaded',function(){
   <div class="recovery-box" id="rec-box"><div id="rec-list"></div></div>
 </div>
 <div class="section" style="padding-top:24px">
-  <div class="sec-header"><div class="sec-title">EP &mdash; Roadmap</div><div class="sec-sub">1h/sera &middot; upload entro 31 maggio</div></div>
+  <div class="sec-header"><div class="sec-title">EP - Roadmap</div><div class="sec-sub">1h/sera - upload entro 31 maggio</div></div>
   <div class="ep-grid">
-    <div class="ep-step"><div class="ep-step-n">01</div><div class="ep-step-title">Mix / Master</div><div class="ep-step-date">Apr &rarr; Mag</div></div>
+    <div class="ep-step"><div class="ep-step-n">01</div><div class="ep-step-title">Mix / Master</div><div class="ep-step-date">Apr - Mag</div></div>
     <div class="ep-step"><div class="ep-step-n">02</div><div class="ep-step-title">Upload</div><div class="ep-step-date">Entro 31 mag</div></div>
-    <div class="ep-step"><div class="ep-step-n">03</div><div class="ep-step-title">Promo</div><div class="ep-step-date">1&ndash;16 giu</div></div>
-    <div class="ep-step release"><div class="ep-step-n">04</div><div class="ep-step-title">Release</div><div class="ep-step-date">18&ndash;22 giu</div></div>
+    <div class="ep-step"><div class="ep-step-n">03</div><div class="ep-step-title">Promo</div><div class="ep-step-date">1-16 giu</div></div>
+    <div class="ep-step release"><div class="ep-step-n">04</div><div class="ep-step-title">Release</div><div class="ep-step-date">18-22 giu</div></div>
   </div>
 </div>
 <div class="section" style="padding-top:24px;padding-bottom:32px">
   <div class="sec-header"><div class="sec-title">Principi operativi</div></div>
   <div class="rules-list">
     <div class="rule"><div class="rule-n">1</div><div class="rule-text"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
-    <div class="rule"><div class="rule-n">2</div><div class="rule-text"><strong>Ripasso serale.</strong> Solo il giorno prima dell'esame, 2&ndash;3h. Non un giorno intero.</div></div>
+    <div class="rule"><div class="rule-n">2</div><div class="rule-text"><strong>Ripasso serale.</strong> Solo il giorno prima, 2-3h. Non un giorno intero.</div></div>
     <div class="rule"><div class="rule-n">3</div><div class="rule-text"><strong>Musica ogni sera.</strong> 1 ora, timer fisso.</div></div>
     <div class="rule"><div class="rule-n">4</div><div class="rule-text"><strong>1 giorno off a settimana,</strong> pianificato in anticipo.</div></div>
-    <div class="rule"><div class="rule-n">5</div><div class="rule-text"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo &ldquo;pubblica&rdquo;.</div></div>
+    <div class="rule"><div class="rule-n">5</div><div class="rule-text"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
     <div class="rule"><div class="rule-n">6</div><div class="rule-text"><strong>Narratologia 17 giu, Arti visive 18 giu.</strong> Sequenza, non parallelo.</div></div>
   </div>
 </div>
