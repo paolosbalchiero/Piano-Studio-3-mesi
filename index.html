@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piano Studio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;
+  --border:#2a2a2a;--text:#e8e8e8;--muted:#666;--muted2:#444;
+  --yellow:#ffd166;--green:#06d6a0;--purple:#d966ff;--red:#ff4d4d;
+  --c-diritto:#e05252;--c-audio:#e8824a;--c-metodo:#d4aa40;
+  --c-seo:#5cb85c;--c-community:#3dbf9e;--c-tecniche:#4da6d6;
+  --c-spagnolo:#6ab0e8;--c-semiotica:#a07cd6;--c-arti:#d46b6b;
+  --c-narra:#d4804a;--c-tecdigit:#b06ad4;--c-storia:#6ab88a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding-bottom:80px;overflow-x:hidden;}
+
+/* HEADER */
+.header{padding:32px 20px 24px;border-bottom:1px solid var(--border);}
+.header-eyebrow{font-size:10px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
+.header-title{font-family:'Syne',sans-serif;font-size:clamp(24px,6vw,44px);font-weight:800;line-height:1;margin-bottom:6px;}
+.header-sub{font-size:11px;color:var(--muted);}
+
+/* STATS LIVE */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
+.stat{padding:14px 16px;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;}
+.stat-l{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
+.stat-n.good{color:var(--green);}
+.stat-n.warn{color:var(--yellow);}
+.stat-n.bad{color:var(--red);}
+.stat-n.default{color:var(--text);}
+
+/* ALERT */
+.alert-box{margin:16px 20px 0;border-radius:4px;padding:11px 14px;font-size:11px;line-height:1.7;display:none;}
+.alert-box.show{display:block;}
+.alert-box.warn{border:1px solid #3a2a20;background:#1a1008;color:#cc9966;}
+.alert-box.warn strong{color:#ffaa66;}
+.alert-box.recovery{border:1px solid #1a3a20;background:#0a1a08;color:#66cc88;}
+.alert-box.recovery strong{color:#88ffaa;}
+
+/* LEGENDA */
+.legend{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.legend-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);}
+.leg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
+
+/* SEZIONE */
+.section{padding:24px 20px 0;}
+.sec-header{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);}
+.sec-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.sec-sub{font-size:11px;color:var(--muted);}
+
+/* CALENDARIO */
+.month-block{margin-bottom:28px;}
+.month-name{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;width:100%;}
+.dow-cell{text-align:center;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);padding:3px 0;}
+
+.day{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 4px 4px;min-height:72px;display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;cursor:pointer;position:relative;transition:border-color .15s;}
+.day:active{transform:scale(.97);}
+.day.empty{background:transparent;border-color:transparent;min-height:0;pointer-events:none;}
+.day.off{background:#0f0f0f;opacity:.45;}
+.day.past{opacity:.35;}
+.day.is-esame{border-color:#555;border-width:1.5px;}
+.day.done{border-color:var(--green) !important;border-width:1.5px;}
+.day.skipped{border-color:var(--red) !important;border-width:1.5px;opacity:.6;}
+.day.done::after{content:'â';position:absolute;top:3px;right:4px;font-size:10px;color:var(--green);font-weight:700;}
+.day.skipped::after{content:'â';position:absolute;top:3px;right:4px;font-size:10px;color:var(--red);font-weight:700;}
+
+.day-num{font-size:10px;font-weight:500;color:var(--muted);line-height:1;margin-bottom:1px;flex-shrink:0;}
+.day.is-esame .day-num,.day.done .day-num,.day.skipped .day-num{color:var(--text);font-weight:700;}
+
+.tag{font-size:7.5px;font-weight:500;padding:2px 3px;border-radius:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;display:block;}
+.tag-study{color:#fff;}
+.tag-esame{background:#e8e8e8;color:#0d0d0d;font-weight:700;}
+.tag-ripasso{color:var(--muted);border:1px solid var(--border);}
+.tag-music{color:#444;border:1px dashed #2a2a2a;}
+.tag-off{color:var(--muted2);}
+
+/* POPUP */
+.overlay{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.55);}
+.overlay.active{display:block;}
+.popup{display:none;position:fixed;z-index:200;background:#1c1c1c;border:1px solid #484848;border-radius:10px;padding:18px 18px 14px;min-width:220px;max-width:280px;box-shadow:0 10px 40px rgba(0,0,0,.9);}
+.popup.active{display:block;}
+.popup-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;}
+.popup-date{font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;}
+.popup-subject{font-size:12px;font-weight:600;padding:7px 10px;border-radius:5px;margin-bottom:10px;display:block;line-height:1.5;white-space:normal;color:#fff;}
+.popup-subject.esame{background:#e8e8e8;color:#0d0d0d;}
+.popup-subject.ripasso{background:transparent;color:#888;border:1px solid #333;}
+.popup-hours{font-size:11px;color:var(--muted);margin-bottom:14px;}
+/* STATUS BUTTONS */
+.popup-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;}
+.pbtn{padding:9px 4px;border-radius:5px;border:1px solid var(--border);background:var(--surface2);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;text-align:center;transition:all .15s;}
+.pbtn:active{transform:scale(.95);}
+.pbtn.done-btn{border-color:rgba(6,214,160,.4);}
+.pbtn.done-btn.active,
+.pbtn.done-btn:hover{background:rgba(6,214,160,.15);color:var(--green);border-color:var(--green);}
+.pbtn.skip-btn{border-color:rgba(255,77,77,.3);}
+.pbtn.skip-btn.active,
+.pbtn.skip-btn:hover{background:rgba(255,77,77,.15);color:var(--red);border-color:var(--red);}
+.pbtn.reset-btn:hover{background:var(--surface);color:var(--text);}
+.popup-hint{font-size:9px;color:#444;text-align:center;letter-spacing:1px;}
+
+/* TABELLA ORE */
+.ore-table{width:100%;border-collapse:collapse;}
+.ore-table th{text-align:left;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--border);}
+.ore-table td{padding:9px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle;}
+.ore-table tr:last-child td{border-bottom:none;}
+.mat-name{font-size:11px;font-weight:500;display:flex;align-items:center;gap:7px;}
+.mat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.bar-wrap{display:flex;align-items:center;gap:6px;}
+.bar-bg{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;transition:width .3s;}
+.ore-num{font-size:11px;font-weight:500;color:var(--text);text-align:right;white-space:nowrap;min-width:36px;}
+.ore-orig{font-size:9px;color:var(--muted2);text-align:right;white-space:nowrap;}
+.date-cell{font-size:10px;color:var(--muted);text-align:right;white-space:nowrap;}
+.cfu-badge{font-size:9px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 4px;}
+.ore-skipped{color:var(--red) !important;}
+.ore-done{color:var(--green) !important;}
+
+/* RECOVERY BOX */
+.recovery-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-top:14px;display:none;}
+.recovery-box.show{display:block;}
+.recovery-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.recovery-item{display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:5px 0;border-bottom:1px solid #1a1a1a;}
+.recovery-item:last-child{border-bottom:none;}
+.recovery-mat{color:var(--text);}
+.recovery-h{color:var(--red);font-weight:600;}
+
+/* EP */
+.ep-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.ep-step{background:var(--surface);padding:14px;}
+.ep-step-n{font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:1px;}
+.ep-step-title{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.ep-step-date{font-size:10px;color:var(--muted);}
+.ep-step.release{background:var(--surface2);border-left:2px solid var(--purple);}
+.ep-step.release .ep-step-title{color:var(--purple);}
+
+/* REGOLE */
+.rules-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.rule{border:1px solid var(--border);border-radius:4px;padding:12px 14px;background:var(--surface);}
+.rule-n{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--muted2);line-height:1;margin-bottom:5px;}
+.rule-text{font-size:11px;color:var(--text);line-height:1.7;}
+.rule-text strong{font-weight:600;color:var(--yellow);}
+
+@media(max-width:480px){
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .rules-list{grid-template-columns:1fr;}
+  .ep-grid{grid-template-columns:repeat(2,1fr);}
+  .date-cell{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Piano di studio</div>
+  <div class="header-title">Apr â Giu 2026</div>
+  <div class="header-sub">Tocca un giorno per segnare â fatto o â saltato</div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="stat-n default" id="s-ore">316h</div><div class="stat-l">ore rimaste</div></div>
+  <div class="stat"><div class="stat-n default" id="s-done">0</div><div class="stat-l">giorni fatti</div></div>
+  <div class="stat"><div class="stat-n default" id="s-skip">0</div><div class="stat-l">saltati</div></div>
+  <div class="stat"><div class="stat-n default" id="s-rec">0h</div><div class="stat-l">da recuperare</div></div>
+</div>
+
+<div class="alert-box warn" id="alert-warn">
+  <strong>Aprile Ã¨ il mese critico.</strong> 79 ore in ~17 giorni attivi = 4.6h/giorno. Non c'Ã¨ margine.
+</div>
+<div class="alert-box recovery" id="alert-rec"></div>
+
+<div class="legend">
+  <span class="legend-label">materie â</span>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-diritto)"></div>Diritto</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-audio)"></div>Audiovisivi</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-metodo)"></div>Metodologia</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-seo)"></div>SEO</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-community)"></div>Community</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-tecniche)"></div>Tecniche</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-spagnolo)"></div>Spagnolo</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-semiotica)"></div>Semiotica</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-arti)"></div>Arti visive</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-narra)"></div>Narratologia</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-tecdigit)"></div>Tecn. digitali</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--c-storia)"></div>Storia</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--green);border-radius:50%"></div>Fatto</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--red);border-radius:50%"></div>Saltato</div>
+</div>
+
+<script>
+// ââ MATERIE ââââââââââââââââââââââââââââââââââââââââââââââââââ
+var M = {
+  diritto:   {l:'Diritto pub. info/comunicazione', c:'var(--c-diritto)',  ore:27,   cfu:9,  esame:'20 apr'},
+  audio:     {l:'Audiovisivi digitali',            c:'var(--c-audio)',    ore:27,   cfu:9,  esame:'21 apr'},
+  metodo:    {l:'Metodologia ricerca soc. digit.', c:'var(--c-metodo)',   ore:25,   cfu:12, esame:'18 mag'},
+  seo:       {l:'Search Engine Optimization',      c:'var(--c-seo)',      ore:24,   cfu:9,  esame:'5 giu'},
+  community: {l:'Community management',            c:'var(--c-community)',ore:8,    cfu:9,  esame:'8 giu'},
+  tecniche:  {l:'Tecniche rappres. digitale',      c:'var(--c-tecniche)', ore:27,   cfu:9,  esame:'9 giu'},
+  spagnolo:  {l:'Lingua spagnola',                 c:'var(--c-spagnolo)', ore:9,    cfu:3,  esame:'10 giu'},
+  semiotica: {l:'Semiotica dei Media',              c:'var(--c-semiotica)',ore:27.5, cfu:9,  esame:'15 giu'},
+  narra:     {l:'Narratologia e storytelling',     c:'var(--c-narra)',    ore:27,   cfu:9,  esame:'17 giu'},
+  arti:      {l:'Arti visive e nuove tecnologie',  c:'var(--c-arti)',     ore:25,   cfu:9,  esame:'18 giu'},
+  tecdigit:  {l:'Tecnologie digitali e proc. cogn.',c:'var(--c-tecdigit)',ore:36,   cfu:12, esame:'23 giu'},
+  storia:    {l:'Storia Contemporanea',            c:'var(--c-storia)',   ore:14.5, cfu:6,  esame:'24 giu'},
+};
+
+// ore per giorno di studio (4h standard, eccetto materie brevi)
+var ORE_PER_GIORNO = 5.5;
+
+// ââ PIANO ââââââââââââââââââââââââââââââââââââââââââââââââââââ
+var PLAN = {};
+function p(y,mo,d,st){ PLAN[y+'-'+mo+'-'+d] = st; }
+
+// APRILE
+// APRILE â 5.5h/giorno. Ripasso = slot 2h il giorno prima, non giorno dedicato.
+// Diritto: 27h â 5 gg (1â5)
+p(2026,3,1,'diritto'); p(2026,3,2,'diritto'); p(2026,3,3,'diritto');
+p(2026,3,4,'diritto'); p(2026,3,5,'diritto');
+// Audiovisivi: 27h â 5 gg (6â10, 11 off)
+p(2026,3,6,'audio'); p(2026,3,7,'audio'); p(2026,3,8,'audio');
+p(2026,3,9,'audio'); p(2026,3,10,'audio'); p(2026,3,11,'off');
+// 12â19: studia prossima materia (Narratologia)
+p(2026,3,12,'narra'); p(2026,3,13,'narra'); p(2026,3,14,'narra');
+p(2026,3,15,'narra'); p(2026,3,16,'narra'); p(2026,3,17,'narra');
+p(2026,3,18,'off');
+p(2026,3,19,'narra');
+p(2026,3,20,'esame:diritto'); p(2026,3,21,'esame:audio');
+// Metodologia: 25h â 5 gg (22â26, 27 off)
+p(2026,3,22,'metodo'); p(2026,3,23,'metodo'); p(2026,3,24,'metodo');
+p(2026,3,25,'metodo'); p(2026,3,26,'metodo'); p(2026,3,27,'off');
+// Arti visive: 25h â 5 gg (28â30 apr + 1â2 mag)
+p(2026,3,28,'arti'); p(2026,3,29,'arti'); p(2026,3,30,'arti');
+// MAGGIO
+p(2026,4,1,'arti'); p(2026,4,2,'arti');
+// Narratologia continua: 3â8 mag (6 gg, ma ne bastano 3 per coprire ore rimaste)
+// narra giÃ  coperta con 12-21 apr = ~42h >> 27h target, quindi subito SEO
+// SEO: 24h â 5 gg (3â8, con 4 off)
+p(2026,4,3,'seo'); p(2026,4,4,'off');
+p(2026,4,5,'seo'); p(2026,4,6,'seo'); p(2026,4,7,'seo'); p(2026,4,8,'seo');
+// Community: 8h â 2 gg (9â10)
+p(2026,4,9,'community'); p(2026,4,10,'community');
+// Tecniche: 27h â 5 gg (11 off â 12â16)
+p(2026,4,11,'off');
+p(2026,4,12,'tecniche'); p(2026,4,13,'tecniche'); p(2026,4,14,'tecniche');
+p(2026,4,15,'tecniche'); p(2026,4,16,'tecniche');
+// 17: giorno prima esame metodo â studio normale + slot ripasso metodo
+// 18: esame metodo + 2h pm â spagnolo
+p(2026,4,17,'tecniche'); p(2026,4,18,'esame:metodo');
+// Spagnolo: 9h â 2 gg (19â20)
+p(2026,4,19,'spagnolo'); p(2026,4,20,'spagnolo');
+// Semiotica: 27.5h â 5 gg (21â25 off â 21â27)
+p(2026,4,21,'semiotica'); p(2026,4,22,'semiotica'); p(2026,4,23,'semiotica');
+p(2026,4,24,'semiotica'); p(2026,4,25,'off');
+p(2026,4,26,'semiotica'); p(2026,4,27,'semiotica');
+// Tecnologie digitali: 36h â 7 gg (28 magâ3 giu)
+p(2026,4,28,'tecdigit'); p(2026,4,29,'tecdigit'); p(2026,4,30,'tecdigit');
+p(2026,4,31,'tecdigit');
+// GIUGNO
+p(2026,5,1,'tecdigit'); p(2026,5,2,'tecdigit'); p(2026,5,3,'tecdigit');
+// 4: giorno prima esame SEO â studio normale + slot ripasso seo
+// 5: esame SEO + 2h pm â storia
+p(2026,5,4,'tecdigit'); p(2026,5,5,'esame:seo');
+// Storia: 14.5h â 3 gg (6â7 + 11)
+p(2026,5,6,'storia'); p(2026,5,7,'storia');
+// 8â10: esami + 2h pm studio storia/ripassi
+p(2026,5,8,'esame:community'); p(2026,5,9,'esame:tecniche'); p(2026,5,10,'esame:spagnolo');
+p(2026,5,11,'storia');
+// 12â14: studio + slot ripasso il giorno prima
+p(2026,5,12,'semiotica'); p(2026,5,13,'semiotica');
+p(2026,5,14,'semiotica'); p(2026,5,15,'esame:semiotica');
+p(2026,5,16,'narra'); p(2026,5,17,'esame:narra');
+p(2026,5,18,'esame:arti');
+// 19â22: ripasso tecdigit + storia
+p(2026,5,19,'tecdigit'); p(2026,5,20,'storia');
+p(2026,5,21,'off');
+p(2026,5,22,'storia');
+p(2026,5,23,'esame:tecdigit'); p(2026,5,24,'esame:storia');
+
+// Slot ripasso serale â il giorno prima di ogni esame (non giorno dedicato)
+var PRE_EXAM = {
+  '2026-3-19': 'diritto',   // giorno prima esame diritto
+  '2026-3-20': 'audio',     // giorno prima esame audio (stesso giorno esame diritto)
+  '2026-4-17': 'metodo',    // giorno prima esame metodo
+  '2026-5-4':  'seo',       // giorno prima esame SEO
+  '2026-5-7':  'community', // giorno prima esame community
+  '2026-5-8':  'tecniche',  // giorno prima esame tecniche (stesso gg esame community)
+  '2026-5-9':  'spagnolo',  // giorno prima esame spagnolo (stesso gg esame tecniche)
+  '2026-5-14': 'semiotica', // giorno prima esame semiotica
+  '2026-5-16': 'narra',     // giorno prima esame narratologia
+  '2026-5-17': 'arti',      // giorno prima esame arti (stesso gg esame narra)
+  '2026-5-22': 'tecdigit',  // giorno prima esame tecn. digitali
+  '2026-5-23': 'storia',    // giorno prima esame storia (stesso gg esame tecdigit)
+};
+
+
+// ââ STORAGE ââââââââââââââââââââââââââââââââââââââââââââââââââ
+// STATUS: 'done' | 'skipped' | null
+function getStatus(key){ try{ return localStorage.getItem('ps_'+key); }catch(e){ return null; } }
+function setStatus(key,val){ try{ if(val) localStorage.setItem('ps_'+key,val); else localStorage.removeItem('ps_'+key); }catch(e){} }
+
+// ââ HELPERS ââââââââââââââââââââââââââââââââââââââââââââââââââ
+var DOW = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+function dowIdx(y,mo,d){ return (new Date(y,mo,d).getDay()+6)%7; }
+function dim(y,mo){ return new Date(y,mo+1,0).getDate(); }
+function isStudyDay(st){ return st && st!=='off' && !st.startsWith('esame:'); }
+function matKey(st){
+  if(!st) return null;
+  if(st==='tecdigit+storia') return 'tecdigit';
+  return st.replace('esame:','').replace('ripasso:','');
+}
+function oreForDay(st){
+  if(!isStudyDay(st)) return 0;
+  // ripasso = 2h, studio normale = 4h, dual = 4h split
+  if(st.startsWith('ripasso:')) return 2;
+  return ORE_PER_GIORNO;
+}
+
+// ââ CALCOLA STATS âââââââââââââââââââââââââââââââââââââââââââââ
+function calcStats(){
+  var totalOreBase = 0, oreFatte = 0, oreSaltate = 0;
+  var skipByMat = {};
+  Object.keys(PLAN).forEach(function(key){
+    var st = PLAN[key];
+    if(!isStudyDay(st)) return;
+    var ore = oreForDay(st);
+    totalOreBase += ore;
+    var status = getStatus(key);
+    if(status === 'done') oreFatte += ore;
+    if(status === 'skipped'){
+      oreSaltate += ore;
+      var mk = matKey(st);
+      if(mk && M[mk]){ skipByMat[mk] = (skipByMat[mk]||0) + ore; }
+    }
+  });
+  var oreRimaste = totalOreBase - oreFatte;
+  var doneCount = 0, skipCount = 0;
+  Object.keys(PLAN).forEach(function(key){
+    var st = PLAN[key];
+    if(!isStudyDay(st)) return;
+    var status = getStatus(key);
+    if(status==='done') doneCount++;
+    if(status==='skipped') skipCount++;
+  });
+  return {oreRimaste:oreRimaste, oreSaltate:oreSaltate, doneCount:doneCount, skipCount:skipCount, skipByMat:skipByMat};
+}
+
+// ââ AGGIORNA UI STATS âââââââââââââââââââââââââââââââââââââââââ
+function updateStats(){
+  var s = calcStats();
+  document.getElementById('s-ore').textContent = Math.round(316) + 'h'; // reset base
+  var oreEl = document.getElementById('s-ore');
+  var doneEl = document.getElementById('s-done');
+  var skipEl = document.getElementById('s-skip');
+  var recEl  = document.getElementById('s-rec');
+
+  oreEl.textContent = Math.round(s.oreRimaste)+'h';
+  oreEl.className = 'stat-n '+(s.oreRimaste > 200 ? 'warn' : s.oreRimaste > 100 ? 'default' : 'good');
+  doneEl.textContent = s.doneCount;
+  doneEl.className = 'stat-n '+(s.doneCount > 0 ? 'good' : 'default');
+  skipEl.textContent = s.skipCount;
+  skipEl.className = 'stat-n '+(s.skipCount > 3 ? 'bad' : s.skipCount > 0 ? 'warn' : 'default');
+  recEl.textContent = Math.round(s.oreSaltate)+'h';
+  recEl.className = 'stat-n '+(s.oreSaltate > 8 ? 'bad' : s.oreSaltate > 0 ? 'warn' : 'default');
+
+  // alert recupero
+  var recAlert = document.getElementById('alert-rec');
+  if(s.oreSaltate > 0){
+    var txt = '<strong>Ore da recuperare: '+Math.round(s.oreSaltate)+'h</strong> â ';
+    var parts = [];
+    Object.keys(s.skipByMat).forEach(function(k){
+      if(M[k]) parts.push(M[k].l.split(' ')[0]+': '+s.skipByMat[k]+'h');
+    });
+    txt += parts.join(' Â· ');
+    txt += '. Aggiungi ~'+Math.ceil(s.oreSaltate/ORE_PER_GIORNO)+' giorni extra al piano.';
+    recAlert.innerHTML = txt;
+    recAlert.classList.add('show');
+  } else {
+    recAlert.classList.remove('show');
+  }
+
+  // aggiorna tabella ore
+  updateTable(s.skipByMat);
+}
+
+// ââ RENDER TAGS âââââââââââââââââââââââââââââââââââââââââââââââ
+function renderTags(st){
+  if(!st) return '';
+  if(st==='off') return '<div class="tag tag-off">Riposo</div>';
+  var isE=st.startsWith('esame:'), isR=st.startsWith('ripasso:'), isD=st==='tecdigit+storia';
+  var h='';
+  if(isE){ var k=st.replace('esame:',''); var m=M[k]; h+='<div class="tag tag-esame">Esame'+(m?' â '+m.l.split(' ')[0]:'')+'</div>'; }
+  else if(isR){ var k=st.replace('ripasso:',''); var m=M[k]; h+='<div class="tag tag-ripasso">â© '+(m?m.l.split(' ')[0]:k)+'</div>'; }
+  else if(isD){ h+='<div class="tag tag-study" style="background:var(--c-tecdigit)">Tecn. dig.</div><div class="tag tag-study" style="background:var(--c-storia)">Storia</div>'; }
+  else { var m=M[st]; if(m) h+='<div class="tag tag-study" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>'; }
+  if(!isE) h+='<div class="tag tag-music">âª EP</div>';
+  return h;
+}
+
+function hasPreExam(key){
+  return typeof PRE_EXAM !== 'undefined' && PRE_EXAM[key];
+}
+
+// ââ BUILD CALENDAR ââââââââââââââââââââââââââââââââââââââââââââ
+function buildCalendar(){
+  var months = [{y:2026,mo:3,name:'Aprile 2026'},{y:2026,mo:4,name:'Maggio 2026'},{y:2026,mo:5,name:'Giugno 2026'}];
+  var html = '';
+  months.forEach(function(month){
+    var y=month.y, mo=month.mo, name=month.name;
+    var total=dim(y,mo), first=dowIdx(y,mo,1);
+    var hdr=DOW.map(function(d){return '<div class="dow-cell">'+d+'</div>';}).join('');
+    var cells=[];
+    for(var i=0;i<first;i++) cells.push(null);
+    for(var d=1;d<=total;d++) cells.push(d);
+    while(cells.length%7) cells.push(null);
+    var days=cells.map(function(d){
+      if(!d) return '<div class="day empty"></div>';
+      var key=y+'-'+mo+'-'+d;
+      var st=PLAN[key]||null;
+      var isE=st&&st.startsWith('esame:'), isOff=st==='off';
+      var status=getStatus(key);
+      var cls='day'+(isE?' is-esame':'')+(isOff?' off':'')+(status==='done'?' done':'')+(status==='skipped'?' skipped':'');
+      var tb='';
+      if(st&&!isE&&!isOff&&!st.startsWith('ripasso:')){
+        var k2=st.replace('tecdigit+storia','tecdigit');
+        if(M[k2]) tb='border-top:2px solid '+M[k2].c+';';
+      }
+      return '<div class="'+cls+'" style="'+tb+'" data-key="'+key+'" data-y="'+y+'" data-mo="'+mo+'" data-d="'+d+'"><div class="day-num">'+d+'</div>'+renderTags(st)+'</div>';
+    }).join('');
+    html+='<div class="month-block"><div class="month-name">'+name+'</div><div class="cal-grid">'+hdr+days+'</div></div>';
+  });
+  return html;
+}
+
+// ââ BUILD TABLE âââââââââââââââââââââââââââââââââââââââââââââââ
+function buildTable(skipByMat){
+  skipByMat = skipByMat||{};
+  var html='';
+  Object.keys(M).forEach(function(k){
+    var m=M[k];
+    var skipped=skipByMat[k]||0;
+    var oreLeft=m.ore - skipped;
+    var pct=Math.round((m.ore/36)*100);
+    var oreClass=skipped>0?'ore-skipped':'';
+    html+='<tr>';
+    html+='<td><div class="mat-name"><div class="mat-dot" style="background:'+m.c+'"></div>'+m.l+'</div></td>';
+    html+='<td><span class="cfu-badge">'+m.cfu+'</span></td>';
+    html+='<td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+m.c+'" id="bar-'+k+'"></div></div></div></td>';
+    html+='<td class="ore-num '+oreClass+'" id="ore-'+k+'">'+m.ore+'h</td>';
+    html+='<td class="date-cell">'+m.esame+'</td>';
+    html+='</tr>';
+  });
+  return html;
+}
+
+function updateTable(skipByMat){
+  skipByMat = skipByMat||{};
+  Object.keys(M).forEach(function(k){
+    var m=M[k];
+    var skipped=skipByMat[k]||0;
+    var oreEl=document.getElementById('ore-'+k);
+    if(oreEl){
+      oreEl.textContent=(m.ore-skipped)+'h'+(skipped>0?' (-'+skipped+'h)':'');
+      oreEl.className='ore-num '+(skipped>0?'ore-skipped':'');
+    }
+  });
+}
+
+// ââ POPUP âââââââââââââââââââââââââââââââââââââââââââââââââââââ
+var popupOpen=false;
+var currentKey=null;
+
+function closePopup(){
+  document.getElementById('popup').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
+  popupOpen=false; currentKey=null;
+}
+
+var MONTHS_IT=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+var DOW_IT=['Domenica','LunedÃ¬','MartedÃ¬','MercoledÃ¬','GiovedÃ¬','VenerdÃ¬','Sabato'];
+
+function openPopup(dayEl, e){
+  e.stopPropagation();
+  var key=dayEl.dataset.key;
+  var y=parseInt(dayEl.dataset.y), mo=parseInt(dayEl.dataset.mo), d=parseInt(dayEl.dataset.d);
+  var st=PLAN[key]||null;
+  currentKey=key;
+
+  // title
+  var dateObj=new Date(y,mo,d);
+  var dateStr=DOW_IT[dateObj.getDay()]+' '+d+' '+MONTHS_IT[mo]+' '+y;
+  document.getElementById('p-date').textContent=dateStr;
+
+  // subject
+  var subjEl=document.getElementById('p-subject');
+  if(!st||st==='off'){ subjEl.textContent='Giorno libero'; subjEl.className='popup-subject'; subjEl.style.background=''; }
+  else if(st.startsWith('esame:')){
+    var mk=st.replace('esame:',''); var mat=M[mk];
+    subjEl.textContent='ð¯ Esame â '+(mat?mat.l:'?');
+    subjEl.className='popup-subject esame'; subjEl.style.background='';
+  } else if(st.startsWith('ripasso:')){
+    var mk=st.replace('ripasso:',''); var mat=M[mk];
+    subjEl.textContent='â© Ripasso â '+(mat?mat.l:'?');
+    subjEl.className='popup-subject ripasso'; subjEl.style.background='';
+  } else if(st==='tecdigit+storia'){
+    subjEl.textContent='Tecn. digitali + Storia';
+    subjEl.className='popup-subject'; subjEl.style.background='var(--c-tecdigit)';
+  } else {
+    var mat=M[st];
+    subjEl.textContent=mat?mat.l:st;
+    subjEl.className='popup-subject'; subjEl.style.background=mat?mat.c:'';
+  }
+
+  // hours
+  var ore=oreForDay(st);
+  var preExamMat = PRE_EXAM[key];
+  var hoursText = ore>0 ? ore+'h di studio previste' : 'Nessuna attivitÃ  di studio';
+  if(preExamMat && M[preExamMat]){
+    hoursText += ' Â· ð Ripasso serale: ' + M[preExamMat].l;
+  }
+  document.getElementById('p-hours').textContent = hoursText;
+
+  // buttons visibility â solo per giorni di studio
+  var btnsEl=document.getElementById('p-btns');
+  var showBtns = isStudyDay(st);
+  btnsEl.style.display = showBtns ? 'grid' : 'none';
+
+  if(showBtns){
+    var status=getStatus(key);
+    document.getElementById('btn-done').className='pbtn done-btn'+(status==='done'?' active':'');
+    document.getElementById('btn-skip').className='pbtn skip-btn'+(status==='skipped'?' active':'');
+  }
+
+  // show popup
+  var popup=document.getElementById('popup');
+  popup.classList.add('active');
+  document.getElementById('overlay').classList.add('active');
+  popupOpen=true;
+
+  // position
+  popup.style.left='0'; popup.style.top='0';
+  var r=dayEl.getBoundingClientRect(), pw=popup.offsetWidth, ph=popup.offsetHeight;
+  var vw=window.innerWidth, vh=window.innerHeight;
+  var l=r.left+r.width/2-pw/2, t=r.bottom+8;
+  if(l<8)l=8; if(l+pw>vw-8)l=vw-pw-8;
+  if(t+ph>vh-8)t=r.top-ph-8; if(t<8)t=8;
+  popup.style.left=l+'px'; popup.style.top=t+'px';
+}
+
+function setDayStatus(status){
+  if(!currentKey) return;
+  var current=getStatus(currentKey);
+  setStatus(currentKey, current===status ? null : status);
+  // update day cell
+  var dayEl=document.querySelector('[data-key="'+currentKey+'"]');
+  if(dayEl){
+    dayEl.classList.remove('done','skipped');
+    var newStatus=getStatus(currentKey);
+    if(newStatus==='done') dayEl.classList.add('done');
+    if(newStatus==='skipped') dayEl.classList.add('skipped');
+    // update button states
+    document.getElementById('btn-done').className='pbtn done-btn'+(newStatus==='done'?' active':'');
+    document.getElementById('btn-skip').className='pbtn skip-btn'+(newStatus==='skipped'?' active':'');
+  }
+  updateStats();
+  closePopup();
+}
+
+// ââ INIT âââââââââââââââââââââââââââââââââââââââââââââââââââââ
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('cal').innerHTML = buildCalendar();
+  document.getElementById('table-body').innerHTML = buildTable();
+  updateStats();
+  document.getElementById('alert-warn').classList.add('show');
+
+  // calendar click
+  document.getElementById('cal').addEventListener('click', function(e){
+    var day=e.target.closest('.day');
+    if(day&&!day.classList.contains('empty')){
+      if(popupOpen) closePopup();
+      else openPopup(day, e);
+    }
+  });
+
+  // close on outside click
+  document.addEventListener('click', function(){ if(popupOpen) closePopup(); });
+  document.getElementById('overlay').addEventListener('click', closePopup);
+  document.getElementById('popup').addEventListener('click', function(e){ e.stopPropagation(); });
+
+  // status buttons
+  document.getElementById('btn-done').addEventListener('click', function(e){ e.stopPropagation(); setDayStatus('done'); });
+  document.getElementById('btn-skip').addEventListener('click', function(e){ e.stopPropagation(); setDayStatus('skipped'); });
+  document.getElementById('btn-reset').addEventListener('click', function(e){ e.stopPropagation(); setStatus(currentKey,null); var d=document.querySelector('[data-key="'+currentKey+'"]'); if(d){d.classList.remove('done','skipped');} updateStats(); closePopup(); });
+});
+</script>
+
+<!-- OVERLAY + POPUP -->
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+  <div class="popup-title">Giorno</div>
+  <div class="popup-date" id="p-date"></div>
+  <span class="popup-subject" id="p-subject"></span>
+  <div class="popup-hours" id="p-hours"></div>
+  <div class="popup-btns" id="p-btns">
+    <button class="pbtn done-btn" id="btn-done">â Fatto</button>
+    <button class="pbtn skip-btn" id="btn-skip">â Saltato</button>
+    <button class="pbtn reset-btn" id="btn-reset">âº Reset</button>
+  </div>
+  <div class="popup-hint">tocca fuori per chiudere</div>
+</div>
+
+<!-- CALENDARIO -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-title">Calendario</div>
+    <div class="sec-sub">tocca un giorno â segna fatto / saltato</div>
+  </div>
+  <div id="cal"></div>
+</div>
+
+<!-- TABELLA ORE -->
+<div class="section" style="padding-top:24px">
+  <div class="sec-header">
+    <div class="sec-title">Ore per materia</div>
+    <div class="sec-sub">si aggiorna con i giorni saltati</div>
+  </div>
+  <table class="ore-table">
+    <thead><tr><th>Materia</th><th>CFU</th><th>Carico</th><th style="text-align:right">Ore</th><th style="text-align:right">Esame</th></tr></thead>
+    <tbody id="table-body"></tbody>
+  </table>
+  <div class="recovery-box" id="rec-box">
+    <div class="recovery-title">Ore da recuperare per materia</div>
+    <div id="rec-list"></div>
+  </div>
+</div>
+
+<!-- EP -->
+<div class="section" style="padding-top:24px">
+  <div class="sec-header"><div class="sec-title">EP â Roadmap</div><div class="sec-sub">1h/sera Â· upload entro 31 maggio</div></div>
+  <div class="ep-grid">
+    <div class="ep-step"><div class="ep-step-n">01</div><div class="ep-step-title">Mix / Master</div><div class="ep-step-date">Apr â Mag</div></div>
+    <div class="ep-step"><div class="ep-step-n">02</div><div class="ep-step-title">Upload</div><div class="ep-step-date">Entro 31 mag</div></div>
+    <div class="ep-step"><div class="ep-step-n">03</div><div class="ep-step-title">Promo</div><div class="ep-step-date">1â16 giu</div></div>
+    <div class="ep-step release"><div class="ep-step-n">04</div><div class="ep-step-title">Release</div><div class="ep-step-date">18â22 giu</div></div>
+  </div>
+</div>
+
+<!-- REGOLE -->
+<div class="section" style="padding-top:24px;padding-bottom:32px">
+  <div class="sec-header"><div class="sec-title">Principi operativi</div></div>
+  <div class="rules-list">
+    <div class="rule"><div class="rule-n">1</div><div class="rule-text"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
+    <div class="rule"><div class="rule-n">2</div><div class="rule-text"><strong>Ripasso minimo.</strong> 1â2 giorni prima. Non rifare tutto.</div></div>
+    <div class="rule"><div class="rule-n">3</div><div class="rule-text"><strong>Musica ogni sera.</strong> 1 ora, timer fisso.</div></div>
+    <div class="rule"><div class="rule-n">4</div><div class="rule-text"><strong>1 giorno off a settimana,</strong> pianificato in anticipo.</div></div>
+    <div class="rule"><div class="rule-n">5</div><div class="rule-text"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo "pubblica".</div></div>
+    <div class="rule"><div class="rule-n">6</div><div class="rule-text"><strong>Narratologia 17 giu, Arti visive 18 giu.</strong> Sequenza, non parallelo.</div></div>
+  </div>
+</div>
+
+</body>
+</html>
