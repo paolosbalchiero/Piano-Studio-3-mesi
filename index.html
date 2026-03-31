@@ -96,7 +96,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 <body>
 <div class="hdr">
   <div class="hdr-ey">Piano di studio</div>
-  <div class="hdr-ti">Apr &rarr; Giu 2026</div>
+  <div class="hdr-ti">31 Mar &rarr; 24 Giu 2026</div>
   <div class="hdr-su">Tocca un giorno &rarr; segna + fatto o x saltato</div>
 </div>
 <div class="sbar">
@@ -126,7 +126,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   <div class="legi"><div class="legd" style="background:var(--grn);border-radius:50%"></div>Fatto</div>
   <div class="legi"><div class="legd" style="background:var(--red);border-radius:50%"></div>Saltato</div>
 </div>
-
+ 
 <div class="ov" id="ov"></div>
 <div class="pp" id="pp">
   <div class="ppd" id="ppd"></div>
@@ -139,7 +139,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   </div>
   <div class="pph2">tocca fuori per chiudere</div>
 </div>
-
+ 
 <div class="sec">
   <div class="sech"><div class="sect">Calendario</div><div class="secs">tocca un giorno per segnare</div></div>
   <div id="cal"></div>
@@ -168,7 +168,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
     <div class="ru"><div class="run">6</div><div class="rut"><strong>Narratologia 17 giu, Arti visive 18 giu.</strong> Sequenza, non parallelo.</div></div>
   </div>
 </div>
-
+ 
 <script>
 var M={
   diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',ore:27,cfu:9,e:'20 apr'},
@@ -187,6 +187,8 @@ var M={
 var OPG=5.5;
 var PL={};
 function p(y,m,d,s){PL[y+'-'+m+'-'+d]=s;}
+// MARZO (ultimo giorno)
+p(2026,2,31,'diritto');
 // APRILE
 p(2026,3,1,'diritto');p(2026,3,2,'diritto');p(2026,3,3,'diritto');p(2026,3,4,'diritto');p(2026,3,5,'diritto');
 p(2026,3,6,'audio');p(2026,3,7,'audio');p(2026,3,8,'audio');p(2026,3,9,'audio');p(2026,3,10,'audio');
@@ -221,7 +223,7 @@ p(2026,5,16,'narra');p(2026,5,17,'esame:narra');
 p(2026,5,18,'esame:arti');
 p(2026,5,19,'tecdigit');p(2026,5,20,'storia');p(2026,5,21,'off');p(2026,5,22,'storia');
 p(2026,5,23,'esame:tecdigit');p(2026,5,24,'esame:storia');
-
+ 
 var PRE={
   '2026-3-19':'diritto','2026-3-20':'audio',
   '2026-4-17':'metodo',
@@ -231,7 +233,7 @@ var PRE={
   '2026-5-16':'narra','2026-5-17':'arti',
   '2026-5-22':'tecdigit','2026-5-23':'storia'
 };
-
+ 
 function gs(k){try{return localStorage.getItem('ps_'+k);}catch(e){return null;}}
 function ss(k,v){try{if(v)localStorage.setItem('ps_'+k,v);else localStorage.removeItem('ps_'+k);}catch(e){}}
 function isd(s){return s&&s!='off'&&s.indexOf('esame:')<0;}
@@ -241,7 +243,7 @@ var MON=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'
 var DIT=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
 function di(y,m,d){return(new Date(y,m,d).getDay()+6)%7;}
 function dm(y,m){return new Date(y,m+1,0).getDate();}
-
+ 
 function calcS(){
   var base=0,fat=0,sal=0,sbm={},dc=0,sc=0;
   Object.keys(PL).forEach(function(k){
@@ -253,7 +255,7 @@ function calcS(){
   });
   return{rem:base-fat,sal:sal,dc:dc,sc:sc,sbm:sbm};
 }
-
+ 
 function updS(){
   var s=calcS();
   var e1=document.getElementById('s1'),e2=document.getElementById('s2'),e3=document.getElementById('s3'),e4=document.getElementById('s4');
@@ -270,7 +272,7 @@ function updS(){
   }else{ra.classList.remove('on');}
   updT(s.sbm);
 }
-
+ 
 function rt(s){
   if(!s)return '';
   if(s=='off')return '<div class="tg to">Riposo</div>';
@@ -280,18 +282,31 @@ function rt(s){
   if(!isE)h+='<div class="tg tm">EP</div>';
   return h;
 }
-
+ 
 function buildCal(){
   var months=[{y:2026,mo:3,n:'Aprile 2026'},{y:2026,mo:4,n:'Maggio 2026'},{y:2026,mo:5,n:'Giugno 2026'}];
   return months.map(function(mn){
     var y=mn.y,mo=mn.mo,total=dm(y,mo),first=di(y,mo,1);
     var hdr=DOW.map(function(d){return '<div class="dc">'+d+'</div>';}).join('');
     var cells=[];
-    for(var i=0;i<first;i++)cells.push(null);
+    // inject March 31 as first real day of April grid
+    var march31key='2026-2-31';
+    var hasMar31=(mo==3);
+    var extraBefore=hasMar31?1:0;
+    for(var i=0;i<first-extraBefore;i++)cells.push(null);
+    if(hasMar31)cells.push('MAR31');
     for(var d=1;d<=total;d++)cells.push(d);
     while(cells.length%7)cells.push(null);
     var days=cells.map(function(d){
       if(!d)return '<div class="dy em"></div>';
+      if(d==='MAR31'){
+        var key='2026-2-31',s=PL[key]||null,status=gs(key);
+        var cls='dy'+(status=='done'?' dn':'')+(status=='skipped'?' sk':'');
+        var si=status=='done'?'<div class="dst sd">+</div>':status=='skipped'?'<div class="dst ss">x</div>':'';
+        var pre=PRE[key]&&M[PRE[key]]?'<div class="tg tr">ripasso '+M[PRE[key]].l.split(' ')[0]+'</div>':'';
+        var tb='';if(s&&M[s])tb='border-top:2px solid '+M[s].c+';';
+        return '<div class="'+cls+'" style="'+tb+'" data-k="'+key+'" data-y="2026" data-m="2" data-d="31"><div class="dn2" style="color:#888;font-size:9px">31/3</div>'+si+rt(s)+pre+'</div>';
+      }
       var key=y+'-'+mo+'-'+d,s=PL[key]||null;
       var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',status=gs(key);
       var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(status=='done'?' dn':'')+(status=='skipped'?' sk':'');
@@ -304,14 +319,14 @@ function buildCal(){
     return '<div class="mb"><div class="mn">'+mn.n+'</div><div class="cg">'+hdr+days+'</div></div>';
   }).join('');
 }
-
+ 
 function buildT(){
   return Object.keys(M).map(function(k){
     var m=M[k],p=Math.round((m.ore/36)*100);
     return '<tr><td><div class="mn2"><div class="md" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cb">'+m.cfu+'</span></td><td><div class="bb"><div class="bbg"><div class="bbf" style="width:'+p+'%;background:'+m.c+'" id="bf-'+k+'"></div></div></div></td><td class="on2" id="o-'+k+'">'+m.ore+'h</td><td class="dc2">'+m.e+'</td></tr>';
   }).join('');
 }
-
+ 
 function updT(sbm){
   sbm=sbm||{};
   Object.keys(M).forEach(function(k){
@@ -319,10 +334,10 @@ function updT(sbm){
     if(el){el.textContent=(m.ore-sk)+'h'+(sk>0?' (-'+sk+'h)':'');el.className='on2'+(sk>0?' osk':'');}
   });
 }
-
+ 
 var po=false,ck=null;
 function closeP(){document.getElementById('pp').classList.remove('on');document.getElementById('ov').classList.remove('on');po=false;ck=null;}
-
+ 
 function openP(el,e){
   e.stopPropagation();
   var key=el.dataset.k,y=parseInt(el.dataset.y),mo=parseInt(el.dataset.m),d=parseInt(el.dataset.d),s=PL[key]||null;
@@ -346,7 +361,7 @@ function openP(el,e){
   if(l<8)l=8;if(l+pw>vw-8)l=vw-pw-8;if(t+ph>vh-8)t=r.top-ph-8;if(t<8)t=8;
   pp.style.left=l+'px';pp.style.top=t+'px';
 }
-
+ 
 function setDS(status){
   if(!ck)return;
   var cur=gs(ck);ss(ck,cur==status?null:status);
@@ -362,7 +377,7 @@ function setDS(status){
   }
   updS();closeP();
 }
-
+ 
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('cal').innerHTML=buildCal();
   document.getElementById('tb').innerHTML=buildT();
@@ -388,3 +403,4 @@ document.addEventListener('DOMContentLoaded',function(){
 </script>
 </body>
 </html>
+ 
