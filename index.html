@@ -6,328 +6,385 @@
 <title>Piano Studio 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;
-  --border:#2a2a2a;--text:#e8e8e8;--muted:#666;--muted2:#444;
-  --yellow:#ffd166;--green:#06d6a0;--purple:#d966ff;--red:#ff4d4d;
-  --c-diritto:#e05252;--c-audio:#e8824a;--c-metodo:#d4aa40;
-  --c-seo:#5cb85c;--c-community:#3dbf9e;--c-tecniche:#4da6d6;
-  --c-spagnolo:#6ab0e8;--c-semiotica:#a07cd6;--c-arti:#d46b6b;
-  --c-narra:#d4804a;--c-tecdigit:#b06ad4;--c-storia:#6ab88a;
-}
+:root{--bg:#0d0d0d;--sur:#161616;--sur2:#1f1f1f;--bor:#2a2a2a;--txt:#e8e8e8;--mut:#666;--mut2:#444;--yel:#ffd166;--grn:#06d6a0;--pur:#d966ff;--red:#ff4d4d;--cd:#e05252;--ca:#e8824a;--cm:#d4aa40;--cs:#5cb85c;--cc:#3dbf9e;--ct:#4da6d6;--csp:#6ab0e8;--cse:#a07cd6;--car:#d46b6b;--cn:#d4804a;--ctd:#b06ad4;--cst:#6ab88a;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding-bottom:80px;overflow-x:hidden;}
-.header{padding:32px 20px 24px;border-bottom:1px solid var(--border);}
-.header-eyebrow{font-size:10px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-.header-title{font-family:'Syne',sans-serif;font-size:clamp(24px,6vw,44px);font-weight:800;line-height:1;margin-bottom:6px;}
-.header-sub{font-size:11px;color:var(--muted);}
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
-.stat{padding:14px 16px;border-right:1px solid var(--border);}
-.stat:last-child{border-right:none;}
-.stat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;}
-.stat-l{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:3px;}
-.stat-n.good{color:var(--green);}.stat-n.warn{color:var(--yellow);}.stat-n.bad{color:var(--red);}.stat-n.default{color:var(--text);}
-.alert-box{margin:16px 20px 0;border-radius:4px;padding:11px 14px;font-size:11px;line-height:1.7;display:none;}
-.alert-box.show{display:block;}
-.alert-box.warn{border:1px solid #3a2a20;background:#1a1008;color:#cc9966;}
-.alert-box.warn strong{color:#ffaa66;}
-.alert-box.recovery{border:1px solid #1a3a20;background:#0a1a08;color:#66cc88;}
-.alert-box.recovery strong{color:#88ffaa;}
-.legend{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
-.legend-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);}
-.leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);}
-.leg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
-.section{padding:24px 20px 0;}
-.sec-header{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--border);}
-.sec-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
-.sec-sub{font-size:11px;color:var(--muted);}
-.month-block{margin-bottom:28px;}
-.month-name{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;width:100%;}
-.dow-cell{text-align:center;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted2);padding:3px 0;}
-.day{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:5px 4px 4px;min-height:72px;display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;cursor:pointer;position:relative;transition:border-color .15s;}
-.day:active{transform:scale(.97);}
-.day.empty{background:transparent;border-color:transparent;min-height:0;pointer-events:none;}
-.day.off{background:#0f0f0f;opacity:.45;}
-.day.past{opacity:.35;}
-.day.is-esame{border-color:#555;border-width:1.5px;}
-.day.done{border-color:var(--green)!important;border-width:1.5px;}
-.day.skipped{border-color:var(--red)!important;border-width:1.5px;opacity:.6;}
-.day-status{position:absolute;top:2px;right:4px;font-size:12px;font-weight:800;line-height:1;}
-.day-status.s-done{color:var(--green);}
-.day-status.s-skip{color:var(--red);}
-.day-num{font-size:10px;font-weight:500;color:var(--muted);line-height:1;margin-bottom:1px;flex-shrink:0;}
-.day.is-esame .day-num,.day.done .day-num,.day.skipped .day-num{color:var(--text);font-weight:700;}
-.tag{font-size:7.5px;font-weight:500;padding:2px 3px;border-radius:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;display:block;}
-.tag-study{color:#fff;}.tag-esame{background:#e8e8e8;color:#0d0d0d;font-weight:700;}
-.tag-ripasso{color:var(--muted);border:1px solid var(--border);}
-.tag-music{color:#444;border:1px dashed #2a2a2a;}
-.tag-off{color:var(--muted2);}
-.overlay{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.55);}
-.overlay.active{display:block;}
-.popup{display:none;position:fixed;z-index:200;background:#1c1c1c;border:1px solid #484848;border-radius:10px;padding:18px 18px 14px;min-width:220px;max-width:280px;box-shadow:0 10px 40px rgba(0,0,0,.9);}
-.popup.active{display:block;}
-.popup-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px;}
-.popup-date{font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;}
-.popup-subject{font-size:12px;font-weight:600;padding:7px 10px;border-radius:5px;margin-bottom:10px;display:block;line-height:1.5;white-space:normal;color:#fff;}
-.popup-subject.esame{background:#e8e8e8;color:#0d0d0d;}
-.popup-subject.ripasso{background:transparent;color:#888;border:1px solid #333;}
-.popup-hours{font-size:11px;color:var(--muted);margin-bottom:14px;}
-.popup-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;}
-.pbtn{padding:9px 4px;border-radius:5px;border:1px solid var(--border);background:var(--surface2);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;text-align:center;transition:all .15s;}
-.pbtn:active{transform:scale(.95);}
-.pbtn.done-btn{border-color:rgba(6,214,160,.4);}
-.pbtn.done-btn.active,.pbtn.done-btn:hover{background:rgba(6,214,160,.15);color:var(--green);border-color:var(--green);}
-.pbtn.skip-btn{border-color:rgba(255,77,77,.3);}
-.pbtn.skip-btn.active,.pbtn.skip-btn:hover{background:rgba(255,77,77,.15);color:var(--red);border-color:var(--red);}
-.pbtn.reset-btn:hover{background:var(--surface);color:var(--text);}
-.popup-hint{font-size:9px;color:#444;text-align:center;letter-spacing:1px;}
-.ore-table{width:100%;border-collapse:collapse;}
-.ore-table th{text-align:left;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:7px 8px;border-bottom:1px solid var(--border);}
-.ore-table td{padding:9px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle;}
-.ore-table tr:last-child td{border-bottom:none;}
-.mat-name{font-size:11px;font-weight:500;display:flex;align-items:center;gap:7px;}
-.mat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.bar-wrap{display:flex;align-items:center;gap:6px;}
-.bar-bg{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:2px;}
-.ore-num{font-size:11px;font-weight:500;color:var(--text);text-align:right;white-space:nowrap;min-width:36px;}
-.date-cell{font-size:10px;color:var(--muted);text-align:right;white-space:nowrap;}
-.cfu-badge{font-size:9px;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 4px;}
-.ore-skipped{color:var(--red)!important;}
-.recovery-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 16px;margin-top:14px;display:none;}
-.recovery-box.show{display:block;}
-.ep-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
-.ep-step{background:var(--surface);padding:14px;}
-.ep-step-n{font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:1px;}
-.ep-step-title{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px;}
-.ep-step-date{font-size:10px;color:var(--muted);}
-.ep-step.release{background:var(--surface2);border-left:2px solid var(--purple);}
-.ep-step.release .ep-step-title{color:var(--purple);}
-.rules-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
-.rule{border:1px solid var(--border);border-radius:4px;padding:12px 14px;background:var(--surface);}
-.rule-n{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--muted2);line-height:1;margin-bottom:5px;}
-.rule-text{font-size:11px;color:var(--text);line-height:1.7;}
-.rule-text strong{font-weight:600;color:var(--yellow);}
-@media(max-width:480px){.stats-bar{grid-template-columns:repeat(2,1fr);}.rules-list{grid-template-columns:1fr;}.ep-grid{grid-template-columns:repeat(2,1fr);}.date-cell{display:none;}}
+body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding-bottom:80px;overflow-x:hidden;}
+.hdr{padding:28px 16px 20px;border-bottom:1px solid var(--bor);}
+.hdr-ey{font-size:10px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:6px;}
+.hdr-ti{font-family:'Syne',sans-serif;font-size:clamp(22px,6vw,40px);font-weight:800;line-height:1;margin-bottom:5px;}
+.hdr-su{font-size:11px;color:var(--mut);}
+.sbar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--bor);}
+.st{padding:12px 14px;border-right:1px solid var(--bor);}
+.st:last-child{border-right:none;}
+.stn{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1;}
+.stl{font-size:9px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.stn.g{color:var(--grn);}.stn.w{color:var(--yel);}.stn.b{color:var(--red);}.stn.d{color:var(--txt);}
+.alrt{margin:14px 16px 0;border-radius:4px;padding:10px 13px;font-size:11px;line-height:1.6;display:none;}
+.alrt.on{display:block;}
+.alrt.warn{border:1px solid #3a2a20;background:#1a1008;color:#cc9966;}
+.alrt.warn strong{color:#ffaa66;}
+.alrt.rec{border:1px solid #1a3a20;background:#0a1a08;color:#66cc88;}
+.leg{padding:10px 16px;border-bottom:1px solid var(--bor);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.legl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mut2);}
+.legi{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--mut);}
+.legd{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
+.sec{padding:20px 16px 0;}
+.sech{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bor);}
+.sect{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
+.secs{font-size:11px;color:var(--mut);}
+.mb{margin-bottom:24px;}
+.mn{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--mut);margin-bottom:7px;}
+.cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%;}
+.dc{text-align:center;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mut2);padding:3px 0;}
+.dy{background:var(--sur);border:1px solid var(--bor);border-radius:4px;padding:5px 4px;min-height:68px;display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;cursor:pointer;position:relative;}
+.dy.em{background:transparent;border-color:transparent;min-height:0;pointer-events:none;}
+.dy.of{background:#0f0f0f;opacity:.4;}
+.dy.ie{border-color:#555;border-width:1.5px;}
+.dy.dn{border-color:var(--grn)!important;border-width:1.5px;}
+.dy.sk{border-color:var(--red)!important;border-width:1.5px;opacity:.55;}
+.dst{position:absolute;top:2px;right:3px;font-size:11px;font-weight:800;line-height:1;}
+.dst.sd{color:var(--grn);}
+.dst.ss{color:var(--red);}
+.dn2{font-size:10px;font-weight:500;color:var(--mut);line-height:1;margin-bottom:1px;flex-shrink:0;}
+.dy.ie .dn2,.dy.dn .dn2,.dy.sk .dn2{color:var(--txt);font-weight:700;}
+.tg{font-size:7.5px;font-weight:500;padding:2px 3px;border-radius:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;display:block;}
+.ts{color:#fff;}.te{background:#e8e8e8;color:#0d0d0d;font-weight:700;}.tr{color:var(--mut);border:1px solid var(--bor);}.tm{color:#444;border:1px dashed #2a2a2a;}.to{color:var(--mut2);}
+.ov{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.6);}
+.ov.on{display:block;}
+.pp{display:none;position:fixed;z-index:200;background:#1c1c1c;border:1px solid #484848;border-radius:10px;padding:16px 16px 12px;min-width:210px;max-width:270px;box-shadow:0 10px 40px rgba(0,0,0,.9);}
+.pp.on{display:block;}
+.ppd{font-size:10px;color:var(--mut);letter-spacing:1px;margin-bottom:10px;}
+.pps{font-size:12px;font-weight:600;padding:7px 10px;border-radius:5px;margin-bottom:8px;display:block;line-height:1.5;white-space:normal;color:#fff;}
+.pps.e{background:#e8e8e8;color:#0d0d0d;}
+.pph{font-size:11px;color:var(--mut);margin-bottom:12px;}
+.ppb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px;}
+.pb{padding:8px 4px;border-radius:5px;border:1px solid var(--bor);background:var(--sur2);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mut);cursor:pointer;text-align:center;}
+.pb.pbd{border-color:rgba(6,214,160,.4);}
+.pb.pbd.ac,.pb.pbd:hover{background:rgba(6,214,160,.15);color:var(--grn);border-color:var(--grn);}
+.pb.pbs{border-color:rgba(255,77,77,.3);}
+.pb.pbs.ac,.pb.pbs:hover{background:rgba(255,77,77,.15);color:var(--red);border-color:var(--red);}
+.pb.pbr:hover{background:var(--sur);color:var(--txt);}
+.pph2{font-size:9px;color:#444;text-align:center;letter-spacing:1px;}
+.ot{width:100%;border-collapse:collapse;}
+.ot th{text-align:left;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--mut);padding:7px 8px;border-bottom:1px solid var(--bor);}
+.ot td{padding:8px 8px;border-bottom:1px solid #1a1a1a;vertical-align:middle;}
+.ot tr:last-child td{border-bottom:none;}
+.mn2{font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px;}
+.md{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.bb{display:flex;align-items:center;gap:5px;}
+.bbg{flex:1;height:4px;background:var(--bor);border-radius:2px;overflow:hidden;}
+.bbf{height:100%;border-radius:2px;}
+.on2{font-size:11px;font-weight:500;color:var(--txt);text-align:right;white-space:nowrap;}
+.dc2{font-size:10px;color:var(--mut);text-align:right;white-space:nowrap;}
+.cb{font-size:9px;color:var(--mut);background:var(--sur2);border:1px solid var(--bor);border-radius:3px;padding:1px 4px;}
+.osk{color:var(--red)!important;}
+.eg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:4px;overflow:hidden;}
+.es{background:var(--sur);padding:12px;}
+.esn{font-size:10px;color:var(--mut);margin-bottom:4px;letter-spacing:1px;}
+.est{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:3px;}
+.esd{font-size:10px;color:var(--mut);}
+.es.rl{background:var(--sur2);border-left:2px solid var(--pur);}
+.es.rl .est{color:var(--pur);}
+.rl2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
+.ru{border:1px solid var(--bor);border-radius:4px;padding:11px 13px;background:var(--sur);}
+.run{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--mut2);line-height:1;margin-bottom:5px;}
+.rut{font-size:11px;color:var(--txt);line-height:1.7;}
+.rut strong{font-weight:600;color:var(--yel);}
+@media(max-width:480px){.sbar{grid-template-columns:repeat(2,1fr);}.rl2{grid-template-columns:1fr;}.eg{grid-template-columns:repeat(2,1fr);}.dc2{display:none;}}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-eyebrow">Piano di studio</div>
-  <div class="header-title">Apr &rarr; Giu 2026</div>
-  <div class="header-sub">Tocca un giorno per segnare + fatto o x saltato</div>
+<div class="hdr">
+  <div class="hdr-ey">Piano di studio</div>
+  <div class="hdr-ti">Apr &rarr; Giu 2026</div>
+  <div class="hdr-su">Tocca un giorno &rarr; segna + fatto o x saltato</div>
 </div>
-<div class="stats-bar">
-  <div class="stat"><div class="stat-n default" id="s-ore">316h</div><div class="stat-l">ore rimaste</div></div>
-  <div class="stat"><div class="stat-n default" id="s-done">0</div><div class="stat-l">giorni fatti</div></div>
-  <div class="stat"><div class="stat-n default" id="s-skip">0</div><div class="stat-l">saltati</div></div>
-  <div class="stat"><div class="stat-n default" id="s-rec">0h</div><div class="stat-l">da recuperare</div></div>
+<div class="sbar">
+  <div class="st"><div class="stn d" id="s1">316h</div><div class="stl">ore rimaste</div></div>
+  <div class="st"><div class="stn d" id="s2">0</div><div class="stl">giorni fatti</div></div>
+  <div class="st"><div class="stn d" id="s3">0</div><div class="stl">saltati</div></div>
+  <div class="st"><div class="stn d" id="s4">0h</div><div class="stl">da recuperare</div></div>
 </div>
-<div class="alert-box warn show" id="alert-warn">
+<div class="alrt warn on" id="aw">
   <strong>Aprile e' il mese critico.</strong> 79 ore in ~17 giorni attivi = 4.6h/giorno. Non c'e' margine.
 </div>
-<div class="alert-box recovery" id="alert-rec"></div>
-<div class="legend">
-  <span class="legend-label">materie &mdash;</span>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-diritto)"></div>Diritto</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-audio)"></div>Audiovisivi</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-metodo)"></div>Metodologia</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-seo)"></div>SEO</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-community)"></div>Community</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-tecniche)"></div>Tecniche</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-spagnolo)"></div>Spagnolo</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-semiotica)"></div>Semiotica</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-arti)"></div>Arti visive</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-narra)"></div>Narratologia</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-tecdigit)"></div>Tecn. digitali</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--c-storia)"></div>Storia</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--green);border-radius:50%"></div>Fatto</div>
-  <div class="leg-item"><div class="leg-dot" style="background:var(--red);border-radius:50%"></div>Saltato</div>
+<div class="alrt rec" id="ar"></div>
+<div class="leg">
+  <span class="legl">materie</span>
+  <div class="legi"><div class="legd" style="background:var(--cd)"></div>Diritto</div>
+  <div class="legi"><div class="legd" style="background:var(--ca)"></div>Audiovisivi</div>
+  <div class="legi"><div class="legd" style="background:var(--cm)"></div>Metodologia</div>
+  <div class="legi"><div class="legd" style="background:var(--cs)"></div>SEO</div>
+  <div class="legi"><div class="legd" style="background:var(--cc)"></div>Community</div>
+  <div class="legi"><div class="legd" style="background:var(--ct)"></div>Tecniche</div>
+  <div class="legi"><div class="legd" style="background:var(--csp)"></div>Spagnolo</div>
+  <div class="legi"><div class="legd" style="background:var(--cse)"></div>Semiotica</div>
+  <div class="legi"><div class="legd" style="background:var(--car)"></div>Arti visive</div>
+  <div class="legi"><div class="legd" style="background:var(--cn)"></div>Narratologia</div>
+  <div class="legi"><div class="legd" style="background:var(--ctd)"></div>Tecn. digitali</div>
+  <div class="legi"><div class="legd" style="background:var(--cst)"></div>Storia</div>
+  <div class="legi"><div class="legd" style="background:var(--grn);border-radius:50%"></div>Fatto</div>
+  <div class="legi"><div class="legd" style="background:var(--red);border-radius:50%"></div>Saltato</div>
 </div>
+
+<div class="ov" id="ov"></div>
+<div class="pp" id="pp">
+  <div class="ppd" id="ppd"></div>
+  <span class="pps" id="pps"></span>
+  <div class="pph" id="pph"></div>
+  <div class="ppb" id="ppb">
+    <button class="pb pbd" id="b1">+ Fatto</button>
+    <button class="pb pbs" id="b2">x Saltato</button>
+    <button class="pb pbr" id="b3">Reset</button>
+  </div>
+  <div class="pph2">tocca fuori per chiudere</div>
+</div>
+
+<div class="sec">
+  <div class="sech"><div class="sect">Calendario</div><div class="secs">tocca un giorno per segnare</div></div>
+  <div id="cal"></div>
+</div>
+<div class="sec" style="padding-top:20px">
+  <div class="sech"><div class="sect">Ore per materia</div><div class="secs">si aggiorna in tempo reale</div></div>
+  <table class="ot"><thead><tr><th>Materia</th><th>CFU</th><th>Carico</th><th style="text-align:right">Ore</th><th style="text-align:right">Esame</th></tr></thead><tbody id="tb"></tbody></table>
+</div>
+<div class="sec" style="padding-top:20px">
+  <div class="sech"><div class="sect">EP Roadmap</div><div class="secs">1h/sera - upload entro 31 maggio</div></div>
+  <div class="eg">
+    <div class="es"><div class="esn">01</div><div class="est">Mix / Master</div><div class="esd">Apr - Mag</div></div>
+    <div class="es"><div class="esn">02</div><div class="est">Upload</div><div class="esd">Entro 31 mag</div></div>
+    <div class="es"><div class="esn">03</div><div class="est">Promo</div><div class="esd">1-16 giu</div></div>
+    <div class="es rl"><div class="esn">04</div><div class="est">Release</div><div class="esd">18-22 giu</div></div>
+  </div>
+</div>
+<div class="sec" style="padding-top:20px;padding-bottom:32px">
+  <div class="sech"><div class="sect">Principi operativi</div></div>
+  <div class="rl2">
+    <div class="ru"><div class="run">1</div><div class="rut"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
+    <div class="ru"><div class="run">2</div><div class="rut"><strong>Ripasso serale.</strong> Solo il giorno prima, 2-3h. Non un giorno intero.</div></div>
+    <div class="ru"><div class="run">3</div><div class="rut"><strong>Musica ogni sera.</strong> 1 ora, timer fisso.</div></div>
+    <div class="ru"><div class="run">4</div><div class="rut"><strong>1 giorno off a settimana,</strong> pianificato in anticipo.</div></div>
+    <div class="ru"><div class="run">5</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
+    <div class="ru"><div class="run">6</div><div class="rut"><strong>Narratologia 17 giu, Arti visive 18 giu.</strong> Sequenza, non parallelo.</div></div>
+  </div>
+</div>
+
 <script>
-var M={diritto:{l:'Diritto pub. info/comunicazione',c:'var(--c-diritto)',ore:27,cfu:9,esame:'20 apr'},audio:{l:'Audiovisivi digitali',c:'var(--c-audio)',ore:27,cfu:9,esame:'21 apr'},metodo:{l:'Metodologia ricerca soc. digit.',c:'var(--c-metodo)',ore:25,cfu:12,esame:'18 mag'},seo:{l:'Search Engine Optimization',c:'var(--c-seo)',ore:24,cfu:9,esame:'5 giu'},community:{l:'Community management',c:'var(--c-community)',ore:8,cfu:9,esame:'8 giu'},tecniche:{l:'Tecniche rappres. digitale',c:'var(--c-tecniche)',ore:27,cfu:9,esame:'9 giu'},spagnolo:{l:'Lingua spagnola',c:'var(--c-spagnolo)',ore:9,cfu:3,esame:'10 giu'},semiotica:{l:'Semiotica dei Media',c:'var(--c-semiotica)',ore:27.5,cfu:9,esame:'15 giu'},narra:{l:'Narratologia e storytelling',c:'var(--c-narra)',ore:27,cfu:9,esame:'17 giu'},arti:{l:'Arti visive e nuove tecnologie',c:'var(--c-arti)',ore:25,cfu:9,esame:'18 giu'},tecdigit:{l:'Tecnologie digitali e proc. cogn.',c:'var(--c-tecdigit)',ore:36,cfu:12,esame:'23 giu'},storia:{l:'Storia Contemporanea',c:'var(--c-storia)',ore:14.5,cfu:6,esame:'24 giu'}};
-var ORE_PER_GIORNO=5.5;
-var PLAN={};
-function p(y,mo,d,st){PLAN[y+'-'+mo+'-'+d]=st;}
+var M={
+  diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',ore:27,cfu:9,e:'20 apr'},
+  audio:{l:'Audiovisivi digitali',c:'var(--ca)',ore:27,cfu:9,e:'21 apr'},
+  metodo:{l:'Metodologia ricerca',c:'var(--cm)',ore:25,cfu:12,e:'18 mag'},
+  seo:{l:'Search Engine Optim.',c:'var(--cs)',ore:24,cfu:9,e:'5 giu'},
+  community:{l:'Community management',c:'var(--cc)',ore:8,cfu:9,e:'8 giu'},
+  tecniche:{l:'Tecniche rappres. dig.',c:'var(--ct)',ore:27,cfu:9,e:'9 giu'},
+  spagnolo:{l:'Lingua spagnola',c:'var(--csp)',ore:9,cfu:3,e:'10 giu'},
+  semiotica:{l:'Semiotica dei Media',c:'var(--cse)',ore:27.5,cfu:9,e:'15 giu'},
+  narra:{l:'Narratologia e storytelling',c:'var(--cn)',ore:27,cfu:9,e:'17 giu'},
+  arti:{l:'Arti visive e nuove tecn.',c:'var(--car)',ore:25,cfu:9,e:'18 giu'},
+  tecdigit:{l:'Tecnologie digitali',c:'var(--ctd)',ore:36,cfu:12,e:'23 giu'},
+  storia:{l:'Storia Contemporanea',c:'var(--cst)',ore:14.5,cfu:6,e:'24 giu'}
+};
+var OPG=5.5;
+var PL={};
+function p(y,m,d,s){PL[y+'-'+m+'-'+d]=s;}
+// APRILE
 p(2026,3,1,'diritto');p(2026,3,2,'diritto');p(2026,3,3,'diritto');p(2026,3,4,'diritto');p(2026,3,5,'diritto');
-p(2026,3,6,'audio');p(2026,3,7,'audio');p(2026,3,8,'audio');p(2026,3,9,'audio');p(2026,3,10,'audio');p(2026,3,11,'off');
-p(2026,3,12,'narra');p(2026,3,13,'narra');p(2026,3,14,'narra');p(2026,3,15,'narra');p(2026,3,16,'narra');p(2026,3,17,'narra');p(2026,3,18,'off');p(2026,3,19,'narra');
+p(2026,3,6,'audio');p(2026,3,7,'audio');p(2026,3,8,'audio');p(2026,3,9,'audio');p(2026,3,10,'audio');
+p(2026,3,11,'off');
+p(2026,3,12,'narra');p(2026,3,13,'narra');p(2026,3,14,'narra');p(2026,3,15,'narra');
+p(2026,3,16,'narra');p(2026,3,17,'narra');p(2026,3,18,'off');p(2026,3,19,'narra');
 p(2026,3,20,'esame:diritto');p(2026,3,21,'esame:audio');
-p(2026,3,22,'metodo');p(2026,3,23,'metodo');p(2026,3,24,'metodo');p(2026,3,25,'metodo');p(2026,3,26,'metodo');p(2026,3,27,'off');
+p(2026,3,22,'metodo');p(2026,3,23,'metodo');p(2026,3,24,'metodo');
+p(2026,3,25,'metodo');p(2026,3,26,'metodo');p(2026,3,27,'off');
 p(2026,3,28,'arti');p(2026,3,29,'arti');p(2026,3,30,'arti');
+// MAGGIO
 p(2026,4,1,'arti');p(2026,4,2,'arti');
 p(2026,4,3,'seo');p(2026,4,4,'off');p(2026,4,5,'seo');p(2026,4,6,'seo');p(2026,4,7,'seo');p(2026,4,8,'seo');
 p(2026,4,9,'community');p(2026,4,10,'community');
-p(2026,4,11,'off');p(2026,4,12,'tecniche');p(2026,4,13,'tecniche');p(2026,4,14,'tecniche');p(2026,4,15,'tecniche');p(2026,4,16,'tecniche');
-p(2026,4,17,'tecniche');p(2026,4,18,'esame:metodo');
+p(2026,4,11,'off');p(2026,4,12,'tecniche');p(2026,4,13,'tecniche');p(2026,4,14,'tecniche');
+p(2026,4,15,'tecniche');p(2026,4,16,'tecniche');p(2026,4,17,'tecniche');
+p(2026,4,18,'esame:metodo');
 p(2026,4,19,'spagnolo');p(2026,4,20,'spagnolo');
-p(2026,4,21,'semiotica');p(2026,4,22,'semiotica');p(2026,4,23,'semiotica');p(2026,4,24,'semiotica');p(2026,4,25,'off');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');
-p(2026,4,28,'tecdigit');p(2026,4,29,'tecdigit');p(2026,4,30,'tecdigit');p(2026,4,31,'tecdigit');
+p(2026,4,21,'semiotica');p(2026,4,22,'semiotica');p(2026,4,23,'semiotica');p(2026,4,24,'semiotica');
+p(2026,4,25,'off');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');
+p(2026,4,28,'tecdigit');p(2026,4,29,'tecdigit');p(2026,4,30,'tecdigit');
+// GIUGNO (mese 4 in JS = maggio, mese 5 = giugno)
+p(2026,4,31,'tecdigit'); // maggio ha 31 giorni
 p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');p(2026,5,4,'tecdigit');
 p(2026,5,5,'esame:seo');
 p(2026,5,6,'storia');p(2026,5,7,'storia');
 p(2026,5,8,'esame:community');p(2026,5,9,'esame:tecniche');p(2026,5,10,'esame:spagnolo');
 p(2026,5,11,'storia');
 p(2026,5,12,'semiotica');p(2026,5,13,'semiotica');p(2026,5,14,'semiotica');
-p(2026,5,15,'esame:semiotica');p(2026,5,16,'narra');p(2026,5,17,'esame:narra');p(2026,5,18,'esame:arti');
+p(2026,5,15,'esame:semiotica');
+p(2026,5,16,'narra');p(2026,5,17,'esame:narra');
+p(2026,5,18,'esame:arti');
 p(2026,5,19,'tecdigit');p(2026,5,20,'storia');p(2026,5,21,'off');p(2026,5,22,'storia');
 p(2026,5,23,'esame:tecdigit');p(2026,5,24,'esame:storia');
-var PRE_EXAM={'2026-3-19':'diritto','2026-3-20':'audio','2026-4-17':'metodo','2026-5-4':'seo','2026-5-7':'community','2026-5-8':'tecniche','2026-5-9':'spagnolo','2026-5-14':'semiotica','2026-5-16':'narra','2026-5-17':'arti','2026-5-22':'tecdigit','2026-5-23':'storia'};
-function getStatus(k){try{return localStorage.getItem('ps_'+k);}catch(e){return null;}}
-function setStatus(k,v){try{if(v)localStorage.setItem('ps_'+k,v);else localStorage.removeItem('ps_'+k);}catch(e){}}
+
+var PRE={
+  '2026-3-19':'diritto','2026-3-20':'audio',
+  '2026-4-17':'metodo',
+  '2026-5-4':'seo',
+  '2026-5-7':'community','2026-5-8':'tecniche','2026-5-9':'spagnolo',
+  '2026-5-14':'semiotica',
+  '2026-5-16':'narra','2026-5-17':'arti',
+  '2026-5-22':'tecdigit','2026-5-23':'storia'
+};
+
+function gs(k){try{return localStorage.getItem('ps_'+k);}catch(e){return null;}}
+function ss(k,v){try{if(v)localStorage.setItem('ps_'+k,v);else localStorage.removeItem('ps_'+k);}catch(e){}}
+function isd(s){return s&&s!='off'&&s.indexOf('esame:')<0;}
+function opd(s){if(!isd(s))return 0;return OPG;}
 var DOW=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
-var MONTHS_IT=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
-var DOW_IT=['Domenica','Lunedi','Martedi','Mercoledi','Giovedi','Venerdi','Sabato'];
-function dowIdx(y,mo,d){return(new Date(y,mo,d).getDay()+6)%7;}
-function dim(y,mo){return new Date(y,mo+1,0).getDate();}
-function isStudyDay(st){return st&&st!=='off'&&!st.startsWith('esame:');}
-function matKey(st){if(!st)return null;return st.replace('esame:','').replace('ripasso:','');}
-function oreForDay(st){if(!isStudyDay(st))return 0;if(st.startsWith('ripasso:'))return 2;return ORE_PER_GIORNO;}
-function calcStats(){
-  var base=0,fatte=0,saltate=0,skipByMat={},done=0,skip=0;
-  Object.keys(PLAN).forEach(function(k){var st=PLAN[k];if(!isStudyDay(st))return;var ore=oreForDay(st);base+=ore;var s=getStatus(k);if(s==='done'){fatte+=ore;done++;}if(s==='skipped'){saltate+=ore;skip++;var mk=matKey(st);if(mk&&M[mk])skipByMat[mk]=(skipByMat[mk]||0)+ore;}});
-  return{oreRimaste:base-fatte,oreSaltate:saltate,doneCount:done,skipCount:skip,skipByMat:skipByMat};
+var MON=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+var DIT=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
+function di(y,m,d){return(new Date(y,m,d).getDay()+6)%7;}
+function dm(y,m){return new Date(y,m+1,0).getDate();}
+
+function calcS(){
+  var base=0,fat=0,sal=0,sbm={},dc=0,sc=0;
+  Object.keys(PL).forEach(function(k){
+    var s=PL[k];if(!isd(s))return;
+    var o=opd(s);base+=o;
+    var st=gs(k);
+    if(st=='done'){fat+=o;dc++;}
+    if(st=='skipped'){sal+=o;sc++;var mk=s.replace('esame:','').replace('ripasso:','');if(M[mk])sbm[mk]=(sbm[mk]||0)+o;}
+  });
+  return{rem:base-fat,sal:sal,dc:dc,sc:sc,sbm:sbm};
 }
-function updateStats(){
-  var s=calcStats();
-  var oe=document.getElementById('s-ore'),de=document.getElementById('s-done'),se=document.getElementById('s-skip'),re=document.getElementById('s-rec');
-  oe.textContent=Math.round(s.oreRimaste)+'h';oe.className='stat-n '+(s.oreRimaste>200?'warn':s.oreRimaste>100?'default':'good');
-  de.textContent=s.doneCount;de.className='stat-n '+(s.doneCount>0?'good':'default');
-  se.textContent=s.skipCount;se.className='stat-n '+(s.skipCount>3?'bad':s.skipCount>0?'warn':'default');
-  re.textContent=Math.round(s.oreSaltate)+'h';re.className='stat-n '+(s.oreSaltate>8?'bad':s.oreSaltate>0?'warn':'default');
-  var ra=document.getElementById('alert-rec');
-  if(s.oreSaltate>0){var txt='<strong>Ore da recuperare: '+Math.round(s.oreSaltate)+'h</strong> - ';var parts=[];Object.keys(s.skipByMat).forEach(function(k){if(M[k])parts.push(M[k].l.split(' ')[0]+': '+s.skipByMat[k]+'h');});txt+=parts.join(', ')+'. Aggiungi ~'+Math.ceil(s.oreSaltate/ORE_PER_GIORNO)+' giorni extra.';ra.innerHTML=txt;ra.classList.add('show');}else{ra.classList.remove('show');}
-  updateTable(s.skipByMat);
+
+function updS(){
+  var s=calcS();
+  var e1=document.getElementById('s1'),e2=document.getElementById('s2'),e3=document.getElementById('s3'),e4=document.getElementById('s4');
+  e1.textContent=Math.round(s.rem)+'h';e1.className='stn '+(s.rem>200?'w':s.rem>100?'d':'g');
+  e2.textContent=s.dc;e2.className='stn '+(s.dc>0?'g':'d');
+  e3.textContent=s.sc;e3.className='stn '+(s.sc>3?'b':s.sc>0?'w':'d');
+  e4.textContent=Math.round(s.sal)+'h';e4.className='stn '+(s.sal>8?'b':s.sal>0?'w':'d');
+  var ra=document.getElementById('ar');
+  if(s.sal>0){
+    var t='<strong>Ore da recuperare: '+Math.round(s.sal)+'h</strong> - ';
+    var pts=[];Object.keys(s.sbm).forEach(function(k){if(M[k])pts.push(M[k].l.split(' ')[0]+': '+s.sbm[k]+'h');});
+    t+=pts.join(', ')+'. ~'+Math.ceil(s.sal/OPG)+' giorni extra.';
+    ra.innerHTML=t;ra.classList.add('on');
+  }else{ra.classList.remove('on');}
+  updT(s.sbm);
 }
-function renderTags(st){
-  if(!st)return '';
-  if(st==='off')return '<div class="tag tag-off">Riposo</div>';
-  var isE=st.startsWith('esame:'),h='';
-  if(isE){var k=st.replace('esame:','');var m=M[k];h+='<div class="tag tag-esame">Esame'+(m?' - '+m.l.split(' ')[0]:'')+'</div>';}
-  else{var m=M[st];if(m)h+='<div class="tag tag-study" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
-  if(!isE)h+='<div class="tag tag-music">EP</div>';
+
+function rt(s){
+  if(!s)return '';
+  if(s=='off')return '<div class="tg to">Riposo</div>';
+  var isE=s.indexOf('esame:')>=0,h='';
+  if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame - '+(m?m.l.split(' ')[0]:k)+'</div>';}
+  else{var m=M[s];if(m)h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
+  if(!isE)h+='<div class="tg tm">EP</div>';
   return h;
 }
-function buildCalendar(){
-  var months=[{y:2026,mo:3,name:'Aprile 2026'},{y:2026,mo:4,name:'Maggio 2026'},{y:2026,mo:5,name:'Giugno 2026'}];
-  return months.map(function(month){
-    var y=month.y,mo=month.mo,name=month.name,total=dim(y,mo),first=dowIdx(y,mo,1);
-    var hdr=DOW.map(function(d){return '<div class="dow-cell">'+d+'</div>';}).join('');
-    var cells=[];for(var i=0;i<first;i++)cells.push(null);for(var d=1;d<=total;d++)cells.push(d);while(cells.length%7)cells.push(null);
+
+function buildCal(){
+  var months=[{y:2026,mo:3,n:'Aprile 2026'},{y:2026,mo:4,n:'Maggio 2026'},{y:2026,mo:5,n:'Giugno 2026'}];
+  return months.map(function(mn){
+    var y=mn.y,mo=mn.mo,total=dm(y,mo),first=di(y,mo,1);
+    var hdr=DOW.map(function(d){return '<div class="dc">'+d+'</div>';}).join('');
+    var cells=[];
+    for(var i=0;i<first;i++)cells.push(null);
+    for(var d=1;d<=total;d++)cells.push(d);
+    while(cells.length%7)cells.push(null);
     var days=cells.map(function(d){
-      if(!d)return '<div class="day empty"></div>';
-      var key=y+'-'+mo+'-'+d,st=PLAN[key]||null;
-      var isE=st&&st.startsWith('esame:'),isOff=st==='off',status=getStatus(key);
-      var cls='day'+(isE?' is-esame':'')+(isOff?' off':'')+(status==='done'?' done':'')+(status==='skipped'?' skipped':'');
-      var tb='';if(st&&!isE&&!isOff){var k2=st;if(M[k2])tb='border-top:2px solid '+M[k2].c+';';}
-      var preEx=PRE_EXAM[key]&&M[PRE_EXAM[key]]?'<div class="tag tag-ripasso">ripasso '+M[PRE_EXAM[key]].l.split(' ')[0]+'</div>':'';
-      var sIcon=status==='done'?'<div class="day-status s-done">+</div>':status==='skipped'?'<div class="day-status s-skip">x</div>':'';
-      return '<div class="'+cls+'" style="'+tb+'" data-key="'+key+'" data-y="'+y+'" data-mo="'+mo+'" data-d="'+d+'"><div class="day-num">'+d+'</div>'+sIcon+renderTags(st)+preEx+'</div>';
+      if(!d)return '<div class="dy em"></div>';
+      var key=y+'-'+mo+'-'+d,s=PL[key]||null;
+      var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',status=gs(key);
+      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(status=='done'?' dn':'')+(status=='skipped'?' sk':'');
+      var tb='';
+      if(s&&!isE&&!isO){var k2=s;if(M[k2])tb='border-top:2px solid '+M[k2].c+';';}
+      var pre=PRE[key]&&M[PRE[key]]?'<div class="tg tr">ripasso '+M[PRE[key]].l.split(' ')[0]+'</div>':'';
+      var si=status=='done'?'<div class="dst sd">+</div>':status=='skipped'?'<div class="dst ss">x</div>':'';
+      return '<div class="'+cls+'" style="'+tb+'" data-k="'+key+'" data-y="'+y+'" data-m="'+mo+'" data-d="'+d+'"><div class="dn2">'+d+'</div>'+si+rt(s)+pre+'</div>';
     }).join('');
-    return '<div class="month-block"><div class="month-name">'+name+'</div><div class="cal-grid">'+hdr+days+'</div></div>';
+    return '<div class="mb"><div class="mn">'+mn.n+'</div><div class="cg">'+hdr+days+'</div></div>';
   }).join('');
 }
-function buildTable(){return Object.keys(M).map(function(k){var m=M[k];var pct=Math.round((m.ore/36)*100);return '<tr><td><div class="mat-name"><div class="mat-dot" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cfu-badge">'+m.cfu+'</span></td><td><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+m.c+'" id="bar-'+k+'"></div></div></div></td><td class="ore-num" id="ore-'+k+'">'+m.ore+'h</td><td class="date-cell">'+m.esame+'</td></tr>';}).join('');}
-function updateTable(sbm){sbm=sbm||{};Object.keys(M).forEach(function(k){var m=M[k],sk=sbm[k]||0,el=document.getElementById('ore-'+k);if(el){el.textContent=(m.ore-sk)+'h'+(sk>0?' (-'+sk+'h)':'');el.className='ore-num'+(sk>0?' ore-skipped':'');}});}
-var popupOpen=false,currentKey=null;
-function closePopup(){document.getElementById('popup').classList.remove('active');document.getElementById('overlay').classList.remove('active');popupOpen=false;currentKey=null;}
-function openPopup(el,e){
+
+function buildT(){
+  return Object.keys(M).map(function(k){
+    var m=M[k],p=Math.round((m.ore/36)*100);
+    return '<tr><td><div class="mn2"><div class="md" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cb">'+m.cfu+'</span></td><td><div class="bb"><div class="bbg"><div class="bbf" style="width:'+p+'%;background:'+m.c+'" id="bf-'+k+'"></div></div></div></td><td class="on2" id="o-'+k+'">'+m.ore+'h</td><td class="dc2">'+m.e+'</td></tr>';
+  }).join('');
+}
+
+function updT(sbm){
+  sbm=sbm||{};
+  Object.keys(M).forEach(function(k){
+    var m=M[k],sk=sbm[k]||0,el=document.getElementById('o-'+k);
+    if(el){el.textContent=(m.ore-sk)+'h'+(sk>0?' (-'+sk+'h)':'');el.className='on2'+(sk>0?' osk':'');}
+  });
+}
+
+var po=false,ck=null;
+function closeP(){document.getElementById('pp').classList.remove('on');document.getElementById('ov').classList.remove('on');po=false;ck=null;}
+
+function openP(el,e){
   e.stopPropagation();
-  var key=el.dataset.key,y=parseInt(el.dataset.y),mo=parseInt(el.dataset.mo),d=parseInt(el.dataset.d),st=PLAN[key]||null;
-  currentKey=key;
-  var dateObj=new Date(y,mo,d);
-  document.getElementById('p-date').textContent=DOW_IT[dateObj.getDay()]+' '+d+' '+MONTHS_IT[mo]+' '+y;
-  var sj=document.getElementById('p-subject');
-  if(!st||st==='off'){sj.textContent='Giorno libero';sj.className='popup-subject';sj.style.background='';}
-  else if(st.startsWith('esame:')){var mk=st.replace('esame:','');sj.textContent='Esame - '+(M[mk]?M[mk].l:'?');sj.className='popup-subject esame';sj.style.background='';}
-  else{var mat=M[st];sj.textContent=mat?mat.l:st;sj.className='popup-subject';sj.style.background=mat?mat.c:'';}
-  var ore=oreForDay(st),pre=PRE_EXAM[key];
+  var key=el.dataset.k,y=parseInt(el.dataset.y),mo=parseInt(el.dataset.m),d=parseInt(el.dataset.d),s=PL[key]||null;
+  ck=key;
+  var dt=new Date(y,mo,d);
+  document.getElementById('ppd').textContent=DIT[dt.getDay()]+' '+d+' '+MON[mo]+' '+y;
+  var sj=document.getElementById('pps');
+  if(!s||s=='off'){sj.textContent='Giorno libero';sj.className='pps';sj.style.background='';}
+  else if(s.indexOf('esame:')>=0){var mk=s.replace('esame:','');sj.textContent='Esame - '+(M[mk]?M[mk].l:'?');sj.className='pps e';sj.style.background='';}
+  else{var m=M[s];sj.textContent=m?m.l:s;sj.className='pps';sj.style.background=m?m.c:'';}
+  var ore=opd(s),pre=PRE[key];
   var ht=ore>0?ore+'h di studio':'Nessuna attivita';
-  if(pre&&M[pre])ht+=' - Ripasso serale: '+M[pre].l;
-  document.getElementById('p-hours').textContent=ht;
-  var btns=document.getElementById('p-btns');
-  btns.style.display=isStudyDay(st)?'grid':'none';
-  if(isStudyDay(st)){var s=getStatus(key);document.getElementById('btn-done').className='pbtn done-btn'+(s==='done'?' active':'');document.getElementById('btn-skip').className='pbtn skip-btn'+(s==='skipped'?' active':'');}
-  var pop=document.getElementById('popup');pop.classList.add('active');document.getElementById('overlay').classList.add('active');popupOpen=true;
-  pop.style.left='0';pop.style.top='0';
-  var r=el.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
+  if(pre&&M[pre])ht+=' + ripasso serale: '+M[pre].l;
+  document.getElementById('pph').textContent=ht;
+  var btns=document.getElementById('ppb');btns.style.display=isd(s)?'grid':'none';
+  if(isd(s)){var st=gs(key);document.getElementById('b1').className='pb pbd'+(st=='done'?' ac':'');document.getElementById('b2').className='pb pbs'+(st=='skipped'?' ac':'');}
+  var pp=document.getElementById('pp');pp.classList.add('on');document.getElementById('ov').classList.add('on');po=true;
+  pp.style.left='0';pp.style.top='0';
+  var r=el.getBoundingClientRect(),pw=pp.offsetWidth,ph=pp.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
   var l=r.left+r.width/2-pw/2,t=r.bottom+8;
   if(l<8)l=8;if(l+pw>vw-8)l=vw-pw-8;if(t+ph>vh-8)t=r.top-ph-8;if(t<8)t=8;
-  pop.style.left=l+'px';pop.style.top=t+'px';
+  pp.style.left=l+'px';pp.style.top=t+'px';
 }
-function setDayStatus(status){
-  if(!currentKey)return;
-  var cur=getStatus(currentKey);setStatus(currentKey,cur===status?null:status);
-  var el=document.querySelector('[data-key="'+currentKey+'"]');
+
+function setDS(status){
+  if(!ck)return;
+  var cur=gs(ck);ss(ck,cur==status?null:status);
+  var el=document.querySelector('[data-k="'+ck+'"]');
   if(el){
-    el.classList.remove('done','skipped');
-    var old=el.querySelector('.day-status');if(old)old.remove();
-    var ns=getStatus(currentKey);
-    if(ns==='done'){el.classList.add('done');el.insertAdjacentHTML('afterbegin','<div class="day-status s-done">+</div>');}
-    if(ns==='skipped'){el.classList.add('skipped');el.insertAdjacentHTML('afterbegin','<div class="day-status s-skip">x</div>');}
-    document.getElementById('btn-done').className='pbtn done-btn'+(ns==='done'?' active':'');
-    document.getElementById('btn-skip').className='pbtn skip-btn'+(ns==='skipped'?' active':'');
+    el.classList.remove('dn','sk');
+    var old=el.querySelector('.dst');if(old)old.remove();
+    var ns=gs(ck);
+    if(ns=='done'){el.classList.add('dn');el.insertAdjacentHTML('afterbegin','<div class="dst sd">+</div>');}
+    if(ns=='skipped'){el.classList.add('sk');el.insertAdjacentHTML('afterbegin','<div class="dst ss">x</div>');}
+    document.getElementById('b1').className='pb pbd'+(ns=='done'?' ac':'');
+    document.getElementById('b2').className='pb pbs'+(ns=='skipped'?' ac':'');
   }
-  updateStats();closePopup();
+  updS();closeP();
 }
+
 document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('cal').innerHTML=buildCalendar();
-  document.getElementById('table-body').innerHTML=buildTable();
-  updateStats();
-  document.getElementById('cal').addEventListener('click',function(e){var d=e.target.closest('.day');if(d&&!d.classList.contains('empty')){if(popupOpen)closePopup();else openPopup(d,e);}});
-  document.addEventListener('click',function(){if(popupOpen)closePopup();});
-  document.getElementById('overlay').addEventListener('click',closePopup);
-  document.getElementById('popup').addEventListener('click',function(e){e.stopPropagation();});
-  document.getElementById('btn-done').addEventListener('click',function(e){e.stopPropagation();setDayStatus('done');});
-  document.getElementById('btn-skip').addEventListener('click',function(e){e.stopPropagation();setDayStatus('skipped');});
-  document.getElementById('btn-reset').addEventListener('click',function(e){e.stopPropagation();setStatus(currentKey,null);var d=document.querySelector('[data-key="'+currentKey+'"]');if(d){d.classList.remove('done','skipped');var old=d.querySelector('.day-status');if(old)old.remove();}updateStats();closePopup();});
+  document.getElementById('cal').innerHTML=buildCal();
+  document.getElementById('tb').innerHTML=buildT();
+  updS();
+  document.getElementById('cal').addEventListener('click',function(e){
+    var d=e.target.closest('.dy');
+    if(d&&!d.classList.contains('em')){if(po)closeP();else openP(d,e);}
+  });
+  document.addEventListener('click',function(){if(po)closeP();});
+  document.getElementById('ov').addEventListener('click',closeP);
+  document.getElementById('pp').addEventListener('click',function(e){e.stopPropagation();});
+  document.getElementById('b1').addEventListener('click',function(e){e.stopPropagation();setDS('done');});
+  document.getElementById('b2').addEventListener('click',function(e){e.stopPropagation();setDS('skipped');});
+  document.getElementById('b3').addEventListener('click',function(e){
+    e.stopPropagation();
+    if(!ck)return;
+    ss(ck,null);
+    var el=document.querySelector('[data-k="'+ck+'"]');
+    if(el){el.classList.remove('dn','sk');var old=el.querySelector('.dst');if(old)old.remove();}
+    updS();closeP();
+  });
 });
 </script>
-<div class="overlay" id="overlay"></div>
-<div class="popup" id="popup">
-  <div class="popup-title">Giorno</div>
-  <div class="popup-date" id="p-date"></div>
-  <span class="popup-subject" id="p-subject"></span>
-  <div class="popup-hours" id="p-hours"></div>
-  <div class="popup-btns" id="p-btns">
-    <button class="pbtn done-btn" id="btn-done">+ Fatto</button>
-    <button class="pbtn skip-btn" id="btn-skip">x Saltato</button>
-    <button class="pbtn reset-btn" id="btn-reset">Reset</button>
-  </div>
-  <div class="popup-hint">tocca fuori per chiudere</div>
-</div>
-<div class="section">
-  <div class="sec-header"><div class="sec-title">Calendario</div><div class="sec-sub">tocca un giorno - segna fatto / saltato</div></div>
-  <div id="cal"></div>
-</div>
-<div class="section" style="padding-top:24px">
-  <div class="sec-header"><div class="sec-title">Ore per materia</div><div class="sec-sub">si aggiorna con i giorni saltati</div></div>
-  <table class="ore-table">
-    <thead><tr><th>Materia</th><th>CFU</th><th>Carico</th><th style="text-align:right">Ore</th><th style="text-align:right">Esame</th></tr></thead>
-    <tbody id="table-body"></tbody>
-  </table>
-  <div class="recovery-box" id="rec-box"><div id="rec-list"></div></div>
-</div>
-<div class="section" style="padding-top:24px">
-  <div class="sec-header"><div class="sec-title">EP - Roadmap</div><div class="sec-sub">1h/sera - upload entro 31 maggio</div></div>
-  <div class="ep-grid">
-    <div class="ep-step"><div class="ep-step-n">01</div><div class="ep-step-title">Mix / Master</div><div class="ep-step-date">Apr - Mag</div></div>
-    <div class="ep-step"><div class="ep-step-n">02</div><div class="ep-step-title">Upload</div><div class="ep-step-date">Entro 31 mag</div></div>
-    <div class="ep-step"><div class="ep-step-n">03</div><div class="ep-step-title">Promo</div><div class="ep-step-date">1-16 giu</div></div>
-    <div class="ep-step release"><div class="ep-step-n">04</div><div class="ep-step-title">Release</div><div class="ep-step-date">18-22 giu</div></div>
-  </div>
-</div>
-<div class="section" style="padding-top:24px;padding-bottom:32px">
-  <div class="sec-header"><div class="sec-title">Principi operativi</div></div>
-  <div class="rules-list">
-    <div class="rule"><div class="rule-n">1</div><div class="rule-text"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
-    <div class="rule"><div class="rule-n">2</div><div class="rule-text"><strong>Ripasso serale.</strong> Solo il giorno prima, 2-3h. Non un giorno intero.</div></div>
-    <div class="rule"><div class="rule-n">3</div><div class="rule-text"><strong>Musica ogni sera.</strong> 1 ora, timer fisso.</div></div>
-    <div class="rule"><div class="rule-n">4</div><div class="rule-text"><strong>1 giorno off a settimana,</strong> pianificato in anticipo.</div></div>
-    <div class="rule"><div class="rule-n">5</div><div class="rule-text"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
-    <div class="rule"><div class="rule-n">6</div><div class="rule-text"><strong>Narratologia 17 giu, Arti visive 18 giu.</strong> Sequenza, non parallelo.</div></div>
-  </div>
-</div>
 </body>
 </html>
