@@ -10,31 +10,45 @@
 @media(prefers-color-scheme:light){:root{--bg:#f5f5f2;--sur:#ffffff;--sur2:#efefeb;--bor:#dededa;--bor2:#ccccc8;--txt:#1a1a1a;--mut:#888;--mut2:#bbb;--mut3:#666;--yel:#8a6000;--grn:#007a50;--pur:#6030a0;--red:#cc2222;--cd:#b02020;--ca:#b05010;--cm:#907000;--cs:#207020;--cc:#107060;--csp:#205090;--cse:#503090;--car:#902020;--cn:#904010;--ctd:#6020a0;--cst:#205030;--pp-bg:#ffffff;--pp-bor:#cccccc;--pp-txt:#1a1a1a;--pp-mut:#666;}}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding-bottom:80px;overflow-x:hidden;}
-.hdr{padding:28px 16px 20px;border-bottom:1px solid var(--bor);}
-.hdr-ey{font-size:10px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:6px;}
-.hdr-ti{font-family:'Syne',sans-serif;font-size:clamp(22px,6vw,40px);font-weight:800;line-height:1;margin-bottom:5px;}
+.hdr{padding:24px 16px 16px;border-bottom:1px solid var(--bor);}
+.hdr-ey{font-size:10px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:5px;}
+.hdr-ti{font-family:'Syne',sans-serif;font-size:clamp(20px,5vw,36px);font-weight:800;line-height:1;margin-bottom:4px;}
 .hdr-su{font-size:11px;color:var(--mut);}
-.sbar{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--bor);}
-.st{padding:12px 14px;border-right:1px solid var(--bor);}
-.st:last-child{border-right:none;}
+/* TABS */
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--bor);}
+.tab{padding:11px 8px;font-size:10px;font-weight:500;color:var(--mut);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:1px;text-transform:uppercase;}
+.tab.active{color:var(--grn);border-bottom-color:var(--grn);}
+.panel{display:none;}.panel.active{display:block;}
+/* STATS */
+.sbar{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid var(--bor);}
+.sbar2{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid var(--bor);}
+.st{padding:12px 14px;border-right:1px solid var(--bor);border-bottom:1px solid var(--bor);}
+.st:nth-child(2){border-right:none;}
+.st2{padding:12px 14px;border-right:1px solid var(--bor);}
+.st2:last-child{border-right:none;}
 .stn{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1;}
 .stl{font-size:9px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
 .stn.g{color:var(--grn);}.stn.w{color:var(--yel);}.stn.b{color:var(--red);}.stn.d{color:var(--txt);}
-.alrt{margin:14px 16px 0;border-radius:4px;padding:10px 13px;font-size:11px;line-height:1.6;display:none;}
-.alrt.on{display:block;}
-.alrt.warn{border:1px solid #3a2a20;background:#1a1008;color:#cc9966;}
-.alrt.warn strong{color:#ffaa66;}
-@media(prefers-color-scheme:light){.alrt.warn{border-color:#c8a060;background:#fff8ee;color:#7a5020;}.alrt.warn strong{color:#8a4010;}}
-.alrt.rec{border:1px solid #1a3a20;background:#0a1a08;color:#66cc88;}
-@media(prefers-color-scheme:light){.alrt.rec{border-color:#208040;background:#f0fff4;color:#206030;}}
+/* RECOVERY BOX */
+.rec-box{margin:14px 16px 0;border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.7;display:none;border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.06);}
+.rec-box.on{display:block;}
+.rec-ti{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--red);margin-bottom:5px;}
+.rec-tip{font-size:10px;color:var(--mut);margin-top:6px;padding-top:6px;border-top:1px solid var(--bor);}
+@media(prefers-color-scheme:light){.rec-box{border-color:rgba(204,34,34,.3);background:rgba(204,34,34,.05);}}
+.ok-box{margin:14px 16px 0;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;display:none;border:1px solid rgba(6,214,160,.3);background:rgba(6,214,160,.06);color:var(--grn);}
+.ok-box.on{display:block;}
+@media(prefers-color-scheme:light){.ok-box{border-color:rgba(0,122,80,.3);background:rgba(0,122,80,.05);}}
+/* LEGENDA */
 .leg{padding:10px 16px;border-bottom:1px solid var(--bor);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
 .legl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mut2);}
 .legi{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--mut);}
 .legd{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
+/* SEZIONE */
 .sec{padding:20px 16px 0;}
 .sech{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bor);}
 .sect{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
 .secs{font-size:11px;color:var(--mut);}
+/* CALENDARIO */
 .mb{margin-bottom:24px;}
 .mn{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--mut);margin-bottom:7px;}
 .cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%;}
@@ -44,15 +58,17 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .dy.of{background:var(--sur2);opacity:.45;}
 .dy.ie{border-color:var(--mut2);border-width:1.5px;}
 .dy.dn{border-color:var(--grn)!important;border-width:1.5px;}
+.dy.pt{border-color:var(--yel)!important;border-width:1.5px;}
 .dy.sk{border-color:var(--red)!important;border-width:1.5px;opacity:.55;}
 .dst{position:absolute;top:2px;right:3px;font-size:11px;font-weight:800;line-height:1;}
-.dst.sd{color:var(--grn);}.dst.ss{color:var(--red);}
+.dst.sd{color:var(--grn);}.dst.sp{color:var(--yel);}.dst.ss{color:var(--red);}
 .dn2{font-size:10px;font-weight:500;color:var(--mut);line-height:1;margin-bottom:1px;flex-shrink:0;}
-.dy.ie .dn2,.dy.dn .dn2,.dy.sk .dn2{color:var(--txt);font-weight:700;}
+.dy.ie .dn2,.dy.dn .dn2,.dy.pt .dn2,.dy.sk .dn2{color:var(--txt);font-weight:700;}
 .tg{font-size:7.5px;font-weight:500;padding:2px 3px;border-radius:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;display:block;}
 .ts{color:#fff;}.te{background:#2a2a2a;color:#e8e8e8;font-weight:700;}
 @media(prefers-color-scheme:light){.te{background:#1a1a1a;color:#fff;}}
 .tr{color:var(--mut);border:1px solid var(--bor);}.tm{color:var(--mut2);border:1px dashed var(--bor);}.to{color:var(--mut2);}
+/* POPUP */
 .ov{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.55);}
 .ov.on{display:block;}
 @media(prefers-color-scheme:light){.ov{background:rgba(0,0,0,.3);}}
@@ -79,14 +95,17 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .mt-cnt{font-size:11px;font-weight:600;color:var(--pp-txt);}
 .mt-bar-bg{height:4px;background:var(--bor);border-radius:2px;overflow:hidden;}
 .mt-bar-fill{height:100%;border-radius:2px;transition:width .3s;}
-.ppb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:8px;}
-.pb{padding:8px 4px;border-radius:5px;border:1px solid var(--bor);background:var(--sur2);font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--pp-mut);cursor:pointer;text-align:center;}
+.ppb{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:8px;}
+.pb{padding:7px 2px;border-radius:5px;border:1px solid var(--bor);background:var(--sur2);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--pp-mut);cursor:pointer;text-align:center;}
 .pb.pbd{border-color:rgba(6,214,160,.5);}
 .pb.pbd.ac,.pb.pbd:hover{background:rgba(6,214,160,.15);color:var(--grn);border-color:var(--grn);}
+.pb.pbp{border-color:rgba(255,209,102,.4);}
+.pb.pbp.ac,.pb.pbp:hover{background:rgba(255,209,102,.12);color:var(--yel);border-color:var(--yel);}
 .pb.pbs{border-color:rgba(255,77,77,.4);}
 .pb.pbs.ac,.pb.pbs:hover{background:rgba(255,77,77,.15);color:var(--red);border-color:var(--red);}
 .pb.pbr:hover{background:var(--bor);color:var(--pp-txt);}
 .pph2{font-size:9px;color:var(--pp-mut);text-align:center;letter-spacing:1px;}
+/* TABELLA */
 .ot{width:100%;border-collapse:collapse;}
 .ot th{text-align:left;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--mut);padding:7px 8px;border-bottom:1px solid var(--bor);}
 .ot td{padding:8px 8px;border-bottom:1px solid var(--sur2);vertical-align:middle;}
@@ -99,6 +118,27 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .pc{font-size:10px;font-weight:600;text-align:right;white-space:nowrap;}
 .dc2{font-size:10px;color:var(--mut);text-align:right;white-space:nowrap;}
 .cb{font-size:9px;color:var(--mut);background:var(--sur2);border:1px solid var(--bor);border-radius:3px;padding:1px 4px;}
+/* PLANNER */
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:6px;overflow:hidden;margin-bottom:16px;}
+.mode-btn{padding:10px;text-align:center;font-size:11px;font-weight:600;color:var(--mut);cursor:pointer;background:var(--sur);transition:all .15s;}
+.mode-btn.active{background:var(--sur2);color:var(--txt);}
+.schedule-block{background:var(--sur);border:1px solid var(--bor);border-radius:6px;overflow:hidden;margin-bottom:10px;}
+.sb-header{padding:10px 14px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;}
+.sb-time{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--txt);}
+.sb-label{font-size:10px;color:var(--mut);}
+.sb-lez{font-size:10px;font-weight:600;}
+.sb-body{padding:10px 14px;font-size:11px;color:var(--mut);line-height:1.7;}
+.sb-type-studio{border-left:3px solid var(--grn);}
+.sb-type-lavoro{border-left:3px solid var(--yel);}
+.sb-type-musica{border-left:3px solid var(--pur);}
+.sb-type-pausa{border-left:3px solid var(--bor2);}
+.day-total{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:12px 14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.dt-tot-lbl{font-size:10px;color:var(--mut);}
+.dt-tot-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--grn);}
+.boost-box{background:rgba(217,102,255,.06);border:1px solid rgba(217,102,255,.25);border-radius:6px;padding:12px 14px;margin-bottom:16px;}
+.boost-ti{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--pur);margin-bottom:4px;}
+.boost-body{font-size:11px;color:var(--mut);line-height:1.7;}
+/* EP */
 .eg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:4px;overflow:hidden;}
 .es{background:var(--sur);padding:12px;}
 .esn{font-size:10px;color:var(--mut);margin-bottom:4px;letter-spacing:1px;}
@@ -106,45 +146,208 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .esd{font-size:10px;color:var(--mut);}
 .es.rl{background:var(--sur2);border-left:2px solid var(--pur);}
 .es.rl .est{color:var(--pur);}
+/* REGOLE */
 .rl2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
 .ru{border:1px solid var(--bor);border-radius:4px;padding:11px 13px;background:var(--sur);}
 .run{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--mut2);line-height:1;margin-bottom:5px;}
 .rut{font-size:11px;color:var(--txt);line-height:1.7;}
 .rut strong{font-weight:600;color:var(--yel);}
 @media(prefers-color-scheme:light){.rut strong{color:var(--cm);}}
-@media(max-width:480px){.sbar{grid-template-columns:repeat(2,1fr);}.rl2{grid-template-columns:1fr;}.eg{grid-template-columns:repeat(2,1fr);}.dc2{display:none;}}
+@media(max-width:480px){.rl2{grid-template-columns:1fr;}.eg{grid-template-columns:repeat(2,1fr);}.dc2{display:none;}}
 </style>
 </head>
 <body>
 <div class="hdr">
   <div class="hdr-ey">Piano di studio</div>
-  <div class="hdr-ti">31 Mar - 24 Giu 2026</div>
-  <div class="hdr-su">9 lezioni/giorno (obiettivo) &middot; 8 minimo &middot; tocca per aggiornare</div>
+  <div class="hdr-ti">13 Apr - 24 Giu 2026</div>
+  <div class="hdr-su">10 lezioni/giorno normale &middot; 15 boost &middot; 6 minimo</div>
 </div>
-<div class="sbar">
-  <div class="st"><div class="stn d" id="s1">--</div><div class="stl">ore rimaste</div></div>
-  <div class="st"><div class="stn d" id="s2">0</div><div class="stl">giorni fatti</div></div>
-  <div class="st"><div class="stn d" id="s3">0%</div><div class="stl">completamento</div></div>
-  <div class="st"><div class="stn d" id="s4">0h</div><div class="stl">da recuperare</div></div>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" id="tab-cal" onclick="switchTab('cal')">Calendario</div>
+  <div class="tab" id="tab-prog" onclick="switchTab('prog')">Progressi</div>
+  <div class="tab" id="tab-plan" onclick="switchTab('plan')">Planner</div>
 </div>
-<div class="alrt warn on" id="aw"><strong>7 giorni di margine.</strong> Obiettivo: 9 lezioni/giorno (4.5h). Minimo: 8. Storia e Arti visive hanno giorni extra.</div>
-<div class="alrt rec" id="ar"></div>
-<div class="leg">
-  <span class="legl">materie</span>
-  <div class="legi"><div class="legd" style="background:var(--cd)"></div>Diritto</div>
-  <div class="legi"><div class="legd" style="background:var(--ca)"></div>Audiovisivi</div>
-  <div class="legi"><div class="legd" style="background:var(--cm)"></div>Metodologia</div>
-  <div class="legi"><div class="legd" style="background:var(--cs)"></div>SEO</div>
-  <div class="legi"><div class="legd" style="background:var(--cc)"></div>Community</div>
-  <div class="legi"><div class="legd" style="background:var(--csp)"></div>Spagnolo</div>
-  <div class="legi"><div class="legd" style="background:var(--cse)"></div>Semiotica</div>
-  <div class="legi"><div class="legd" style="background:var(--car)"></div>Arti visive</div>
-  <div class="legi"><div class="legd" style="background:var(--cn)"></div>Narratologia</div>
-  <div class="legi"><div class="legd" style="background:var(--ctd)"></div>Tecn. digitali</div>
-  <div class="legi"><div class="legd" style="background:var(--cst)"></div>Storia</div>
-  <div class="legi"><div class="legd" style="background:var(--grn);border-radius:50%"></div>Fatto</div>
-  <div class="legi"><div class="legd" style="background:var(--red);border-radius:50%"></div>Saltato</div>
+
+<!-- PANEL CALENDARIO -->
+<div class="panel active" id="panel-cal">
+  <div class="sbar">
+    <div class="st"><div class="stn d" id="s-rem">--</div><div class="stl">ore rimaste</div></div>
+    <div class="st"><div class="stn d" id="s-pct">0%</div><div class="stl">completamento</div></div>
+  </div>
+  <div class="sbar2">
+    <div class="st2"><div class="stn d" id="s-gap">0h</div><div class="stl">indietro</div></div>
+    <div class="st2"><div class="stn d" id="s-rec">ok</div><div class="stl">lez/giorno extra</div></div>
+  </div>
+  <div class="rec-box" id="rec-box">
+    <div class="rec-ti" id="rec-ti">Sei indietro</div>
+    <div id="rec-body"></div>
+    <div class="rec-tip" id="rec-tip"></div>
+  </div>
+  <div class="ok-box" id="ok-box">In pari con il piano. Continua cosi!</div>
+  <div class="leg">
+    <span class="legl">materie</span>
+    <div class="legi"><div class="legd" style="background:var(--cd)"></div>Diritto</div>
+    <div class="legi"><div class="legd" style="background:var(--ca)"></div>Audiovisivi</div>
+    <div class="legi"><div class="legd" style="background:var(--cm)"></div>Metodologia</div>
+    <div class="legi"><div class="legd" style="background:var(--cs)"></div>SEO</div>
+    <div class="legi"><div class="legd" style="background:var(--cc)"></div>Community</div>
+    <div class="legi"><div class="legd" style="background:var(--csp)"></div>Spagnolo</div>
+    <div class="legi"><div class="legd" style="background:var(--cse)"></div>Semiotica</div>
+    <div class="legi"><div class="legd" style="background:var(--car)"></div>Arti visive</div>
+    <div class="legi"><div class="legd" style="background:var(--cn)"></div>Narratologia</div>
+    <div class="legi"><div class="legd" style="background:var(--ctd)"></div>Tecn. digitali</div>
+    <div class="legi"><div class="legd" style="background:var(--cst)"></div>Storia</div>
+    <div class="legi"><div class="legd" style="background:var(--grn);border-radius:50%"></div>Fatto</div>
+    <div class="legi"><div class="legd" style="background:var(--yel);border-radius:50%"></div>Parziale</div>
+    <div class="legi"><div class="legd" style="background:var(--red);border-radius:50%"></div>Saltato</div>
+  </div>
+  <div class="sec"><div id="cal"></div></div>
+  <div style="height:20px"></div>
 </div>
+
+<!-- PANEL PROGRESSI -->
+<div class="panel" id="panel-prog">
+  <div class="sec" style="padding-top:20px">
+    <div class="sech"><div class="sect">Progressi per materia</div><div class="secs">aggiornato in tempo reale</div></div>
+    <table class="ot"><thead><tr><th>Materia</th><th>CFU</th><th>Progresso</th><th style="text-align:right">Lez.</th><th style="text-align:right">%</th><th style="text-align:right">Esame</th></tr></thead><tbody id="tb"></tbody></table>
+  </div>
+  <div class="sec" style="padding-top:20px">
+    <div class="sech"><div class="sect">EP Roadmap</div><div class="secs">1h/sera - upload entro 31 maggio</div></div>
+    <div class="eg">
+      <div class="es"><div class="esn">01</div><div class="est">Mix / Master</div><div class="esd">Apr - Mag</div></div>
+      <div class="es"><div class="esn">02</div><div class="est">Upload</div><div class="esd">Entro 31 mag</div></div>
+      <div class="es"><div class="esn">03</div><div class="est">Promo</div><div class="esd">1-16 giu</div></div>
+      <div class="es rl"><div class="esn">04</div><div class="est">Release</div><div class="esd">18-22 giu</div></div>
+    </div>
+  </div>
+  <div class="sec" style="padding-top:20px;padding-bottom:32px">
+    <div class="sech"><div class="sect">Principi operativi</div></div>
+    <div class="rl2">
+      <div class="ru"><div class="run">1</div><div class="rut"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
+      <div class="ru"><div class="run">2</div><div class="rut"><strong>10 lezioni normale,</strong> 15 boost, 6 minimo. Studia in ogni momento libero.</div></div>
+      <div class="ru"><div class="run">3</div><div class="rut"><strong>Ripasso serale</strong> solo il giorno prima. Non un giorno intero.</div></div>
+      <div class="ru"><div class="run">4</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
+      <div class="ru"><div class="run">5</div><div class="rut"><strong>Storia e Arti visive</strong> sono le piu' toste. Giorni extra assegnati.</div></div>
+      <div class="ru"><div class="run">6</div><div class="rut"><strong>Ogni momento libero conta.</strong> Anche 1h al lavoro, anche 30 min dopo pranzo.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL PLANNER -->
+<div class="panel" id="panel-plan">
+  <div class="sec" style="padding-top:20px;padding-bottom:32px">
+    <div class="sech"><div class="sect">Planner giornaliero</div><div class="secs">scegli la modalita</div></div>
+    <!-- MODE TOGGLE -->
+    <div class="mode-toggle">
+      <div class="mode-btn active" id="mode-vic" onclick="switchMode('vic')">Vicenza</div>
+      <div class="mode-btn" id="mode-mil" onclick="switchMode('mil')">Milano</div>
+    </div>
+
+    <!-- VICENZA -->
+    <div id="sched-vic">
+      <div class="day-total">
+        <div class="dt-tot-lbl">Lezioni totali disponibili</div>
+        <div class="dt-tot-num">~13-15</div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">09:30 - 13:00</div>
+          <div class="sb-lez" style="color:var(--grn)">6 lezioni</div>
+        </div>
+        <div class="sb-body">Studio mattina &middot; Blocco principale &middot; Picco cognitivo<br>Pausa 10 min ogni 2 lezioni</div>
+      </div>
+      <div class="schedule-block sb-type-pausa">
+        <div class="sb-header">
+          <div class="sb-time">13:00 - 13:30</div>
+          <div class="sb-label">Pranzo veloce</div>
+        </div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">13:30 - 15:15</div>
+          <div class="sb-lez" style="color:var(--grn)">3-4 lezioni</div>
+        </div>
+        <div class="sb-body">Studio pomeriggio &middot; Prima del lavoro &middot; Materia piu' leggera o ripasso</div>
+      </div>
+      <div class="schedule-block sb-type-lavoro">
+        <div class="sb-header">
+          <div class="sb-time">15:30 - 19:30</div>
+          <div class="sb-label">Lavoro</div>
+        </div>
+        <div class="sb-body">Se hai momenti liberi al lavoro: 1-2 lezioni in cuffia o lettura &middot; non forzare</div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">20:00 - 21:30</div>
+          <div class="sb-lez" style="color:var(--yel)">3-4 lezioni</div>
+        </div>
+        <div class="sb-body">Studio sera &middot; Ripasso o avanzamento &middot; Se sei gia a 10 puoi fermarti</div>
+      </div>
+      <div class="schedule-block sb-type-musica">
+        <div class="sb-header">
+          <div class="sb-time">21:30 - 22:30</div>
+          <div class="sb-label">EP / Musica</div>
+        </div>
+        <div class="sb-body">Mix, master, scrittura &middot; Timer fisso &middot; Non scavalca lo studio</div>
+      </div>
+      <div class="boost-box">
+        <div class="boost-ti">Giorno boost Vicenza &rarr; 15 lezioni</div>
+        <div class="boost-body">Allunga il blocco mattina fino alle 14:00 (+2 lez) &middot; Aggiungi 1h dopo il lavoro alle 20:00 prima di mangiare (+2 lez) &middot; Sera piena fino alle 22:00 (+1 lez)</div>
+      </div>
+    </div>
+
+    <!-- MILANO -->
+    <div id="sched-mil" style="display:none">
+      <div class="day-total">
+        <div class="dt-tot-lbl">Lezioni totali disponibili</div>
+        <div class="dt-tot-num">~15-20</div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">09:30 - 13:00</div>
+          <div class="sb-lez" style="color:var(--grn)">6-7 lezioni</div>
+        </div>
+        <div class="sb-body">Studio mattina &middot; Blocco principale &middot; Nessun vincolo fisso</div>
+      </div>
+      <div class="schedule-block sb-type-pausa">
+        <div class="sb-header">
+          <div class="sb-time">13:00 - 14:30</div>
+          <div class="sb-label">Pausa pranzo</div>
+        </div>
+        <div class="sb-body">Stacca completamente &middot; Mangia fuori se puoi &middot; Reset mentale</div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">14:30 - 17:30</div>
+          <div class="sb-lez" style="color:var(--grn)">5-6 lezioni</div>
+        </div>
+        <div class="sb-body">Studio pomeriggio &middot; Blocco secondario &middot; Materia nuova o avanzamento</div>
+      </div>
+      <div class="schedule-block sb-type-musica">
+        <div class="sb-header">
+          <div class="sb-time">17:30 - 19:00</div>
+          <div class="sb-label">EP / Joachim / Sam</div>
+        </div>
+        <div class="sb-body">Sessione musica &middot; Se hai studio in programma puoi spostare a sera</div>
+      </div>
+      <div class="schedule-block sb-type-studio">
+        <div class="sb-header">
+          <div class="sb-time">20:30 - 22:00</div>
+          <div class="sb-lez" style="color:var(--yel)">2-3 lezioni opzionali</div>
+        </div>
+        <div class="sb-body">Solo se sei sotto target &middot; Altrimenti sera libera &middot; Non esaurire le riserve</div>
+      </div>
+      <div class="boost-box">
+        <div class="boost-ti">Giorno boost Milano &rarr; 15+ lezioni</div>
+        <div class="boost-body">Parti alle 9:30 senza interruzioni fino alle 13:30 (+1h) &middot; Pomeriggio pieno fino alle 18:30 (+1h) &middot; Aggiungi sera se l'energia regge &middot; A Milano hai il doppio del tempo di Vicenza</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- POPUP -->
 <div class="ov" id="ov"></div>
 <div class="pp" id="pp">
   <div class="ppd" id="ppd"></div>
@@ -153,12 +356,12 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   <div class="day-tracker" id="day-tracker">
     <div class="dt-hd">
       <div class="dt-lbl">Lezioni oggi</div>
-      <div class="dt-cnt" id="dt-cnt">0 <span>/ 9</span></div>
+      <div class="dt-cnt" id="dt-cnt">0 <span>/ 10</span></div>
     </div>
     <div class="dt-bar-bg"><div class="dt-bar-fill" id="dt-bar" style="width:0%;background:var(--red)"></div></div>
     <div class="dt-row">
       <button class="dt-btn" id="dt-minus">-</button>
-      <div class="dt-info" id="dt-info">Obiettivo: 9 lezioni</div>
+      <div class="dt-info" id="dt-info">Obiettivo: 10 lezioni</div>
       <button class="dt-btn" id="dt-plus">+</button>
     </div>
   </div>
@@ -171,66 +374,50 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   </div>
   <div class="ppb" id="ppb">
     <button class="pb pbd" id="b1">+ Fatto</button>
-    <button class="pb pbs" id="b2">x Saltato</button>
-    <button class="pb pbr" id="b3">Reset</button>
+    <button class="pb pbp" id="b2">~ Parz.</button>
+    <button class="pb pbs" id="b3">x Saltato</button>
+    <button class="pb pbr" id="b4">Reset</button>
   </div>
   <div class="pph2">tocca fuori per chiudere</div>
 </div>
-<div class="sec">
-  <div class="sech"><div class="sect">Calendario</div><div class="secs">tocca per segnare e aggiornare le lezioni</div></div>
-  <div id="cal"></div>
-</div>
-<div class="sec" style="padding-top:20px">
-  <div class="sech"><div class="sect">Progressi per materia</div><div class="secs">aggiornato in tempo reale</div></div>
-  <table class="ot"><thead><tr><th>Materia</th><th>CFU</th><th>Progresso</th><th style="text-align:right">Lez.</th><th style="text-align:right">%</th><th style="text-align:right">Esame</th></tr></thead><tbody id="tb"></tbody></table>
-</div>
-<div class="sec" style="padding-top:20px">
-  <div class="sech"><div class="sect">EP Roadmap</div><div class="secs">1h/sera - upload entro 31 maggio</div></div>
-  <div class="eg">
-    <div class="es"><div class="esn">01</div><div class="est">Mix / Master</div><div class="esd">Mar - Mag</div></div>
-    <div class="es"><div class="esn">02</div><div class="est">Upload</div><div class="esd">Entro 31 mag</div></div>
-    <div class="es"><div class="esn">03</div><div class="est">Promo</div><div class="esd">1-16 giu</div></div>
-    <div class="es rl"><div class="esn">04</div><div class="est">Release</div><div class="esd">18-22 giu</div></div>
-  </div>
-</div>
-<div class="sec" style="padding-top:20px;padding-bottom:32px">
-  <div class="sech"><div class="sect">Principi operativi</div></div>
-  <div class="rl2">
-    <div class="ru"><div class="run">1</div><div class="rut"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
-    <div class="ru"><div class="run">2</div><div class="rut"><strong>9 lezioni al giorno</strong> come obiettivo. 8 come minimo accettabile.</div></div>
-    <div class="ru"><div class="run">3</div><div class="rut"><strong>Ripasso serale</strong> solo il giorno prima. Non un giorno intero.</div></div>
-    <div class="ru"><div class="run">4</div><div class="rut"><strong>1 giorno off a settimana,</strong> pianificato in anticipo.</div></div>
-    <div class="ru"><div class="run">5</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
-    <div class="ru"><div class="run">6</div><div class="rut"><strong>Storia e Arti visive</strong> sono le piu' toste. Giorni extra assegnati.</div></div>
-  </div>
-</div>
+
 <script>
-var M={diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',lez:45,cfu:9,pct0:0,e:'20 apr'},audio:{l:'Audiovisivi digitali',c:'var(--ca)',lez:45,cfu:9,pct0:0,e:'21 apr'},metodo:{l:'Metodologia ricerca',c:'var(--cm)',lez:60,cfu:12,pct0:0.30,e:'18 mag'},seo:{l:'Search Engine Optim.',c:'var(--cs)',lez:54,cfu:9,pct0:0.11,e:'5 giu'},community:{l:'Community management',c:'var(--cc)',lez:45,cfu:9,pct0:0.71,e:'8 giu'},spagnolo:{l:'Lingua spagnola',c:'var(--csp)',lez:15,cfu:3,pct0:0,e:'10 giu'},semiotica:{l:'Semiotica dei Media',c:'var(--cse)',lez:55,cfu:9,pct0:0,e:'15 giu'},narra:{l:'Narratologia e storytell.',c:'var(--cn)',lez:45,cfu:9,pct0:0,e:'17 giu'},arti:{l:'Arti visive e nuove tecn.',c:'var(--car)',lez:45,cfu:9,pct0:0.08,e:'18 giu'},tecdigit:{l:'Tecnologie digitali',c:'var(--ctd)',lez:60,cfu:12,pct0:0,e:'23 giu'},storia:{l:'Storia Contemporanea',c:'var(--cst)',lez:36,cfu:6,pct0:0.20,e:'24 giu'}};
-var LOB=9,LMIN=8;
+var M={diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',lez:45,cfu:9,pct0:0.355,e:'20 apr'},audio:{l:'Audiovisivi digitali',c:'var(--ca)',lez:45,cfu:9,pct0:0,e:'21 apr'},metodo:{l:'Metodologia ricerca',c:'var(--cm)',lez:60,cfu:12,pct0:0.30,e:'18 mag'},seo:{l:'Search Engine Optim.',c:'var(--cs)',lez:54,cfu:9,pct0:0.11,e:'5 giu'},community:{l:'Community management',c:'var(--cc)',lez:45,cfu:9,pct0:0.71,e:'8 giu'},spagnolo:{l:'Lingua spagnola',c:'var(--csp)',lez:15,cfu:3,pct0:0,e:'10 giu'},semiotica:{l:'Semiotica dei Media',c:'var(--cse)',lez:55,cfu:9,pct0:0,e:'15 giu'},narra:{l:'Narratologia e storytell.',c:'var(--cn)',lez:45,cfu:9,pct0:0,e:'17 giu'},arti:{l:'Arti visive e nuove tecn.',c:'var(--car)',lez:45,cfu:9,pct0:0.08,e:'18 giu'},tecdigit:{l:'Tecnologie digitali',c:'var(--ctd)',lez:60,cfu:12,pct0:0,e:'23 giu'},storia:{l:'Storia Contemporanea',c:'var(--cst)',lez:36,cfu:6,pct0:0.20,e:'24 giu'}};
+var LOB=10,LMIN=6,LBOOST=15,RECOVER_DAYS=7;
 var PL={};
 function p(y,m,d,s){PL[y+'-'+m+'-'+d]=s;}
-p(2026,2,31,'diritto');
-p(2026,3,1,'diritto');p(2026,3,2,'diritto');p(2026,3,3,'diritto');p(2026,3,4,'diritto');
-p(2026,3,5,'off');
-p(2026,3,6,'audio');p(2026,3,7,'audio');p(2026,3,8,'audio');p(2026,3,9,'audio');p(2026,3,10,'audio');
-p(2026,3,11,'narra');p(2026,3,12,'off');p(2026,3,13,'narra');p(2026,3,14,'narra');p(2026,3,15,'narra');p(2026,3,16,'narra');
-p(2026,3,17,'metodo');p(2026,3,18,'metodo');p(2026,3,19,'off');
+// APRILE (JS month 3)
+p(2026,3,13,'diritto');p(2026,3,14,'diritto');p(2026,3,15,'diritto');
+p(2026,3,16,'audio');p(2026,3,17,'audio');p(2026,3,18,'audio');
+p(2026,3,19,'off');
 p(2026,3,20,'esame:diritto');p(2026,3,21,'esame:audio');
-p(2026,3,22,'metodo');p(2026,3,23,'metodo');p(2026,3,24,'metodo');
-p(2026,3,25,'arti');p(2026,3,26,'off');p(2026,3,27,'arti');p(2026,3,28,'arti');p(2026,3,29,'arti');p(2026,3,30,'arti');
-p(2026,4,1,'seo');p(2026,4,2,'seo');p(2026,4,3,'off');p(2026,4,4,'seo');p(2026,4,5,'seo');p(2026,4,6,'seo');p(2026,4,7,'seo');
-p(2026,4,8,'community');p(2026,4,9,'community');p(2026,4,10,'off');
-p(2026,4,11,'spagnolo');p(2026,4,12,'spagnolo');
-p(2026,4,13,'semiotica');p(2026,4,14,'semiotica');p(2026,4,15,'semiotica');p(2026,4,16,'semiotica');
+p(2026,3,22,'audio');p(2026,3,23,'audio');
+p(2026,3,24,'narra');p(2026,3,25,'narra');p(2026,3,26,'off');
+p(2026,3,27,'narra');p(2026,3,28,'narra');p(2026,3,29,'narra');
+p(2026,3,30,'metodo');
+// MAGGIO (JS month 4)
+p(2026,4,1,'metodo');p(2026,4,2,'metodo');p(2026,4,3,'off');
+p(2026,4,4,'metodo');p(2026,4,5,'metodo');
+p(2026,4,6,'arti');p(2026,4,7,'arti');p(2026,4,8,'arti');p(2026,4,9,'arti');
+p(2026,4,10,'off');
+p(2026,4,11,'arti');
+p(2026,4,12,'seo');p(2026,4,13,'seo');p(2026,4,14,'seo');p(2026,4,15,'seo');p(2026,4,16,'seo');
 p(2026,4,17,'off');p(2026,4,18,'esame:metodo');
-p(2026,4,19,'semiotica');p(2026,4,20,'semiotica');p(2026,4,21,'semiotica');
-p(2026,4,22,'tecdigit');p(2026,4,23,'tecdigit');p(2026,4,24,'off');
-p(2026,4,25,'tecdigit');p(2026,4,26,'tecdigit');p(2026,4,27,'tecdigit');p(2026,4,28,'tecdigit');p(2026,4,29,'tecdigit');
-p(2026,4,30,'storia');p(2026,4,31,'off');
-p(2026,5,1,'storia');p(2026,5,2,'storia');p(2026,5,3,'storia');p(2026,5,4,'storia');
-p(2026,5,5,'esame:seo');p(2026,5,6,'off');p(2026,5,7,'off');
-p(2026,5,8,'esame:community');p(2026,5,9,'off');p(2026,5,10,'esame:spagnolo');
-p(2026,5,11,'off');p(2026,5,12,'off');p(2026,5,13,'off');p(2026,5,14,'off');
+p(2026,4,19,'community');p(2026,4,20,'community');
+p(2026,4,21,'spagnolo');p(2026,4,22,'spagnolo');
+p(2026,4,23,'semiotica');p(2026,4,24,'off');
+p(2026,4,25,'semiotica');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');p(2026,4,28,'semiotica');p(2026,4,29,'semiotica');
+p(2026,4,30,'tecdigit');p(2026,4,31,'off');
+// GIUGNO (JS month 5)
+p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');
+p(2026,5,4,'tecdigit');
+p(2026,5,5,'esame:seo');
+p(2026,5,6,'tecdigit');p(2026,5,7,'off');
+p(2026,5,8,'esame:community');
+p(2026,5,9,'storia');
+p(2026,5,10,'esame:spagnolo');
+p(2026,5,11,'storia');p(2026,5,12,'storia');p(2026,5,13,'storia');
+p(2026,5,14,'off');
 p(2026,5,15,'esame:semiotica');p(2026,5,16,'off');
 p(2026,5,17,'esame:narra');p(2026,5,18,'esame:arti');
 p(2026,5,19,'off');p(2026,5,20,'off');p(2026,5,21,'off');p(2026,5,22,'off');
@@ -240,30 +427,52 @@ var MEM={};
 function gs(k){try{return localStorage.getItem('ps_'+k);}catch(e){return MEM['ps_'+k]||null;}}
 function ss(k,v){try{if(v!=null)localStorage.setItem('ps_'+k,v);else localStorage.removeItem('ps_'+k);}catch(e){if(v!=null)MEM['ps_'+k]=v;else delete MEM['ps_'+k];}}
 function gLez(k){try{return parseInt(localStorage.getItem('lez_'+k)||'0');}catch(e){return parseInt(MEM['lez_'+k]||'0');}}
-function sLez(k,v){try{localStorage.setItem('lez_'+k,String(v));}catch(e){MEM['lez_'+k]=String(v);}}
+function sLez(k,v){try{localStorage.setItem('lez_'+k,String(Math.max(0,v)));}catch(e){MEM['lez_'+k]=String(Math.max(0,v));}}
 function gDL(k){try{return parseInt(localStorage.getItem('dl_'+k)||'0');}catch(e){return parseInt(MEM['dl_'+k]||'0');}}
-function sDL(k,v){try{localStorage.setItem('dl_'+k,String(v));}catch(e){MEM['dl_'+k]=String(v);}}
+function sDL(k,v){try{localStorage.setItem('dl_'+k,String(Math.max(0,v)));}catch(e){MEM['dl_'+k]=String(Math.max(0,v));}}
 var DOW=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 var MON=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
 var DIT=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
 function di(y,m,d){return(new Date(y,m,d).getDay()+6)%7;}
 function dm(y,m){return new Date(y,m+1,0).getDate();}
 function isd(s){return s&&s!='off'&&s.indexOf('esame:')<0;}
+function calcExpected(){
+  var today=new Date();today.setHours(0,0,0,0);
+  var exp=0;
+  Object.keys(PL).forEach(function(key){var parts=key.split('-');var d=new Date(parseInt(parts[0]),parseInt(parts[1]),parseInt(parts[2]));d.setHours(0,0,0,0);if(d<today&&isd(PL[key]))exp+=LOB;});
+  return exp;
+}
 function calcStats(){
-  var tl=0,dl=0,so=0,dc=0,sc=0,sbm={};
-  Object.keys(M).forEach(function(k){var m=M[k];var ini=Math.round(m.lez*m.pct0);dl+=Math.min(ini+gLez(k),m.lez);tl+=m.lez;});
-  Object.keys(PL).forEach(function(key){var s=PL[key];if(!isd(s))return;var st=gs(key);if(st=='done')dc++;if(st=='skipped'){sc++;var mk=s;if(M[mk])sbm[mk]=(sbm[mk]||0)+4.5;so+=4.5;}});
-  return{remOre:Math.round((tl-dl)*0.5),dc:dc,sc:sc,pct:tl>0?Math.round(dl/tl*100):0,so:so,sbm:sbm};
+  var tl=0,done=0;
+  Object.keys(M).forEach(function(k){var m=M[k];var ini=Math.round(m.lez*m.pct0);done+=Math.min(ini+gLez(k),m.lez);tl+=m.lez;});
+  var pct=tl>0?Math.round(done/tl*100):0;
+  var remOre=Math.round((tl-done)*0.5);
+  var exp=calcExpected();
+  var gapLez=Math.max(0,exp-done);
+  var gapOre=(gapLez*0.5).toFixed(1);
+  var extraPerDay=gapLez>0?Math.ceil(gapLez/RECOVER_DAYS):0;
+  return{remOre:remOre,pct:pct,gapLez:gapLez,gapOre:gapOre,extraPerDay:extraPerDay};
 }
 function updStats(){
   var s=calcStats();
-  var e1=document.getElementById('s1'),e2=document.getElementById('s2'),e3=document.getElementById('s3'),e4=document.getElementById('s4');
-  e1.textContent=s.remOre+'h';e1.className='stn '+(s.remOre>150?'w':s.remOre>80?'d':'g');
-  e2.textContent=s.dc;e2.className='stn '+(s.dc>0?'g':'d');
-  e3.textContent=s.pct+'%';e3.className='stn '+(s.pct>70?'g':s.pct>30?'d':'w');
-  e4.textContent=Math.round(s.so)+'h';e4.className='stn '+(s.so>8?'b':s.so>0?'w':'d');
-  var ra=document.getElementById('ar');
-  if(s.so>0){var t='<strong>Da recuperare: '+Math.round(s.so)+'h</strong> - ';var pts=[];Object.keys(s.sbm).forEach(function(k){if(M[k])pts.push(M[k].l.split(' ')[0]+': '+s.sbm[k]+'h');});t+=pts.join(', ')+'. ~'+Math.ceil(s.so/4.5)+' giorni extra.';ra.innerHTML=t;ra.classList.add('on');}else{ra.classList.remove('on');}
+  document.getElementById('s-rem').textContent=s.remOre+'h';
+  document.getElementById('s-rem').className='stn '+(s.remOre>150?'w':s.remOre>80?'d':'g');
+  document.getElementById('s-pct').textContent=s.pct+'%';
+  document.getElementById('s-pct').className='stn '+(s.pct>70?'g':s.pct>30?'d':'w');
+  document.getElementById('s-gap').textContent=s.gapOre+'h';
+  document.getElementById('s-gap').className='stn '+(s.gapLez>20?'b':s.gapLez>0?'w':'g');
+  document.getElementById('s-rec').textContent=s.extraPerDay>0?'+'+s.extraPerDay:'ok';
+  document.getElementById('s-rec').className='stn '+(s.extraPerDay>3?'b':s.extraPerDay>0?'w':'g');
+  var rb=document.getElementById('rec-box'),ob=document.getElementById('ok-box');
+  if(s.gapLez>0){
+    rb.classList.add('on');ob.classList.remove('on');
+    document.getElementById('rec-ti').textContent='Sei indietro di '+s.gapOre+'h ('+s.gapLez+' lezioni)';
+    document.getElementById('rec-body').textContent='Per recuperare in '+RECOVER_DAYS+' giorni: '+s.extraPerDay+' lezioni in piu al giorno.';
+    document.getElementById('rec-tip').textContent='Obiettivo questa settimana: '+(LOB+s.extraPerDay)+' lezioni/giorno.';
+  } else {
+    rb.classList.remove('on');
+    if(s.pct>0)ob.classList.add('on');else ob.classList.remove('on');
+  }
   updTable();
 }
 function rt(s,key){
@@ -272,7 +481,7 @@ function rt(s,key){
   var isE=s.indexOf('esame:')>=0,h='';
   if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame - '+(m?m.l.split(' ')[0]:k)+'</div>';}
   else{var m=M[s];if(m)h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
-  if(!isE){h+='<div class="tg tm">EP</div>';var dl=gDL(key||'');if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg" style="color:'+col+';font-size:8px">'+dl+'/'+LOB+'</div>';}}
+  if(!isE){h+='<div class="tg tm">EP</div>';var dl=key?gDL(key):0;if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+LOB+'</div>';}}
   return h;
 }
 function buildCal(){
@@ -280,20 +489,20 @@ function buildCal(){
   return months.map(function(mn){
     var y=mn.y,mo=mn.mo,total=dm(y,mo),first=di(y,mo,1);
     var hdr=DOW.map(function(d){return '<div class="dc">'+d+'</div>';}).join('');
-    var cells=[];var ex=(mo==3)?1:0;
-    for(var i=0;i<first-ex;i++)cells.push(null);
-    if(mo==3)cells.push('MAR31');
+    var cells=[];for(var i=0;i<first;i++)cells.push(null);
     for(var d=1;d<=total;d++)cells.push(d);
     while(cells.length%7)cells.push(null);
     var days=cells.map(function(d){
       if(!d)return '<div class="dy em"></div>';
-      if(d==='MAR31'){var key='2026-2-31',s=PL[key]||null,status=gs(key);var cls='dy'+(status=='done'?' dn':'')+(status=='skipped'?' sk':'');var si=status=='done'?'<div class="dst sd">+</div>':status=='skipped'?'<div class="dst ss">x</div>':'';var tb=s&&M[s]?'border-top:2px solid '+M[s].c+';':'';return '<div class="'+cls+'" style="'+tb+'" data-k="'+key+'" data-y="2026" data-m="2" data-d="31"><div class="dn2" style="font-size:9px;color:var(--mut2)">31/3</div>'+si+rt(s,key)+'</div>';}
       var key=y+'-'+mo+'-'+d,s=PL[key]||null;
-      var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',status=gs(key);
-      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(status=='done'?' dn':'')+(status=='skipped'?' sk':'');
+      var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',st=gs(key);
+      // giorni prima del 13 aprile = non cliccabili
+      var isPre=(y==2026&&mo==3&&d<13);
+      if(isPre)return '<div class="dy of em" style="min-height:68px"><div class="dn2">'+d+'</div></div>';
+      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(st=='done'?' dn':st=='partial'?' pt':st=='skipped'?' sk':'');
       var tb='';if(s&&!isE&&!isO&&M[s])tb='border-top:2px solid '+M[s].c+';';
       var pre=PRE[key]&&M[PRE[key]]?'<div class="tg tr">ripasso</div>':'';
-      var si=status=='done'?'<div class="dst sd">+</div>':status=='skipped'?'<div class="dst ss">x</div>':'';
+      var si=st=='done'?'<div class="dst sd">+</div>':st=='partial'?'<div class="dst sp">~</div>':st=='skipped'?'<div class="dst ss">x</div>':'';
       return '<div class="'+cls+'" style="'+tb+'" data-k="'+key+'" data-y="'+y+'" data-m="'+mo+'" data-d="'+d+'"><div class="dn2">'+d+'</div>'+si+rt(s,key)+pre+'</div>';
     }).join('');
     return '<div class="mb"><div class="mn">'+mn.n+'</div><div class="cg">'+hdr+days+'</div></div>';
@@ -312,8 +521,9 @@ function updTracker(){
   var m=M[cmat];var dl=gDL(ck);var pct=Math.min(Math.round(dl/LOB*100),100);
   document.getElementById('dt-cnt').innerHTML=dl+' <span>/ '+LOB+'</span>';
   var bar=document.getElementById('dt-bar');bar.style.width=pct+'%';
-  var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';bar.style.background=col;
-  document.getElementById('dt-info').textContent=dl>=LOB?'Obiettivo raggiunto!':dl>=LMIN?'Ok, spingi ancora':'Sotto il minimo ('+LMIN+')';
+  bar.style.background=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';
+  var info=dl>=LBOOST?'Giorno boost! '+dl+' lezioni':dl>=LOB?'Obiettivo raggiunto!':dl>=LMIN?'Ok, spingi ancora':'Sotto il minimo ('+LMIN+')';
+  document.getElementById('dt-info').textContent=info;
   var ini=Math.round(m.lez*m.pct0);var fat=Math.min(ini+gLez(cmat),m.lez);var mp=Math.round(fat/m.lez*100);
   document.getElementById('mt-lbl').textContent=m.l.split(' ')[0]+' - totale';
   document.getElementById('mt-cnt').textContent=fat+' / '+m.lez+' ('+mp+'%)';
@@ -323,7 +533,8 @@ function openP(el,e){
   e.stopPropagation();
   var key=el.dataset.k,y=parseInt(el.dataset.y),mo=parseInt(el.dataset.m),d=parseInt(el.dataset.d),s=PL[key]||null;
   ck=key;cmat=(s&&!s.startsWith('esame:')&&s!='off')?s:null;
-  var dt=new Date(y,mo,d);document.getElementById('ppd').textContent=DIT[dt.getDay()]+' '+d+' '+MON[mo]+' '+y;
+  var dt=new Date(y,mo,d);
+  document.getElementById('ppd').textContent=DIT[dt.getDay()]+' '+d+' '+MON[mo]+' '+y;
   var sj=document.getElementById('pps');
   if(!s||s=='off'){sj.textContent='Giorno libero';sj.className='pps';sj.style.background='';}
   else if(s.startsWith('esame:')){var mk=s.replace('esame:','');sj.textContent='Esame - '+(M[mk]?M[mk].l:'?');sj.className='pps e';sj.style.background='';}
@@ -332,7 +543,7 @@ function openP(el,e){
   if(pre&&M[pre]){preEl.innerHTML='<div style="font-size:10px;color:var(--pp-mut);margin-bottom:8px;padding:5px 8px;border:1px solid var(--bor);border-radius:4px;">Ripasso serale: '+M[pre].l+'</div>';}
   updTracker();
   var btns=document.getElementById('ppb');btns.style.display=isd(s)?'grid':'none';
-  if(isd(s)){var st=gs(key);document.getElementById('b1').className='pb pbd'+(st=='done'?' ac':'');document.getElementById('b2').className='pb pbs'+(st=='skipped'?' ac':'');}
+  if(isd(s)){var st=gs(key);document.getElementById('b1').className='pb pbd'+(st=='done'?' ac':'');document.getElementById('b2').className='pb pbp'+(st=='partial'?' ac':'');document.getElementById('b3').className='pb pbs'+(st=='skipped'?' ac':'');}
   var pp=document.getElementById('pp');pp.classList.add('on');document.getElementById('ov').classList.add('on');po=true;
   pp.style.left='0';pp.style.top='0';
   var r=el.getBoundingClientRect(),pw=pp.offsetWidth,ph=pp.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
@@ -343,18 +554,29 @@ function openP(el,e){
 function setDS(status){
   if(!ck)return;var cur=gs(ck);ss(ck,cur==status?null:status);
   var el=document.querySelector('[data-k="'+ck+'"]');
-  if(el){el.classList.remove('dn','sk');var old=el.querySelector('.dst');if(old)old.remove();var ns=gs(ck);if(ns=='done'){el.classList.add('dn');el.insertAdjacentHTML('afterbegin','<div class="dst sd">+</div>');}if(ns=='skipped'){el.classList.add('sk');el.insertAdjacentHTML('afterbegin','<div class="dst ss">x</div>');}document.getElementById('b1').className='pb pbd'+(ns=='done'?' ac':'');document.getElementById('b2').className='pb pbs'+(ns=='skipped'?' ac':'');}
+  if(el){el.classList.remove('dn','pt','sk');var old=el.querySelector('.dst');if(old)old.remove();var ns=gs(ck);if(ns=='done'){el.classList.add('dn');el.insertAdjacentHTML('afterbegin','<div class="dst sd">+</div>');}if(ns=='partial'){el.classList.add('pt');el.insertAdjacentHTML('afterbegin','<div class="dst sp">~</div>');}if(ns=='skipped'){el.classList.add('sk');el.insertAdjacentHTML('afterbegin','<div class="dst ss">x</div>');}document.getElementById('b1').className='pb pbd'+(ns=='done'?' ac':'');document.getElementById('b2').className='pb pbp'+(ns=='partial'?' ac':'');document.getElementById('b3').className='pb pbs'+(ns=='skipped'?' ac':'');}
   updStats();closeP();
 }
 function addLez(delta){
   if(!ck||!cmat)return;
-  var dl=gDL(ck)+delta;if(dl<0)dl=0;
-  var m=M[cmat];var ini=Math.round(m.lez*m.pct0);var tot=gLez(cmat)+delta;if(tot<0)tot=0;
-  sDL(ck,dl);sLez(cmat,tot);
+  var dl=Math.max(0,gDL(ck)+delta);
+  var newTot=Math.max(0,gLez(cmat)+delta);
+  sDL(ck,dl);sLez(cmat,newTot);
   updTracker();updTable();
-  // refresh day lez display in calendar cell
   var el=document.querySelector('[data-k="'+ck+'"]');
-  if(el){var dltags=el.querySelectorAll('.dl-tag');dltags.forEach(function(t){t.remove();});if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';var tag=document.createElement('div');tag.className='tg dl-tag';tag.style.cssText='color:'+col+';font-size:8px;';tag.textContent=dl+'/'+LOB;el.appendChild(tag);}}
+  if(el){var old=el.querySelector('.dl-tag');if(old)old.remove();if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';var tag=document.createElement('div');tag.className='tg dl-tag';tag.style.cssText='color:'+col+';font-size:8px;';tag.textContent=dl+'/'+LOB;el.appendChild(tag);}}
+}
+function switchTab(t){
+  ['cal','prog','plan'].forEach(function(id){
+    document.getElementById('tab-'+id).classList.toggle('active',id==t);
+    document.getElementById('panel-'+id).classList.toggle('active',id==t);
+  });
+}
+function switchMode(m){
+  document.getElementById('mode-vic').classList.toggle('active',m=='vic');
+  document.getElementById('mode-mil').classList.toggle('active',m=='mil');
+  document.getElementById('sched-vic').style.display=m=='vic'?'block':'none';
+  document.getElementById('sched-mil').style.display=m=='mil'?'block':'none';
 }
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('cal').innerHTML=buildCal();updStats();
@@ -363,11 +585,14 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('ov').addEventListener('click',closeP);
   document.getElementById('pp').addEventListener('click',function(e){e.stopPropagation();});
   document.getElementById('b1').addEventListener('click',function(e){e.stopPropagation();setDS('done');});
-  document.getElementById('b2').addEventListener('click',function(e){e.stopPropagation();setDS('skipped');});
-  document.getElementById('b3').addEventListener('click',function(e){
-    e.stopPropagation();if(!ck)return;ss(ck,null);sDL(ck,0);
+  document.getElementById('b2').addEventListener('click',function(e){e.stopPropagation();setDS('partial');});
+  document.getElementById('b3').addEventListener('click',function(e){e.stopPropagation();setDS('skipped');});
+  document.getElementById('b4').addEventListener('click',function(e){
+    e.stopPropagation();if(!ck)return;
+    var prevDL=gDL(ck);ss(ck,null);sDL(ck,0);
+    if(cmat&&prevDL>0)sLez(cmat,Math.max(0,gLez(cmat)-prevDL));
     var el=document.querySelector('[data-k="'+ck+'"]');
-    if(el){el.classList.remove('dn','sk');var old=el.querySelector('.dst');if(old)old.remove();var dlt=el.querySelector('.dl-tag');if(dlt)dlt.remove();}
+    if(el){el.classList.remove('dn','pt','sk');var old=el.querySelector('.dst');if(old)old.remove();var dlt=el.querySelector('.dl-tag');if(dlt)dlt.remove();}
     updStats();closeP();
   });
   document.getElementById('dt-plus').addEventListener('click',function(e){e.stopPropagation();addLez(1);});
