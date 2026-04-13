@@ -177,7 +177,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 <div class="hdr">
   <div class="hdr-ey">Piano di studio</div>
   <div class="hdr-ti">13 Apr - 24 Giu 2026</div>
-  <div class="hdr-su">Sprint puri &middot; Oggi evidenziato &middot; Vicenza 10 &middot; Milano 12 &middot; Max 15-20</div>
+  <div class="hdr-su">Sprint puri &middot; Oggi evidenziato &middot; Vicenza 10 &middot; Milano 12 &middot; Max 15-20 &middot; 1h/giorno progetto musicale</div>
 </div>
 <div class="tabs">
   <div class="tab active" id="tab-cal" onclick="switchTab('cal')">Calendario</div>
@@ -208,7 +208,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
     <div id="rec-body"></div>
     <div class="rec-tip" id="rec-tip"></div>
   </div>
-  <div class="boost-alert" id="boost-alert">Settimana Audio (16-19 apr): obiettivo 12 lezioni/giorno. Sprint boost obbligatorio.</div>
+  <div class="boost-alert" id="boost-alert">Settimana Audio (16-19 apr): obiettivo 12 lezioni/giorno. Sprint boost obbligatorio. Niente riposo domenica 19.</div>
   <div class="ok-box" id="ok-box">In pari con il piano. Continua cosi!</div>
   <div class="leg">
     <span class="legl">materie</span>
@@ -237,15 +237,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
     <div class="sech"><div class="sect">Progressi per materia</div><div class="secs">aggiornato in tempo reale</div></div>
     <table class="ot"><thead><tr><th>Materia</th><th>CFU</th><th>Progresso</th><th style="text-align:right">Lez.</th><th style="text-align:right">%</th><th style="text-align:right">Esame</th></tr></thead><tbody id="tb"></tbody></table>
   </div>
-  <div class="sec" style="padding-top:18px">
-    <div class="sech"><div class="sect">EP Roadmap</div><div class="secs">1h/sera - upload entro 31 maggio</div></div>
-    <div class="eg">
-      <div class="es"><div class="esn">01</div><div class="est">Mix/Master</div><div class="esd">Apr-Mag</div></div>
-      <div class="es"><div class="esn">02</div><div class="est">Upload</div><div class="esd">Entro 31 mag</div></div>
-      <div class="es"><div class="esn">03</div><div class="est">Promo</div><div class="esd">1-16 giu</div></div>
-      <div class="es rl"><div class="esn">04</div><div class="est">Release</div><div class="esd">18-22 giu</div></div>
-    </div>
-  </div>
+
   <div class="sec" style="padding-top:18px;padding-bottom:28px">
     <div class="sech"><div class="sect">Principi</div></div>
     <div class="rl2">
@@ -254,7 +246,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
       <div class="ru"><div class="run">3</div><div class="rut"><strong>Audio = boost.</strong> 16-19 apr: 12 lez/giorno. Non negoziabile.</div></div>
       <div class="ru"><div class="run">4</div><div class="rut"><strong>Domeniche sacrificabili</strong> in emergenza. Il 19 apr e' gia' nel piano.</div></div>
       <div class="ru"><div class="run">5</div><div class="rut"><strong>Storia e Arti visive</strong> le piu' toste. Giorni extra assegnati.</div></div>
-      <div class="ru"><div class="run">6</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> Giugno: solo esami e release.</div></div>
+      <div class="ru"><div class="run">6</div><div class="rut"><strong>Progetto musicale: 1 ora al giorno,</strong> timer fisso, sempre dopo lo studio.</div></div>
     </div>
   </div>
 </div>
@@ -414,7 +406,7 @@ function rt(s,key){
   var isE=s.indexOf('esame:')>=0,h='';
   if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame '+(m?m.l.split(' ')[0]:k)+'</div>';}
   else{var m=M[s];if(m)h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
-  if(!isE){h+='<div class="tg tm">EP</div>';var dl=key?gDL(key):0;if(dl>0){var obj=key?getObj(key):10;var col=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+obj+'</div>';}}
+  if(!isE){h+='<div class="tg tm">Musica</div>';var dl=key?gDL(key):0;if(dl>0){var obj=key?getObj(key):10;var col=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+obj+'</div>';}}
   return h;
 }
 function buildCal(){
@@ -513,14 +505,14 @@ function switchPair(pair){
 }
 var PLANS={
   vic:{
-    light:{tot:'6',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Caffe, colazione, apri il materiale. Zero schermate inutili.'},{t:'studio',h:'10:00 - 12:00',l:'6 lezioni',b:'Blocco leggero. Pausa 10min a meta.'},{t:'pausa',h:'12:00 - 13:00',l:'Pranzo',b:'Stacca completamente.'},{t:'studio',h:'13:00 - 14:00',l:'2 lezioni',b:'Ultima sessione prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai 20 min liberi: 1 lezione in cuffia.'},{t:'musica',h:'20:00 - 21:00',l:'EP',b:'Timer fisso.'},{t:'pausa',h:'21:00+',l:'Sera libera',b:'Giorno light - niente sensi di colpa.'}]},
-    medium:{tot:'10',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6 lezioni',b:'Picco cognitivo - materia piu difficile qui. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 13:30',l:'Pranzo veloce',b:'20-30 min. Non davanti allo schermo.'},{t:'studio',h:'13:30 - 15:15',l:'3-4 lezioni',b:'Continua lo sprint. Se sei stanco, materia piu leggera.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai momenti liberi: 1-2 lezioni in cuffia.'},{t:'studio',h:'20:00 - 21:30',l:'2-3 lezioni',b:'Se sei gia a 10 puoi fermarti. Altrimenti spingi.'},{t:'musica',h:'21:30 - 22:30',l:'EP',b:'Timer fisso. Non scavalca mai lo studio.'}]},
-    maxx:{tot:'13-15',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez soltanto.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo',b:'Veloce. Qualcosa di leggero.'},{t:'studio',h:'14:00 - 15:15',l:'2-3 lezioni',b:'Sprint finale mattina prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Studia almeno 1h durante il lavoro. Obiettivo: +2 lezioni.'},{t:'studio',h:'20:00 - 22:00',l:'3-4 lezioni',b:'Finisci il target. Non mollare - sei quasi al massimo.'},{t:'musica',h:'22:00 - 22:30',l:'EP breve',b:'Solo ascolto o note vocali. Lo studio viene prima.'}]}
+    light:{tot:'6',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Caffe, colazione, apri il materiale. Zero schermate inutili.'},{t:'studio',h:'10:00 - 12:00',l:'6 lezioni',b:'Blocco leggero. Pausa 10min a meta.'},{t:'pausa',h:'12:00 - 13:00',l:'Pranzo',b:'Stacca completamente.'},{t:'studio',h:'13:00 - 14:00',l:'2 lezioni',b:'Ultima sessione prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai 20 min liberi: 1 lezione in cuffia.'},{t:'musica',h:'20:00 - 21:00',l:'Progetto musicale',b:'1 ora fissa. Timer. Non scavalca mai lo studio.'},{t:'pausa',h:'21:00+',l:'Sera libera',b:'Giorno light - niente sensi di colpa.'}]},
+    medium:{tot:'10',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6 lezioni',b:'Picco cognitivo - materia piu difficile qui. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 13:30',l:'Pranzo veloce',b:'20-30 min. Non davanti allo schermo.'},{t:'studio',h:'13:30 - 15:15',l:'3-4 lezioni',b:'Continua lo sprint. Se sei stanco, materia piu leggera.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai momenti liberi: 1-2 lezioni in cuffia.'},{t:'studio',h:'20:00 - 21:30',l:'2-3 lezioni',b:'Se sei gia a 10 puoi fermarti. Altrimenti spingi.'},{t:'musica',h:'21:30 - 22:30',l:'Progetto musicale',b:'1 ora fissa. Non scavalca mai lo studio.'}]},
+    maxx:{tot:'13-15',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez soltanto.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo',b:'Veloce. Qualcosa di leggero.'},{t:'studio',h:'14:00 - 15:15',l:'2-3 lezioni',b:'Sprint finale mattina prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Studia almeno 1h durante il lavoro. Obiettivo: +2 lezioni.'},{t:'studio',h:'20:00 - 22:00',l:'3-4 lezioni',b:'Finisci il target. Non mollare - sei quasi al massimo.'},{t:'musica',h:'22:00 - 22:30',l:'Progetto musicale',b:'30-60 min. Lo studio viene sempre prima.'}]}
   },
   mil:{
-    light:{tot:'8',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Milano - nessun vincolo. Inizia con calma.'},{t:'studio',h:'10:00 - 12:30',l:'5 lezioni',b:'Ritmo sostenuto ma senza forzare.'},{t:'pausa',h:'12:30 - 14:00',l:'Pausa pranzo',b:'Mangia fuori. Reset mentale completo.'},{t:'studio',h:'14:00 - 15:30',l:'3 lezioni',b:'Ultimo blocco. Aggiungine 1-2 se vuoi.'},{t:'musica',h:'16:00 - 17:30',l:'EP / Joachim',b:'Sessione musica. Spostabile a sera.'},{t:'pausa',h:'17:30+',l:'Sera libera',b:'Ricarica le batterie.'}]},
-    medium:{tot:'12',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6-7 lezioni',b:'Massima concentrazione. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 14:30',l:'Pausa pranzo',b:'Stacca completamente. Mangia fuori.'},{t:'studio',h:'14:30 - 17:30',l:'5-6 lezioni',b:'Blocco pomeriggio. Cambia materia se hai finito.'},{t:'musica',h:'17:30 - 19:00',l:'EP / Joachim',b:'Sessione musica fissa. Spostabile se recuperi lezioni.'},{t:'studio',h:'20:30 - 22:00',l:'2-3 lezioni opzionali',b:'Solo se sei sotto target. Altrimenti sera libera.'}]},
-    maxx:{tot:'18-20',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8-9 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez. Zero distrazioni.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo veloce',b:'20-30 min. Obbligatorio per il pomeriggio.'},{t:'studio',h:'14:00 - 18:00',l:'7-8 lezioni',b:'Nessun compromesso. Se hai finito la materia, inizia la prossima.'},{t:'pausa',h:'18:00 - 19:30',l:'Cena e stacco',b:'Obbligatorio. Senza reset il blocco sera crolla.'},{t:'studio',h:'19:30 - 21:30',l:'3-4 lezioni',b:'Solo se il cervello regge. Materia leggera o ripasso.'},{t:'musica',h:'21:30 - 22:00',l:'EP breve',b:'Solo ascolto o note vocali.'}]}
+    light:{tot:'8',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Milano - nessun vincolo. Inizia con calma.'},{t:'studio',h:'10:00 - 12:30',l:'5 lezioni',b:'Ritmo sostenuto ma senza forzare.'},{t:'pausa',h:'12:30 - 14:00',l:'Pausa pranzo',b:'Mangia fuori. Reset mentale completo.'},{t:'studio',h:'14:00 - 15:30',l:'3 lezioni',b:'Ultimo blocco. Aggiungine 1-2 se vuoi.'},{t:'musica',h:'16:00 - 17:30',l:'Progetto musicale',b:'1 ora fissa. Spostabile a sera se necessario.'},{t:'pausa',h:'17:30+',l:'Sera libera',b:'Ricarica le batterie.'}]},
+    medium:{tot:'12',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6-7 lezioni',b:'Massima concentrazione. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 14:30',l:'Pausa pranzo',b:'Stacca completamente. Mangia fuori.'},{t:'studio',h:'14:30 - 17:30',l:'5-6 lezioni',b:'Blocco pomeriggio. Cambia materia se hai finito.'},{t:'musica',h:'17:30 - 19:00',l:'Progetto musicale',b:'1 ora fissa. Spostabile se devi recuperare lezioni.'},{t:'studio',h:'20:30 - 22:00',l:'2-3 lezioni opzionali',b:'Solo se sei sotto target. Altrimenti sera libera.'}]},
+    maxx:{tot:'18-20',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8-9 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez. Zero distrazioni.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo veloce',b:'20-30 min. Obbligatorio per il pomeriggio.'},{t:'studio',h:'14:00 - 18:00',l:'7-8 lezioni',b:'Nessun compromesso. Se hai finito la materia, inizia la prossima.'},{t:'pausa',h:'18:00 - 19:30',l:'Cena e stacco',b:'Obbligatorio. Senza reset il blocco sera crolla.'},{t:'studio',h:'19:30 - 21:30',l:'3-4 lezioni',b:'Solo se il cervello regge. Materia leggera o ripasso.'},{t:'musica',h:'21:30 - 22:00',l:'Progetto musicale',b:'30-60 min. Lo studio viene prima.'}]}
   }
 };
 var curLoc='vic',curLoad='medium';
