@@ -6,60 +6,74 @@
 <title>Piano Studio 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d0d0d;--sur:#161616;--sur2:#1f1f1f;--bor:#2a2a2a;--bor2:#383838;--txt:#e8e8e8;--mut:#666;--mut2:#444;--mut3:#999;--yel:#ffd166;--grn:#06d6a0;--pur:#d966ff;--red:#ff4d4d;--cd:#e05252;--ca:#e8824a;--cm:#d4aa40;--cs:#5cb85c;--cc:#3dbf9e;--csp:#6ab0e8;--cse:#a07cd6;--car:#d46b6b;--cn:#d4804a;--ctd:#b06ad4;--cst:#6ab88a;--pp-bg:#1e1e1e;--pp-bor:#484848;--pp-txt:#e8e8e8;--pp-mut:#999;}
-@media(prefers-color-scheme:light){:root{--bg:#f5f5f2;--sur:#ffffff;--sur2:#efefeb;--bor:#dededa;--bor2:#ccccc8;--txt:#1a1a1a;--mut:#888;--mut2:#bbb;--mut3:#666;--yel:#8a6000;--grn:#007a50;--pur:#6030a0;--red:#cc2222;--cd:#b02020;--ca:#b05010;--cm:#907000;--cs:#207020;--cc:#107060;--csp:#205090;--cse:#503090;--car:#902020;--cn:#904010;--ctd:#6020a0;--cst:#205030;--pp-bg:#ffffff;--pp-bor:#cccccc;--pp-txt:#1a1a1a;--pp-mut:#666;}}
+:root{--bg:#0d0d0d;--sur:#161616;--sur2:#1f1f1f;--bor:#2a2a2a;--bor2:#383838;--txt:#e8e8e8;--mut:#666;--mut2:#444;--mut3:#999;--yel:#ffd166;--grn:#06d6a0;--pur:#d966ff;--red:#ff4d4d;--blu:#6ab0e8;--cd:#e05252;--ca:#e8824a;--cm:#d4aa40;--cs:#5cb85c;--cc:#3dbf9e;--csp:#6ab0e8;--cse:#a07cd6;--car:#d46b6b;--cn:#d4804a;--ctd:#b06ad4;--cst:#6ab88a;--pp-bg:#1e1e1e;--pp-bor:#484848;--pp-txt:#e8e8e8;--pp-mut:#999;}
+@media(prefers-color-scheme:light){:root{--bg:#f5f5f2;--sur:#ffffff;--sur2:#efefeb;--bor:#dededa;--bor2:#ccccc8;--txt:#1a1a1a;--mut:#888;--mut2:#bbb;--mut3:#666;--yel:#8a6000;--grn:#007a50;--pur:#6030a0;--red:#cc2222;--blu:#2060a0;--cd:#b02020;--ca:#b05010;--cm:#907000;--cs:#207020;--cc:#107060;--csp:#205090;--cse:#503090;--car:#902020;--cn:#904010;--ctd:#6020a0;--cst:#205030;--pp-bg:#ffffff;--pp-bor:#cccccc;--pp-txt:#1a1a1a;--pp-mut:#666;}}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace;font-size:13px;line-height:1.5;padding-bottom:80px;overflow-x:hidden;}
-.hdr{padding:24px 16px 16px;border-bottom:1px solid var(--bor);}
-.hdr-ey{font-size:10px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:5px;}
-.hdr-ti{font-family:'Syne',sans-serif;font-size:clamp(20px,5vw,36px);font-weight:800;line-height:1;margin-bottom:4px;}
+.hdr{padding:22px 16px 16px;border-bottom:1px solid var(--bor);}
+.hdr-ey{font-size:10px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:4px;}
+.hdr-ti{font-family:'Syne',sans-serif;font-size:clamp(20px,5vw,34px);font-weight:800;line-height:1;margin-bottom:4px;}
 .hdr-su{font-size:11px;color:var(--mut);}
-/* TABS */
 .tabs{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--bor);}
 .tab{padding:11px 8px;font-size:10px;font-weight:500;color:var(--mut);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:1px;text-transform:uppercase;}
 .tab.active{color:var(--grn);border-bottom-color:var(--grn);}
 .panel{display:none;}.panel.active{display:block;}
-/* STATS */
+@media(min-width:900px){
+  .tabs{display:none;}
+  .desktop-nav{display:flex!important;align-items:stretch;}
+  .app-body{display:grid;grid-template-columns:1fr 1fr;}
+  .app-body .panel{display:block!important;border-right:1px solid var(--bor);min-height:calc(100vh - 120px);}
+  .app-body .panel:last-child{border-right:none;}
+  .app-body .panel.hd{display:none!important;}
+}
+.desktop-nav{display:none;border-bottom:1px solid var(--bor);background:var(--bg);position:sticky;top:0;z-index:100;}
+.dnav-btn{padding:11px 14px;font-size:10px;font-weight:500;color:var(--mut);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.dnav-btn.active{color:var(--grn);border-bottom-color:var(--grn);}
+.dnav-sep{width:1px;background:var(--bor);margin:6px 0;flex-shrink:0;}
 .sbar{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid var(--bor);}
 .sbar2{display:grid;grid-template-columns:repeat(2,1fr);border-bottom:1px solid var(--bor);}
-.st{padding:12px 14px;border-right:1px solid var(--bor);border-bottom:1px solid var(--bor);}
+.st{padding:11px 14px;border-right:1px solid var(--bor);border-bottom:1px solid var(--bor);}
 .st:nth-child(2){border-right:none;}
-.st2{padding:12px 14px;border-right:1px solid var(--bor);}
+.st2{padding:11px 14px;border-right:1px solid var(--bor);}
 .st2:last-child{border-right:none;}
 .stn{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;line-height:1;}
 .stl{font-size:9px;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
 .stn.g{color:var(--grn);}.stn.w{color:var(--yel);}.stn.b{color:var(--red);}.stn.d{color:var(--txt);}
-/* RECOVERY BOX */
-.rec-box{margin:14px 16px 0;border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.7;display:none;border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.06);}
+.rec-box{margin:12px 16px 0;border-radius:6px;padding:11px 13px;font-size:11px;line-height:1.7;display:none;border:1px solid rgba(255,77,77,.3);background:rgba(255,77,77,.05);}
 .rec-box.on{display:block;}
-.rec-ti{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--red);margin-bottom:5px;}
-.rec-tip{font-size:10px;color:var(--mut);margin-top:6px;padding-top:6px;border-top:1px solid var(--bor);}
-@media(prefers-color-scheme:light){.rec-box{border-color:rgba(204,34,34,.3);background:rgba(204,34,34,.05);}}
-.ok-box{margin:14px 16px 0;border-radius:6px;padding:10px 14px;font-size:11px;line-height:1.6;display:none;border:1px solid rgba(6,214,160,.3);background:rgba(6,214,160,.06);color:var(--grn);}
+.rec-ti{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--red);margin-bottom:4px;}
+.rec-tip{font-size:10px;color:var(--mut);margin-top:5px;padding-top:5px;border-top:1px solid var(--bor);}
+@media(prefers-color-scheme:light){.rec-box{border-color:rgba(204,34,34,.3);background:rgba(204,34,34,.04);}}
+.ok-box{margin:12px 16px 0;border-radius:6px;padding:9px 13px;font-size:11px;display:none;border:1px solid rgba(6,214,160,.3);background:rgba(6,214,160,.05);color:var(--grn);}
 .ok-box.on{display:block;}
-@media(prefers-color-scheme:light){.ok-box{border-color:rgba(0,122,80,.3);background:rgba(0,122,80,.05);}}
-/* LEGENDA */
-.leg{padding:10px 16px;border-bottom:1px solid var(--bor);display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.boost-alert{margin:10px 16px 0;border-radius:6px;padding:9px 13px;font-size:11px;display:none;border:1px solid rgba(217,102,255,.3);background:rgba(217,102,255,.05);color:var(--pur);}
+.boost-alert.on{display:block;}
+.leg{padding:9px 16px;border-bottom:1px solid var(--bor);display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
 .legl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--mut2);}
 .legi{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--mut);}
 .legd{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
-/* SEZIONE */
-.sec{padding:20px 16px 0;}
-.sech{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--bor);}
+.sec{padding:18px 16px 0;}
+.sech{display:flex;align-items:baseline;gap:10px;margin-bottom:11px;padding-bottom:8px;border-bottom:1px solid var(--bor);}
 .sect{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;}
 .secs{font-size:11px;color:var(--mut);}
-/* CALENDARIO */
-.mb{margin-bottom:24px;}
-.mn{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--mut);margin-bottom:7px;}
+.mb{margin-bottom:22px;}
+.mn{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--mut);margin-bottom:6px;}
 .cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%;}
 .dc{text-align:center;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--mut2);padding:3px 0;}
-.dy{background:var(--sur);border:1px solid var(--bor);border-radius:4px;padding:5px 4px;min-height:72px;display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;cursor:pointer;position:relative;}
+.dy{background:var(--sur);border:1px solid var(--bor);border-radius:4px;padding:5px 4px;min-height:70px;display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;cursor:pointer;position:relative;}
 .dy.em{background:transparent;border-color:transparent;min-height:0;pointer-events:none;}
+.dy.pre{background:var(--sur2);opacity:.3;pointer-events:none;}
 .dy.of{background:var(--sur2);opacity:.45;}
 .dy.ie{border-color:var(--mut2);border-width:1.5px;}
 .dy.dn{border-color:var(--grn)!important;border-width:1.5px;}
 .dy.pt{border-color:var(--yel)!important;border-width:1.5px;}
-.dy.sk{border-color:var(--red)!important;border-width:1.5px;opacity:.55;}
+.dy.sk{border-color:var(--red)!important;border-width:1.5px;opacity:.5;}
+.dy.today{box-shadow:0 0 0 2px var(--txt) inset;}
+.dy.today.dn{box-shadow:0 0 0 2px var(--grn) inset;}
+.dy.today.pt{box-shadow:0 0 0 2px var(--yel) inset;}
+.dy.today.sk{box-shadow:0 0 0 2px var(--red) inset;}
+.dy.today .dn2{color:var(--txt);font-weight:800;}
+.dy.boost{outline:1.5px solid var(--pur);}
 .dst{position:absolute;top:2px;right:3px;font-size:11px;font-weight:800;line-height:1;}
 .dst.sd{color:var(--grn);}.dst.sp{color:var(--yel);}.dst.ss{color:var(--red);}
 .dn2{font-size:10px;font-weight:500;color:var(--mut);line-height:1;margin-bottom:1px;flex-shrink:0;}
@@ -68,34 +82,44 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .ts{color:#fff;}.te{background:#2a2a2a;color:#e8e8e8;font-weight:700;}
 @media(prefers-color-scheme:light){.te{background:#1a1a1a;color:#fff;}}
 .tr{color:var(--mut);border:1px solid var(--bor);}.tm{color:var(--mut2);border:1px dashed var(--bor);}.to{color:var(--mut2);}
-/* POPUP */
 .ov{display:none;position:fixed;inset:0;z-index:199;background:rgba(0,0,0,.55);}
 .ov.on{display:block;}
-@media(prefers-color-scheme:light){.ov{background:rgba(0,0,0,.3);}}
-.pp{display:none;position:fixed;z-index:200;background:var(--pp-bg);border:1px solid var(--pp-bor);border-radius:10px;padding:16px;min-width:240px;max-width:300px;box-shadow:0 10px 40px rgba(0,0,0,.25);}
+@media(prefers-color-scheme:light){.ov{background:rgba(0,0,0,.28);}}
+.pp{display:none;position:fixed;z-index:200;background:var(--pp-bg);border:1px solid var(--pp-bor);border-radius:10px;padding:15px;min-width:250px;max-width:310px;box-shadow:0 12px 48px rgba(0,0,0,.28);}
 .pp.on{display:block;}
-.ppd{font-size:10px;color:var(--pp-mut);letter-spacing:1px;margin-bottom:8px;}
-.pps{font-size:12px;font-weight:600;padding:7px 10px;border-radius:5px;margin-bottom:10px;display:block;line-height:1.5;white-space:normal;color:#fff;}
+.ppd{font-size:10px;color:var(--pp-mut);letter-spacing:1px;margin-bottom:7px;}
+.pps{font-size:12px;font-weight:600;padding:7px 10px;border-radius:5px;margin-bottom:9px;display:block;line-height:1.5;color:#fff;}
 .pps.e{background:#222;color:#fff;}
 @media(prefers-color-scheme:light){.pps.e{background:#1a1a1a;}}
+.sel-row{margin-bottom:7px;}
+.sel-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--pp-mut);margin-bottom:4px;}
+.sel-btns{display:grid;gap:3px;}
+.sel-btns.c2{grid-template-columns:1fr 1fr;}
+.sel-btns.c3{grid-template-columns:1fr 1fr 1fr;}
+.ms-btn{padding:6px 4px;border-radius:4px;border:1px solid var(--bor);background:var(--sur2);font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--pp-mut);cursor:pointer;text-align:center;letter-spacing:.5px;transition:all .12s;}
+.ms-btn.av{background:rgba(106,176,232,.15);color:var(--blu);border-color:var(--blu);}
+.ms-btn.am{background:rgba(6,214,160,.12);color:var(--grn);border-color:var(--grn);}
+.ms-btn.al{background:rgba(255,209,102,.1);color:var(--yel);border-color:rgba(255,209,102,.4);}
+.ms-btn.ame{background:rgba(6,214,160,.1);color:var(--grn);border-color:rgba(6,214,160,.4);}
+.ms-btn.ax{background:rgba(217,102,255,.12);color:var(--pur);border-color:rgba(217,102,255,.4);}
 .day-tracker{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:10px 12px;margin-bottom:8px;}
-.dt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.dt-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
 .dt-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--pp-mut);}
 .dt-cnt{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--pp-txt);line-height:1;}
 .dt-cnt span{font-size:11px;font-weight:400;color:var(--pp-mut);}
-.dt-bar-bg{height:6px;background:var(--bor);border-radius:3px;overflow:hidden;margin-bottom:8px;}
-.dt-bar-fill{height:100%;border-radius:3px;transition:width .3s;}
+.dt-bar-bg{height:6px;background:var(--bor);border-radius:3px;overflow:hidden;margin-bottom:7px;}
+.dt-bar-fill{height:100%;border-radius:3px;transition:width .25s;}
 .dt-row{display:flex;align-items:center;gap:8px;}
 .dt-btn{width:30px;height:30px;border-radius:5px;border:1px solid var(--bor2);background:var(--sur);color:var(--pp-txt);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;font-weight:700;}
 .dt-btn:hover{background:var(--bor);}
 .dt-info{flex:1;font-size:10px;color:var(--pp-mut);line-height:1.5;}
-.mat-tracker{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:10px 12px;margin-bottom:10px;}
-.mt-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.mat-tracker{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:9px 12px;margin-bottom:9px;}
+.mt-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
 .mt-lbl{font-size:10px;color:var(--pp-mut);}
 .mt-cnt{font-size:11px;font-weight:600;color:var(--pp-txt);}
 .mt-bar-bg{height:4px;background:var(--bor);border-radius:2px;overflow:hidden;}
-.mt-bar-fill{height:100%;border-radius:2px;transition:width .3s;}
-.ppb{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:8px;}
+.mt-bar-fill{height:100%;border-radius:2px;transition:width .25s;}
+.ppb{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin-bottom:7px;}
 .pb{padding:7px 2px;border-radius:5px;border:1px solid var(--bor);background:var(--sur2);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--pp-mut);cursor:pointer;text-align:center;}
 .pb.pbd{border-color:rgba(6,214,160,.5);}
 .pb.pbd.ac,.pb.pbd:hover{background:rgba(6,214,160,.15);color:var(--grn);border-color:var(--grn);}
@@ -105,51 +129,44 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .pb.pbs.ac,.pb.pbs:hover{background:rgba(255,77,77,.15);color:var(--red);border-color:var(--red);}
 .pb.pbr:hover{background:var(--bor);color:var(--pp-txt);}
 .pph2{font-size:9px;color:var(--pp-mut);text-align:center;letter-spacing:1px;}
-/* TABELLA */
 .ot{width:100%;border-collapse:collapse;}
 .ot th{text-align:left;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--mut);padding:7px 8px;border-bottom:1px solid var(--bor);}
 .ot td{padding:8px 8px;border-bottom:1px solid var(--sur2);vertical-align:middle;}
 .ot tr:last-child td{border-bottom:none;}
 .mn2{font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px;}
 .md{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.bbg{height:4px;background:var(--bor);border-radius:2px;overflow:hidden;min-width:60px;}
+.bbg{height:4px;background:var(--bor);border-radius:2px;overflow:hidden;min-width:50px;}
 .bbf{height:100%;border-radius:2px;}
 .on2{font-size:11px;font-weight:500;color:var(--txt);text-align:right;white-space:nowrap;}
 .pc{font-size:10px;font-weight:600;text-align:right;white-space:nowrap;}
 .dc2{font-size:10px;color:var(--mut);text-align:right;white-space:nowrap;}
 .cb{font-size:9px;color:var(--mut);background:var(--sur2);border:1px solid var(--bor);border-radius:3px;padding:1px 4px;}
-/* PLANNER */
-.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:6px;overflow:hidden;margin-bottom:16px;}
-.mode-btn{padding:10px;text-align:center;font-size:11px;font-weight:600;color:var(--mut);cursor:pointer;background:var(--sur);transition:all .15s;}
-.mode-btn.active{background:var(--sur2);color:var(--txt);}
-.schedule-block{background:var(--sur);border:1px solid var(--bor);border-radius:6px;overflow:hidden;margin-bottom:10px;}
-.sb-header{padding:10px 14px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;}
-.sb-time{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--txt);}
-.sb-label{font-size:10px;color:var(--mut);}
+.mtg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:5px;overflow:hidden;margin-bottom:6px;}
+.mtg3{grid-template-columns:1fr 1fr 1fr;}
+.mb2{padding:9px;text-align:center;font-size:10px;font-weight:600;color:var(--mut);cursor:pointer;background:var(--sur);transition:all .15s;}
+.mb2.active{background:var(--sur2);color:var(--txt);}
+.sb{background:var(--sur);border:1px solid var(--bor);border-radius:6px;overflow:hidden;margin-bottom:7px;}
+.sb-hd{padding:9px 13px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between;}
+.sb-time{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--txt);}
 .sb-lez{font-size:10px;font-weight:600;}
-.sb-body{padding:10px 14px;font-size:11px;color:var(--mut);line-height:1.7;}
-.sb-type-studio{border-left:3px solid var(--grn);}
-.sb-type-lavoro{border-left:3px solid var(--yel);}
-.sb-type-musica{border-left:3px solid var(--pur);}
-.sb-type-pausa{border-left:3px solid var(--bor2);}
-.day-total{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:12px 14px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.sb-body{padding:8px 13px;font-size:11px;color:var(--mut);line-height:1.7;}
+.sb.studio{border-left:3px solid var(--grn);}
+.sb.lavoro{border-left:3px solid var(--yel);}
+.sb.musica{border-left:3px solid var(--pur);}
+.sb.pausa{border-left:3px solid var(--bor2);}
+.day-tot{background:var(--sur2);border:1px solid var(--bor);border-radius:6px;padding:11px 13px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;}
 .dt-tot-lbl{font-size:10px;color:var(--mut);}
 .dt-tot-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--grn);}
-.boost-box{background:rgba(217,102,255,.06);border:1px solid rgba(217,102,255,.25);border-radius:6px;padding:12px 14px;margin-bottom:16px;}
-.boost-ti{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--pur);margin-bottom:4px;}
-.boost-body{font-size:11px;color:var(--mut);line-height:1.7;}
-/* EP */
 .eg{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bor);border:1px solid var(--bor);border-radius:4px;overflow:hidden;}
-.es{background:var(--sur);padding:12px;}
-.esn{font-size:10px;color:var(--mut);margin-bottom:4px;letter-spacing:1px;}
-.est{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:3px;}
+.es{background:var(--sur);padding:11px;}
+.esn{font-size:10px;color:var(--mut);margin-bottom:3px;letter-spacing:1px;}
+.est{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:2px;}
 .esd{font-size:10px;color:var(--mut);}
 .es.rl{background:var(--sur2);border-left:2px solid var(--pur);}
 .es.rl .est{color:var(--pur);}
-/* REGOLE */
-.rl2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;}
-.ru{border:1px solid var(--bor);border-radius:4px;padding:11px 13px;background:var(--sur);}
-.run{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--mut2);line-height:1;margin-bottom:5px;}
+.rl2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
+.ru{border:1px solid var(--bor);border-radius:4px;padding:10px 12px;background:var(--sur);}
+.run{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--mut2);line-height:1;margin-bottom:5px;}
 .rut{font-size:11px;color:var(--txt);line-height:1.7;}
 .rut strong{font-weight:600;color:var(--yel);}
 @media(prefers-color-scheme:light){.rut strong{color:var(--cm);}}
@@ -160,14 +177,21 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 <div class="hdr">
   <div class="hdr-ey">Piano di studio</div>
   <div class="hdr-ti">13 Apr - 24 Giu 2026</div>
-  <div class="hdr-su">10 lezioni/giorno normale &middot; 15 boost &middot; 6 minimo</div>
+  <div class="hdr-su">Sprint puri &middot; Oggi evidenziato &middot; Vicenza 10 &middot; Milano 12 &middot; Max 15-20</div>
 </div>
-<!-- TABS -->
 <div class="tabs">
   <div class="tab active" id="tab-cal" onclick="switchTab('cal')">Calendario</div>
   <div class="tab" id="tab-prog" onclick="switchTab('prog')">Progressi</div>
   <div class="tab" id="tab-plan" onclick="switchTab('plan')">Planner</div>
 </div>
+<div class="desktop-nav" id="desktop-nav">
+  <div class="dnav-btn active" id="dnav-cp" onclick="switchPair('cp')">Calendario + Progressi</div>
+  <div class="dnav-sep"></div>
+  <div class="dnav-btn" id="dnav-cpl" onclick="switchPair('cpl')">Calendario + Planner</div>
+  <div class="dnav-sep"></div>
+  <div class="dnav-btn" id="dnav-pp" onclick="switchPair('pp')">Progressi + Planner</div>
+</div>
+<div class="app-body" id="app-body">
 
 <!-- PANEL CALENDARIO -->
 <div class="panel active" id="panel-cal">
@@ -177,13 +201,14 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   </div>
   <div class="sbar2">
     <div class="st2"><div class="stn d" id="s-gap">0h</div><div class="stl">indietro</div></div>
-    <div class="st2"><div class="stn d" id="s-rec">ok</div><div class="stl">lez/giorno extra</div></div>
+    <div class="st2"><div class="stn d" id="s-rec">ok</div><div class="stl">lez/giorno extra x7gg</div></div>
   </div>
   <div class="rec-box" id="rec-box">
     <div class="rec-ti" id="rec-ti">Sei indietro</div>
     <div id="rec-body"></div>
     <div class="rec-tip" id="rec-tip"></div>
   </div>
+  <div class="boost-alert" id="boost-alert">Settimana Audio (16-19 apr): obiettivo 12 lezioni/giorno. Sprint boost obbligatorio.</div>
   <div class="ok-box" id="ok-box">In pari con il piano. Continua cosi!</div>
   <div class="leg">
     <span class="legl">materie</span>
@@ -202,150 +227,57 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
     <div class="legi"><div class="legd" style="background:var(--yel);border-radius:50%"></div>Parziale</div>
     <div class="legi"><div class="legd" style="background:var(--red);border-radius:50%"></div>Saltato</div>
   </div>
-  <div class="sec"><div id="cal"></div></div>
+  <div class="sec" style="padding-top:14px"><div id="cal"></div></div>
   <div style="height:20px"></div>
 </div>
 
 <!-- PANEL PROGRESSI -->
 <div class="panel" id="panel-prog">
-  <div class="sec" style="padding-top:20px">
+  <div class="sec" style="padding-top:18px">
     <div class="sech"><div class="sect">Progressi per materia</div><div class="secs">aggiornato in tempo reale</div></div>
     <table class="ot"><thead><tr><th>Materia</th><th>CFU</th><th>Progresso</th><th style="text-align:right">Lez.</th><th style="text-align:right">%</th><th style="text-align:right">Esame</th></tr></thead><tbody id="tb"></tbody></table>
   </div>
-  <div class="sec" style="padding-top:20px">
+  <div class="sec" style="padding-top:18px">
     <div class="sech"><div class="sect">EP Roadmap</div><div class="secs">1h/sera - upload entro 31 maggio</div></div>
     <div class="eg">
-      <div class="es"><div class="esn">01</div><div class="est">Mix / Master</div><div class="esd">Apr - Mag</div></div>
+      <div class="es"><div class="esn">01</div><div class="est">Mix/Master</div><div class="esd">Apr-Mag</div></div>
       <div class="es"><div class="esn">02</div><div class="est">Upload</div><div class="esd">Entro 31 mag</div></div>
       <div class="es"><div class="esn">03</div><div class="est">Promo</div><div class="esd">1-16 giu</div></div>
       <div class="es rl"><div class="esn">04</div><div class="est">Release</div><div class="esd">18-22 giu</div></div>
     </div>
   </div>
-  <div class="sec" style="padding-top:20px;padding-bottom:32px">
-    <div class="sech"><div class="sect">Principi operativi</div></div>
+  <div class="sec" style="padding-top:18px;padding-bottom:28px">
+    <div class="sech"><div class="sect">Principi</div></div>
     <div class="rl2">
-      <div class="ru"><div class="run">1</div><div class="rut"><strong>Una materia alla volta.</strong> Dall'inizio alla fine, poi la prossima.</div></div>
-      <div class="ru"><div class="run">2</div><div class="rut"><strong>10 lezioni normale,</strong> 15 boost, 6 minimo. Studia in ogni momento libero.</div></div>
-      <div class="ru"><div class="run">3</div><div class="rut"><strong>Ripasso serale</strong> solo il giorno prima. Non un giorno intero.</div></div>
-      <div class="ru"><div class="run">4</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> In giugno si preme solo pubblica.</div></div>
-      <div class="ru"><div class="run">5</div><div class="rut"><strong>Storia e Arti visive</strong> sono le piu' toste. Giorni extra assegnati.</div></div>
-      <div class="ru"><div class="run">6</div><div class="rut"><strong>Ogni momento libero conta.</strong> Anche 1h al lavoro, anche 30 min dopo pranzo.</div></div>
+      <div class="ru"><div class="run">1</div><div class="rut"><strong>Sprint puri.</strong> Una materia fino in fondo. Mai in parallelo.</div></div>
+      <div class="ru"><div class="run">2</div><div class="rut"><strong>Ogni momento libero.</strong> Non dormi, mangi o lavori = studi.</div></div>
+      <div class="ru"><div class="run">3</div><div class="rut"><strong>Audio = boost.</strong> 16-19 apr: 12 lez/giorno. Non negoziabile.</div></div>
+      <div class="ru"><div class="run">4</div><div class="rut"><strong>Domeniche sacrificabili</strong> in emergenza. Il 19 apr e' gia' nel piano.</div></div>
+      <div class="ru"><div class="run">5</div><div class="rut"><strong>Storia e Arti visive</strong> le piu' toste. Giorni extra assegnati.</div></div>
+      <div class="ru"><div class="run">6</div><div class="rut"><strong>EP upload entro 31 maggio.</strong> Giugno: solo esami e release.</div></div>
     </div>
   </div>
 </div>
 
 <!-- PANEL PLANNER -->
 <div class="panel" id="panel-plan">
-  <div class="sec" style="padding-top:20px;padding-bottom:32px">
-    <div class="sech"><div class="sect">Planner giornaliero</div><div class="secs">scegli la modalita</div></div>
-    <!-- MODE TOGGLE -->
-    <div class="mode-toggle">
-      <div class="mode-btn active" id="mode-vic" onclick="switchMode('vic')">Vicenza</div>
-      <div class="mode-btn" id="mode-mil" onclick="switchMode('mil')">Milano</div>
+  <div class="sec" style="padding-top:18px;padding-bottom:28px">
+    <div class="sech"><div class="sect">Planner giornaliero</div><div class="secs">seleziona luogo e intensita</div></div>
+    <div class="mtg" style="margin-bottom:6px">
+      <div class="mb2 active" id="pl-vic" onclick="switchPlanner('vic',null)">Vicenza</div>
+      <div class="mb2" id="pl-mil" onclick="switchPlanner('mil',null)">Milano</div>
     </div>
-
-    <!-- VICENZA -->
-    <div id="sched-vic">
-      <div class="day-total">
-        <div class="dt-tot-lbl">Lezioni totali disponibili</div>
-        <div class="dt-tot-num">~13-15</div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">09:30 - 13:00</div>
-          <div class="sb-lez" style="color:var(--grn)">6 lezioni</div>
-        </div>
-        <div class="sb-body">Studio mattina &middot; Blocco principale &middot; Picco cognitivo<br>Pausa 10 min ogni 2 lezioni</div>
-      </div>
-      <div class="schedule-block sb-type-pausa">
-        <div class="sb-header">
-          <div class="sb-time">13:00 - 13:30</div>
-          <div class="sb-label">Pranzo veloce</div>
-        </div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">13:30 - 15:15</div>
-          <div class="sb-lez" style="color:var(--grn)">3-4 lezioni</div>
-        </div>
-        <div class="sb-body">Studio pomeriggio &middot; Prima del lavoro &middot; Materia piu' leggera o ripasso</div>
-      </div>
-      <div class="schedule-block sb-type-lavoro">
-        <div class="sb-header">
-          <div class="sb-time">15:30 - 19:30</div>
-          <div class="sb-label">Lavoro</div>
-        </div>
-        <div class="sb-body">Se hai momenti liberi al lavoro: 1-2 lezioni in cuffia o lettura &middot; non forzare</div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">20:00 - 21:30</div>
-          <div class="sb-lez" style="color:var(--yel)">3-4 lezioni</div>
-        </div>
-        <div class="sb-body">Studio sera &middot; Ripasso o avanzamento &middot; Se sei gia a 10 puoi fermarti</div>
-      </div>
-      <div class="schedule-block sb-type-musica">
-        <div class="sb-header">
-          <div class="sb-time">21:30 - 22:30</div>
-          <div class="sb-label">EP / Musica</div>
-        </div>
-        <div class="sb-body">Mix, master, scrittura &middot; Timer fisso &middot; Non scavalca lo studio</div>
-      </div>
-      <div class="boost-box">
-        <div class="boost-ti">Giorno boost Vicenza &rarr; 15 lezioni</div>
-        <div class="boost-body">Allunga il blocco mattina fino alle 14:00 (+2 lez) &middot; Aggiungi 1h dopo il lavoro alle 20:00 prima di mangiare (+2 lez) &middot; Sera piena fino alle 22:00 (+1 lez)</div>
-      </div>
+    <div class="mtg mtg3">
+      <div class="mb2 active" id="pl-light" onclick="switchPlanner(null,'light')">Light</div>
+      <div class="mb2 active" id="pl-medium" onclick="switchPlanner(null,'medium')">Medium</div>
+      <div class="mb2" id="pl-maxx" onclick="switchPlanner(null,'maxx')">Max</div>
     </div>
-
-    <!-- MILANO -->
-    <div id="sched-mil" style="display:none">
-      <div class="day-total">
-        <div class="dt-tot-lbl">Lezioni totali disponibili</div>
-        <div class="dt-tot-num">~15-20</div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">09:30 - 13:00</div>
-          <div class="sb-lez" style="color:var(--grn)">6-7 lezioni</div>
-        </div>
-        <div class="sb-body">Studio mattina &middot; Blocco principale &middot; Nessun vincolo fisso</div>
-      </div>
-      <div class="schedule-block sb-type-pausa">
-        <div class="sb-header">
-          <div class="sb-time">13:00 - 14:30</div>
-          <div class="sb-label">Pausa pranzo</div>
-        </div>
-        <div class="sb-body">Stacca completamente &middot; Mangia fuori se puoi &middot; Reset mentale</div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">14:30 - 17:30</div>
-          <div class="sb-lez" style="color:var(--grn)">5-6 lezioni</div>
-        </div>
-        <div class="sb-body">Studio pomeriggio &middot; Blocco secondario &middot; Materia nuova o avanzamento</div>
-      </div>
-      <div class="schedule-block sb-type-musica">
-        <div class="sb-header">
-          <div class="sb-time">17:30 - 19:00</div>
-          <div class="sb-label">EP / Joachim / Sam</div>
-        </div>
-        <div class="sb-body">Sessione musica &middot; Se hai studio in programma puoi spostare a sera</div>
-      </div>
-      <div class="schedule-block sb-type-studio">
-        <div class="sb-header">
-          <div class="sb-time">20:30 - 22:00</div>
-          <div class="sb-lez" style="color:var(--yel)">2-3 lezioni opzionali</div>
-        </div>
-        <div class="sb-body">Solo se sei sotto target &middot; Altrimenti sera libera &middot; Non esaurire le riserve</div>
-      </div>
-      <div class="boost-box">
-        <div class="boost-ti">Giorno boost Milano &rarr; 15+ lezioni</div>
-        <div class="boost-body">Parti alle 9:30 senza interruzioni fino alle 13:30 (+1h) &middot; Pomeriggio pieno fino alle 18:30 (+1h) &middot; Aggiungi sera se l'energia regge &middot; A Milano hai il doppio del tempo di Vicenza</div>
-      </div>
-    </div>
-
+    <div style="height:14px"></div>
+    <div id="pl-content"></div>
   </div>
 </div>
+
+</div><!-- /app-body -->
 
 <!-- POPUP -->
 <div class="ov" id="ov"></div>
@@ -353,10 +285,27 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
   <div class="ppd" id="ppd"></div>
   <span class="pps" id="pps"></span>
   <div id="pp-pre"></div>
+  <div id="pp-sels">
+    <div class="sel-row">
+      <div class="sel-label">Dove sei</div>
+      <div class="sel-btns c2">
+        <button class="ms-btn" id="ms-vic" onclick="setLoc('vic')">Vicenza</button>
+        <button class="ms-btn" id="ms-mil" onclick="setLoc('mil')">Milano</button>
+      </div>
+    </div>
+    <div class="sel-row">
+      <div class="sel-label">Carico giornaliero</div>
+      <div class="sel-btns c3">
+        <button class="ms-btn" id="ms-light" onclick="setLoad('light')">Light</button>
+        <button class="ms-btn" id="ms-medium" onclick="setLoad('medium')">Medium</button>
+        <button class="ms-btn" id="ms-maxx" onclick="setLoad('maxx')">Max</button>
+      </div>
+    </div>
+  </div>
   <div class="day-tracker" id="day-tracker">
     <div class="dt-hd">
       <div class="dt-lbl">Lezioni oggi</div>
-      <div class="dt-cnt" id="dt-cnt">0 <span>/ 10</span></div>
+      <div class="dt-cnt" id="dt-cnt">0 <span id="dt-obj">/ 10</span></div>
     </div>
     <div class="dt-bar-bg"><div class="dt-bar-fill" id="dt-bar" style="width:0%;background:var(--red)"></div></div>
     <div class="dt-row">
@@ -382,43 +331,33 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 </div>
 
 <script>
-var M={diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',lez:45,cfu:9,pct0:0.355,e:'20 apr'},audio:{l:'Audiovisivi digitali',c:'var(--ca)',lez:45,cfu:9,pct0:0,e:'21 apr'},metodo:{l:'Metodologia ricerca',c:'var(--cm)',lez:60,cfu:12,pct0:0.30,e:'18 mag'},seo:{l:'Search Engine Optim.',c:'var(--cs)',lez:54,cfu:9,pct0:0.11,e:'5 giu'},community:{l:'Community management',c:'var(--cc)',lez:45,cfu:9,pct0:0.71,e:'8 giu'},spagnolo:{l:'Lingua spagnola',c:'var(--csp)',lez:15,cfu:3,pct0:0,e:'10 giu'},semiotica:{l:'Semiotica dei Media',c:'var(--cse)',lez:55,cfu:9,pct0:0,e:'15 giu'},narra:{l:'Narratologia e storytell.',c:'var(--cn)',lez:45,cfu:9,pct0:0,e:'17 giu'},arti:{l:'Arti visive e nuove tecn.',c:'var(--car)',lez:45,cfu:9,pct0:0.08,e:'18 giu'},tecdigit:{l:'Tecnologie digitali',c:'var(--ctd)',lez:60,cfu:12,pct0:0,e:'23 giu'},storia:{l:'Storia Contemporanea',c:'var(--cst)',lez:36,cfu:6,pct0:0.20,e:'24 giu'}};
-var LOB=10,LMIN=6,LBOOST=15,RECOVER_DAYS=7;
+var M={diritto:{l:'Diritto pub. info/com.',c:'var(--cd)',lez:45,cfu:9,pct0:0.355,e:'20 apr'},audio:{l:'Audiovisivi digitali',c:'var(--ca)',lez:45,cfu:9,pct0:0,e:'21 apr',boost:true},metodo:{l:'Metodologia ricerca',c:'var(--cm)',lez:60,cfu:12,pct0:0.30,e:'18 mag'},seo:{l:'Search Engine Optim.',c:'var(--cs)',lez:54,cfu:9,pct0:0.11,e:'5 giu'},community:{l:'Community management',c:'var(--cc)',lez:45,cfu:9,pct0:0.71,e:'8 giu'},spagnolo:{l:'Lingua spagnola',c:'var(--csp)',lez:15,cfu:3,pct0:0,e:'10 giu'},semiotica:{l:'Semiotica dei Media',c:'var(--cse)',lez:55,cfu:9,pct0:0,e:'15 giu'},narra:{l:'Narratologia storytell.',c:'var(--cn)',lez:45,cfu:9,pct0:0,e:'17 giu'},arti:{l:'Arti visive nuove tecn.',c:'var(--car)',lez:45,cfu:9,pct0:0.08,e:'18 giu'},tecdigit:{l:'Tecnologie digitali',c:'var(--ctd)',lez:60,cfu:12,pct0:0,e:'23 giu'},storia:{l:'Storia Contemporanea',c:'var(--cst)',lez:36,cfu:6,pct0:0.20,e:'24 giu'}};
+var OBJ={vic:{light:6,medium:10,maxx:15},mil:{light:8,medium:12,maxx:20}};
+var LMIN=6,RECOVER_DAYS=7;
+var BOOST_DAYS={'2026-3-19':true};
 var PL={};
 function p(y,m,d,s){PL[y+'-'+m+'-'+d]=s;}
-// APRILE (JS month 3)
 p(2026,3,13,'diritto');p(2026,3,14,'diritto');p(2026,3,15,'diritto');
-p(2026,3,16,'audio');p(2026,3,17,'audio');p(2026,3,18,'audio');
-p(2026,3,19,'off');
+p(2026,3,16,'audio');p(2026,3,17,'audio');p(2026,3,18,'audio');p(2026,3,19,'audio');
 p(2026,3,20,'esame:diritto');p(2026,3,21,'esame:audio');
-p(2026,3,22,'audio');p(2026,3,23,'audio');
-p(2026,3,24,'narra');p(2026,3,25,'narra');p(2026,3,26,'off');
-p(2026,3,27,'narra');p(2026,3,28,'narra');p(2026,3,29,'narra');
-p(2026,3,30,'metodo');
-// MAGGIO (JS month 4)
-p(2026,4,1,'metodo');p(2026,4,2,'metodo');p(2026,4,3,'off');
-p(2026,4,4,'metodo');p(2026,4,5,'metodo');
-p(2026,4,6,'arti');p(2026,4,7,'arti');p(2026,4,8,'arti');p(2026,4,9,'arti');
-p(2026,4,10,'off');
-p(2026,4,11,'arti');
-p(2026,4,12,'seo');p(2026,4,13,'seo');p(2026,4,14,'seo');p(2026,4,15,'seo');p(2026,4,16,'seo');
-p(2026,4,17,'off');p(2026,4,18,'esame:metodo');
+p(2026,3,22,'narra');p(2026,3,23,'narra');p(2026,3,24,'narra');p(2026,3,25,'narra');
+p(2026,3,26,'off');p(2026,3,27,'narra');
+p(2026,3,28,'metodo');p(2026,3,29,'metodo');p(2026,3,30,'metodo');
+p(2026,4,1,'metodo');p(2026,4,2,'metodo');
+p(2026,4,3,'off');
+p(2026,4,4,'arti');p(2026,4,5,'arti');p(2026,4,6,'arti');p(2026,4,7,'arti');p(2026,4,8,'arti');
+p(2026,4,9,'seo');p(2026,4,10,'off');p(2026,4,11,'seo');p(2026,4,12,'seo');p(2026,4,13,'seo');p(2026,4,14,'seo');p(2026,4,15,'seo');
+p(2026,4,16,'off');p(2026,4,17,'off');p(2026,4,18,'esame:metodo');
 p(2026,4,19,'community');p(2026,4,20,'community');
 p(2026,4,21,'spagnolo');p(2026,4,22,'spagnolo');
 p(2026,4,23,'semiotica');p(2026,4,24,'off');
-p(2026,4,25,'semiotica');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');p(2026,4,28,'semiotica');p(2026,4,29,'semiotica');
-p(2026,4,30,'tecdigit');p(2026,4,31,'off');
-// GIUGNO (JS month 5)
-p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');
-p(2026,5,4,'tecdigit');
-p(2026,5,5,'esame:seo');
-p(2026,5,6,'tecdigit');p(2026,5,7,'off');
-p(2026,5,8,'esame:community');
-p(2026,5,9,'storia');
-p(2026,5,10,'esame:spagnolo');
+p(2026,4,25,'semiotica');p(2026,4,26,'semiotica');p(2026,4,27,'semiotica');p(2026,4,28,'semiotica');p(2026,4,29,'semiotica');p(2026,4,30,'semiotica');
+p(2026,4,31,'off');
+p(2026,5,1,'tecdigit');p(2026,5,2,'tecdigit');p(2026,5,3,'tecdigit');p(2026,5,4,'tecdigit');
+p(2026,5,5,'esame:seo');p(2026,5,6,'tecdigit');p(2026,5,7,'tecdigit');
+p(2026,5,8,'esame:community');p(2026,5,9,'storia');p(2026,5,10,'esame:spagnolo');
 p(2026,5,11,'storia');p(2026,5,12,'storia');p(2026,5,13,'storia');
-p(2026,5,14,'off');
-p(2026,5,15,'esame:semiotica');p(2026,5,16,'off');
+p(2026,5,14,'off');p(2026,5,15,'esame:semiotica');p(2026,5,16,'off');
 p(2026,5,17,'esame:narra');p(2026,5,18,'esame:arti');
 p(2026,5,19,'off');p(2026,5,20,'off');p(2026,5,21,'off');p(2026,5,22,'off');
 p(2026,5,23,'esame:tecdigit');p(2026,5,24,'esame:storia');
@@ -430,76 +369,67 @@ function gLez(k){try{return parseInt(localStorage.getItem('lez_'+k)||'0');}catch
 function sLez(k,v){try{localStorage.setItem('lez_'+k,String(Math.max(0,v)));}catch(e){MEM['lez_'+k]=String(Math.max(0,v));}}
 function gDL(k){try{return parseInt(localStorage.getItem('dl_'+k)||'0');}catch(e){return parseInt(MEM['dl_'+k]||'0');}}
 function sDL(k,v){try{localStorage.setItem('dl_'+k,String(Math.max(0,v)));}catch(e){MEM['dl_'+k]=String(Math.max(0,v));}}
+function gLoc(k){try{return localStorage.getItem('loc_'+k)||'vic';}catch(e){return MEM['loc_'+k]||'vic';}}
+function sLoc(k,v){try{localStorage.setItem('loc_'+k,v);}catch(e){MEM['loc_'+k]=v;}}
+function gLoad(k){try{return localStorage.getItem('load_'+k)||'medium';}catch(e){return MEM['load_'+k]||'medium';}}
+function sLoad(k,v){try{localStorage.setItem('load_'+k,v);}catch(e){MEM['load_'+k]=v;}}
+function getObj(key){var loc=gLoc(key),load=gLoad(key);return(OBJ[loc]&&OBJ[loc][load])||10;}
 var DOW=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 var MON=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
 var DIT=['Dom','Lun','Mar','Mer','Gio','Ven','Sab'];
 function di(y,m,d){return(new Date(y,m,d).getDay()+6)%7;}
 function dm(y,m){return new Date(y,m+1,0).getDate();}
 function isd(s){return s&&s!='off'&&s.indexOf('esame:')<0;}
+function todayKey(){var t=new Date();return t.getFullYear()+'-'+t.getMonth()+'-'+t.getDate();}
 function calcExpected(){
   var today=new Date();today.setHours(0,0,0,0);
   var exp=0;
-  Object.keys(PL).forEach(function(key){var parts=key.split('-');var d=new Date(parseInt(parts[0]),parseInt(parts[1]),parseInt(parts[2]));d.setHours(0,0,0,0);if(d<today&&isd(PL[key]))exp+=LOB;});
+  Object.keys(PL).forEach(function(key){var pts=key.split('-');var d=new Date(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));d.setHours(0,0,0,0);if(d<today&&isd(PL[key]))exp+=OBJ.vic.medium;});
   return exp;
 }
 function calcStats(){
   var tl=0,done=0;
-  Object.keys(M).forEach(function(k){var m=M[k];var ini=Math.round(m.lez*m.pct0);done+=Math.min(ini+gLez(k),m.lez);tl+=m.lez;});
+  Object.keys(M).forEach(function(k){var m=M[k];done+=Math.min(Math.round(m.lez*m.pct0)+gLez(k),m.lez);tl+=m.lez;});
   var pct=tl>0?Math.round(done/tl*100):0;
   var remOre=Math.round((tl-done)*0.5);
-  var exp=calcExpected();
-  var gapLez=Math.max(0,exp-done);
-  var gapOre=(gapLez*0.5).toFixed(1);
-  var extraPerDay=gapLez>0?Math.ceil(gapLez/RECOVER_DAYS):0;
-  return{remOre:remOre,pct:pct,gapLez:gapLez,gapOre:gapOre,extraPerDay:extraPerDay};
+  var exp=calcExpected();var gapLez=Math.max(0,exp-done);
+  var gapOre=(gapLez*0.5).toFixed(1);var extra=gapLez>0?Math.ceil(gapLez/RECOVER_DAYS):0;
+  return{remOre:remOre,pct:pct,gapLez:gapLez,gapOre:gapOre,extra:extra};
 }
 function updStats(){
   var s=calcStats();
-  document.getElementById('s-rem').textContent=s.remOre+'h';
-  document.getElementById('s-rem').className='stn '+(s.remOre>150?'w':s.remOre>80?'d':'g');
-  document.getElementById('s-pct').textContent=s.pct+'%';
-  document.getElementById('s-pct').className='stn '+(s.pct>70?'g':s.pct>30?'d':'w');
-  document.getElementById('s-gap').textContent=s.gapOre+'h';
-  document.getElementById('s-gap').className='stn '+(s.gapLez>20?'b':s.gapLez>0?'w':'g');
-  document.getElementById('s-rec').textContent=s.extraPerDay>0?'+'+s.extraPerDay:'ok';
-  document.getElementById('s-rec').className='stn '+(s.extraPerDay>3?'b':s.extraPerDay>0?'w':'g');
+  document.getElementById('s-rem').textContent=s.remOre+'h';document.getElementById('s-rem').className='stn '+(s.remOre>150?'w':s.remOre>80?'d':'g');
+  document.getElementById('s-pct').textContent=s.pct+'%';document.getElementById('s-pct').className='stn '+(s.pct>70?'g':s.pct>30?'d':'w');
+  document.getElementById('s-gap').textContent=s.gapOre+'h';document.getElementById('s-gap').className='stn '+(s.gapLez>20?'b':s.gapLez>0?'w':'g');
+  document.getElementById('s-rec').textContent=s.extra>0?'+'+s.extra:'ok';document.getElementById('s-rec').className='stn '+(s.extra>3?'b':s.extra>0?'w':'g');
   var rb=document.getElementById('rec-box'),ob=document.getElementById('ok-box');
-  if(s.gapLez>0){
-    rb.classList.add('on');ob.classList.remove('on');
-    document.getElementById('rec-ti').textContent='Sei indietro di '+s.gapOre+'h ('+s.gapLez+' lezioni)';
-    document.getElementById('rec-body').textContent='Per recuperare in '+RECOVER_DAYS+' giorni: '+s.extraPerDay+' lezioni in piu al giorno.';
-    document.getElementById('rec-tip').textContent='Obiettivo questa settimana: '+(LOB+s.extraPerDay)+' lezioni/giorno.';
-  } else {
-    rb.classList.remove('on');
-    if(s.pct>0)ob.classList.add('on');else ob.classList.remove('on');
-  }
+  if(s.gapLez>0){rb.classList.add('on');ob.classList.remove('on');document.getElementById('rec-ti').textContent='Sei indietro di '+s.gapOre+'h ('+s.gapLez+' lez)';document.getElementById('rec-body').textContent='Per recuperare in '+RECOVER_DAYS+' giorni: +'+s.extra+' lez/giorno.';document.getElementById('rec-tip').textContent='Obiettivo: '+(OBJ.vic.medium+s.extra)+' lez/giorno a Vicenza, '+(OBJ.mil.medium+s.extra)+' a Milano.';}
+  else{rb.classList.remove('on');if(s.pct>0)ob.classList.add('on');else ob.classList.remove('on');}
+  var tnow=new Date();var a16=new Date(2026,3,16);var a19=new Date(2026,3,19);
+  document.getElementById('boost-alert').classList.toggle('on',tnow>=a16&&tnow<=a19);
   updTable();
 }
 function rt(s,key){
-  if(!s)return '';
-  if(s=='off')return '<div class="tg to">Riposo</div>';
+  if(!s)return '';if(s=='off')return '<div class="tg to">Riposo</div>';
   var isE=s.indexOf('esame:')>=0,h='';
-  if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame - '+(m?m.l.split(' ')[0]:k)+'</div>';}
+  if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame '+(m?m.l.split(' ')[0]:k)+'</div>';}
   else{var m=M[s];if(m)h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
-  if(!isE){h+='<div class="tg tm">EP</div>';var dl=key?gDL(key):0;if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+LOB+'</div>';}}
+  if(!isE){h+='<div class="tg tm">EP</div>';var dl=key?gDL(key):0;if(dl>0){var obj=key?getObj(key):10;var col=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+obj+'</div>';}}
   return h;
 }
 function buildCal(){
+  var tk=todayKey();
   var months=[{y:2026,mo:3,n:'Aprile 2026'},{y:2026,mo:4,n:'Maggio 2026'},{y:2026,mo:5,n:'Giugno 2026'}];
   return months.map(function(mn){
     var y=mn.y,mo=mn.mo,total=dm(y,mo),first=di(y,mo,1);
     var hdr=DOW.map(function(d){return '<div class="dc">'+d+'</div>';}).join('');
-    var cells=[];for(var i=0;i<first;i++)cells.push(null);
-    for(var d=1;d<=total;d++)cells.push(d);
-    while(cells.length%7)cells.push(null);
+    var cells=[];for(var i=0;i<first;i++)cells.push(null);for(var d=1;d<=total;d++)cells.push(d);while(cells.length%7)cells.push(null);
     var days=cells.map(function(d){
       if(!d)return '<div class="dy em"></div>';
       var key=y+'-'+mo+'-'+d,s=PL[key]||null;
-      var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',st=gs(key);
-      // giorni prima del 13 aprile = non cliccabili
-      var isPre=(y==2026&&mo==3&&d<13);
-      if(isPre)return '<div class="dy of em" style="min-height:68px"><div class="dn2">'+d+'</div></div>';
-      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(st=='done'?' dn':st=='partial'?' pt':st=='skipped'?' sk':'');
+      if(y==2026&&mo==3&&d<13)return '<div class="dy pre"><div class="dn2">'+d+'</div></div>';
+      var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',st=gs(key),isBoost=BOOST_DAYS[key],isToday=(key==tk);
+      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(st=='done'?' dn':st=='partial'?' pt':st=='skipped'?' sk':'')+(isBoost&&!isO?' boost':'')+(isToday?' today':'');
       var tb='';if(s&&!isE&&!isO&&M[s])tb='border-top:2px solid '+M[s].c+';';
       var pre=PRE[key]&&M[PRE[key]]?'<div class="tg tr">ripasso</div>':'';
       var si=st=='done'?'<div class="dst sd">+</div>':st=='partial'?'<div class="dst sp">~</div>':st=='skipped'?'<div class="dst ss">x</div>':'';
@@ -510,37 +440,50 @@ function buildCal(){
 }
 function updTable(){
   var rows='';
-  Object.keys(M).forEach(function(k){var m=M[k];var ini=Math.round(m.lez*m.pct0);var fat=Math.min(ini+gLez(k),m.lez);var pct=Math.round(fat/m.lez*100);var pc=pct>=80?'var(--grn)':pct>=40?'var(--yel)':'var(--txt)';rows+='<tr><td><div class="mn2"><div class="md" style="background:'+m.c+'"></div>'+m.l+'</div></td><td><span class="cb">'+m.cfu+'</span></td><td><div class="bbg"><div class="bbf" style="width:'+pct+'%;background:'+m.c+'"></div></div></td><td class="on2">'+fat+'/'+m.lez+'</td><td class="pc" style="color:'+pc+'">'+pct+'%</td><td class="dc2">'+m.e+'</td></tr>';});
+  Object.keys(M).forEach(function(k){var m=M[k];var ini=Math.round(m.lez*m.pct0);var fat=Math.min(ini+gLez(k),m.lez);var pct=Math.round(fat/m.lez*100);var pc=pct>=80?'var(--grn)':pct>=40?'var(--yel)':'var(--txt)';var bb=m.boost?'<span style="font-size:8px;color:var(--pur);margin-left:3px">boost</span>':'';rows+='<tr><td><div class="mn2"><div class="md" style="background:'+m.c+'"></div>'+m.l+bb+'</div></td><td><span class="cb">'+m.cfu+'</span></td><td><div class="bbg"><div class="bbf" style="width:'+pct+'%;background:'+m.c+'"></div></div></td><td class="on2">'+fat+'/'+m.lez+'</td><td class="pc" style="color:'+pc+'">'+pct+'%</td><td class="dc2">'+m.e+'</td></tr>';});
   document.getElementById('tb').innerHTML=rows;
+}
+function updDLTag(key){
+  var el=document.querySelector('[data-k="'+key+'"]');if(!el)return;
+  var old=el.querySelector('.dl-tag');if(old)old.remove();
+  var dl=gDL(key);if(dl<=0)return;
+  var obj=getObj(key);var col=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';
+  var tag=document.createElement('div');tag.className='tg dl-tag';tag.style.cssText='color:'+col+';font-size:8px;';tag.textContent=dl+'/'+obj;el.appendChild(tag);
 }
 var po=false,ck=null,cmat=null;
 function closeP(){document.getElementById('pp').classList.remove('on');document.getElementById('ov').classList.remove('on');po=false;ck=null;cmat=null;updStats();}
 function updTracker(){
-  if(!cmat||!M[cmat]){document.getElementById('day-tracker').style.display='none';document.getElementById('mat-tracker').style.display='none';return;}
-  document.getElementById('day-tracker').style.display='block';document.getElementById('mat-tracker').style.display='block';
-  var m=M[cmat];var dl=gDL(ck);var pct=Math.min(Math.round(dl/LOB*100),100);
-  document.getElementById('dt-cnt').innerHTML=dl+' <span>/ '+LOB+'</span>';
+  if(!cmat||!M[cmat]){document.getElementById('day-tracker').style.display='none';document.getElementById('mat-tracker').style.display='none';document.getElementById('pp-sels').style.display='none';return;}
+  document.getElementById('day-tracker').style.display='block';document.getElementById('mat-tracker').style.display='block';document.getElementById('pp-sels').style.display='block';
+  var m=M[cmat];var loc=gLoc(ck);var load=gLoad(ck);var obj=getObj(ck);var dl=gDL(ck);
+  var pct=Math.min(Math.round(dl/obj*100),100);
+  document.getElementById('dt-obj').textContent='/ '+obj;
+  document.getElementById('dt-cnt').innerHTML=dl+' <span id="dt-obj">/ '+obj+'</span>';
   var bar=document.getElementById('dt-bar');bar.style.width=pct+'%';
-  bar.style.background=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';
-  var info=dl>=LBOOST?'Giorno boost! '+dl+' lezioni':dl>=LOB?'Obiettivo raggiunto!':dl>=LMIN?'Ok, spingi ancora':'Sotto il minimo ('+LMIN+')';
-  document.getElementById('dt-info').textContent=info;
+  bar.style.background=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';
+  var maxAll=OBJ[loc]&&OBJ[loc]['maxx']||20;
+  document.getElementById('dt-info').textContent=dl>=maxAll?'Giornata MAX! '+dl+' lezioni':dl>=obj?'Obiettivo raggiunto!':dl>=LMIN?'Ok, spingi ancora':'Sotto il minimo ('+LMIN+')';
+  ['vic','mil'].forEach(function(id){var el=document.getElementById('ms-'+id);el.className='ms-btn'+(loc==id?' a'+(id=='vic'?'v':'m'):'');});
+  ['light','medium','maxx'].forEach(function(id){var el=document.getElementById('ms-'+id);el.className='ms-btn'+(load==id?' a'+(id=='light'?'l':id=='medium'?'me':'x'):'');});
   var ini=Math.round(m.lez*m.pct0);var fat=Math.min(ini+gLez(cmat),m.lez);var mp=Math.round(fat/m.lez*100);
   document.getElementById('mt-lbl').textContent=m.l.split(' ')[0]+' - totale';
   document.getElementById('mt-cnt').textContent=fat+' / '+m.lez+' ('+mp+'%)';
   var mb=document.getElementById('mt-bar');mb.style.width=mp+'%';mb.style.background=m.c;
 }
+function setLoc(loc){if(!ck)return;sLoc(ck,loc);updTracker();updDLTag(ck);}
+function setLoad(load){if(!ck)return;sLoad(ck,load);updTracker();updDLTag(ck);}
 function openP(el,e){
   e.stopPropagation();
   var key=el.dataset.k,y=parseInt(el.dataset.y),mo=parseInt(el.dataset.m),d=parseInt(el.dataset.d),s=PL[key]||null;
   ck=key;cmat=(s&&!s.startsWith('esame:')&&s!='off')?s:null;
-  var dt=new Date(y,mo,d);
-  document.getElementById('ppd').textContent=DIT[dt.getDay()]+' '+d+' '+MON[mo]+' '+y;
+  var dt=new Date(y,mo,d);document.getElementById('ppd').textContent=DIT[dt.getDay()]+' '+d+' '+MON[mo]+' '+y;
   var sj=document.getElementById('pps');
   if(!s||s=='off'){sj.textContent='Giorno libero';sj.className='pps';sj.style.background='';}
   else if(s.startsWith('esame:')){var mk=s.replace('esame:','');sj.textContent='Esame - '+(M[mk]?M[mk].l:'?');sj.className='pps e';sj.style.background='';}
   else{var mat=M[s];sj.textContent=mat?mat.l:s;sj.className='pps';sj.style.background=mat?mat.c:'';}
   var pre=PRE[key];var preEl=document.getElementById('pp-pre');preEl.innerHTML='';
-  if(pre&&M[pre]){preEl.innerHTML='<div style="font-size:10px;color:var(--pp-mut);margin-bottom:8px;padding:5px 8px;border:1px solid var(--bor);border-radius:4px;">Ripasso serale: '+M[pre].l+'</div>';}
+  if(pre&&M[pre])preEl.innerHTML='<div style="font-size:10px;color:var(--pp-mut);margin-bottom:8px;padding:5px 8px;border:1px solid var(--bor);border-radius:4px;">Ripasso serale: '+M[pre].l+'</div>';
+  if(BOOST_DAYS[key]&&s!='off')preEl.innerHTML+='<div style="font-size:10px;color:var(--pur);margin-bottom:8px;padding:5px 8px;border:1px solid rgba(217,102,255,.3);border-radius:4px;">Domenica emergenza - no riposo. Audio deve finire.</div>';
   updTracker();
   var btns=document.getElementById('ppb');btns.style.display=isd(s)?'grid':'none';
   if(isd(s)){var st=gs(key);document.getElementById('b1').className='pb pbd'+(st=='done'?' ac':'');document.getElementById('b2').className='pb pbp'+(st=='partial'?' ac':'');document.getElementById('b3').className='pb pbs'+(st=='skipped'?' ac':'');}
@@ -559,28 +502,46 @@ function setDS(status){
 }
 function addLez(delta){
   if(!ck||!cmat)return;
-  var dl=Math.max(0,gDL(ck)+delta);
-  var newTot=Math.max(0,gLez(cmat)+delta);
-  sDL(ck,dl);sLez(cmat,newTot);
-  updTracker();updTable();
-  var el=document.querySelector('[data-k="'+ck+'"]');
-  if(el){var old=el.querySelector('.dl-tag');if(old)old.remove();if(dl>0){var col=dl>=LOB?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';var tag=document.createElement('div');tag.className='tg dl-tag';tag.style.cssText='color:'+col+';font-size:8px;';tag.textContent=dl+'/'+LOB;el.appendChild(tag);}}
+  var dl=Math.max(0,gDL(ck)+delta);var newTot=Math.max(0,gLez(cmat)+delta);
+  sDL(ck,dl);sLez(cmat,newTot);updTracker();updTable();updDLTag(ck);
 }
-function switchTab(t){
-  ['cal','prog','plan'].forEach(function(id){
-    document.getElementById('tab-'+id).classList.toggle('active',id==t);
-    document.getElementById('panel-'+id).classList.toggle('active',id==t);
+function switchTab(t){['cal','prog','plan'].forEach(function(id){document.getElementById('tab-'+id).classList.toggle('active',id==t);document.getElementById('panel-'+id).classList.toggle('active',id==t);});}
+function switchPair(pair){
+  var show={cp:['cal','prog'],cpl:['cal','plan'],pp:['prog','plan']}[pair]||['cal','prog'];
+  ['cal','prog','plan'].forEach(function(id){document.getElementById('panel-'+id).classList.toggle('hd',show.indexOf(id)<0);});
+  ['cp','cpl','pp'].forEach(function(id){document.getElementById('dnav-'+id).classList.toggle('active',id==pair);});
+}
+var PLANS={
+  vic:{
+    light:{tot:'6',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Caffe, colazione, apri il materiale. Zero schermate inutili.'},{t:'studio',h:'10:00 - 12:00',l:'6 lezioni',b:'Blocco leggero. Pausa 10min a meta.'},{t:'pausa',h:'12:00 - 13:00',l:'Pranzo',b:'Stacca completamente.'},{t:'studio',h:'13:00 - 14:00',l:'2 lezioni',b:'Ultima sessione prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai 20 min liberi: 1 lezione in cuffia.'},{t:'musica',h:'20:00 - 21:00',l:'EP',b:'Timer fisso.'},{t:'pausa',h:'21:00+',l:'Sera libera',b:'Giorno light - niente sensi di colpa.'}]},
+    medium:{tot:'10',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6 lezioni',b:'Picco cognitivo - materia piu difficile qui. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 13:30',l:'Pranzo veloce',b:'20-30 min. Non davanti allo schermo.'},{t:'studio',h:'13:30 - 15:15',l:'3-4 lezioni',b:'Continua lo sprint. Se sei stanco, materia piu leggera.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Se hai momenti liberi: 1-2 lezioni in cuffia.'},{t:'studio',h:'20:00 - 21:30',l:'2-3 lezioni',b:'Se sei gia a 10 puoi fermarti. Altrimenti spingi.'},{t:'musica',h:'21:30 - 22:30',l:'EP',b:'Timer fisso. Non scavalca mai lo studio.'}]},
+    maxx:{tot:'13-15',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez soltanto.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo',b:'Veloce. Qualcosa di leggero.'},{t:'studio',h:'14:00 - 15:15',l:'2-3 lezioni',b:'Sprint finale mattina prima del lavoro.'},{t:'lavoro',h:'15:30 - 19:30',l:'Lavoro',b:'Studia almeno 1h durante il lavoro. Obiettivo: +2 lezioni.'},{t:'studio',h:'20:00 - 22:00',l:'3-4 lezioni',b:'Finisci il target. Non mollare - sei quasi al massimo.'},{t:'musica',h:'22:00 - 22:30',l:'EP breve',b:'Solo ascolto o note vocali. Lo studio viene prima.'}]}
+  },
+  mil:{
+    light:{tot:'8',blocks:[{t:'pausa',h:'09:30 - 10:00',l:'Sveglia e setup',b:'Milano - nessun vincolo. Inizia con calma.'},{t:'studio',h:'10:00 - 12:30',l:'5 lezioni',b:'Ritmo sostenuto ma senza forzare.'},{t:'pausa',h:'12:30 - 14:00',l:'Pausa pranzo',b:'Mangia fuori. Reset mentale completo.'},{t:'studio',h:'14:00 - 15:30',l:'3 lezioni',b:'Ultimo blocco. Aggiungine 1-2 se vuoi.'},{t:'musica',h:'16:00 - 17:30',l:'EP / Joachim',b:'Sessione musica. Spostabile a sera.'},{t:'pausa',h:'17:30+',l:'Sera libera',b:'Ricarica le batterie.'}]},
+    medium:{tot:'12',blocks:[{t:'studio',h:'09:30 - 13:00',l:'6-7 lezioni',b:'Massima concentrazione. Pausa 10min ogni 2 lez.'},{t:'pausa',h:'13:00 - 14:30',l:'Pausa pranzo',b:'Stacca completamente. Mangia fuori.'},{t:'studio',h:'14:30 - 17:30',l:'5-6 lezioni',b:'Blocco pomeriggio. Cambia materia se hai finito.'},{t:'musica',h:'17:30 - 19:00',l:'EP / Joachim',b:'Sessione musica fissa. Spostabile se recuperi lezioni.'},{t:'studio',h:'20:30 - 22:00',l:'2-3 lezioni opzionali',b:'Solo se sei sotto target. Altrimenti sera libera.'}]},
+    maxx:{tot:'18-20',blocks:[{t:'studio',h:'09:00 - 13:30',l:'8-9 lezioni',b:'Partenza anticipata. Pausa 5min ogni 2 lez. Zero distrazioni.'},{t:'pausa',h:'13:30 - 14:00',l:'Pranzo veloce',b:'20-30 min. Obbligatorio per il pomeriggio.'},{t:'studio',h:'14:00 - 18:00',l:'7-8 lezioni',b:'Nessun compromesso. Se hai finito la materia, inizia la prossima.'},{t:'pausa',h:'18:00 - 19:30',l:'Cena e stacco',b:'Obbligatorio. Senza reset il blocco sera crolla.'},{t:'studio',h:'19:30 - 21:30',l:'3-4 lezioni',b:'Solo se il cervello regge. Materia leggera o ripasso.'},{t:'musica',h:'21:30 - 22:00',l:'EP breve',b:'Solo ascolto o note vocali.'}]}
+  }
+};
+var curLoc='vic',curLoad='medium';
+function renderPlanner(){
+  var data=PLANS[curLoc][curLoad];
+  var colMap={studio:'var(--grn)',lavoro:'var(--yel)',musica:'var(--pur)',pausa:'var(--mut)'};
+  var html='<div class="day-tot"><div class="dt-tot-lbl">Lezioni disponibili</div><div class="dt-tot-num">'+data.tot+'</div></div>';
+  data.blocks.forEach(function(b){
+    html+='<div class="sb '+b.t+'"><div class="sb-hd"><div class="sb-time">'+b.h+'</div><div class="sb-lez" style="color:'+colMap[b.t]+'">'+b.l+'</div></div><div class="sb-body">'+b.b+'</div></div>';
   });
+  document.getElementById('pl-content').innerHTML=html;
 }
-function switchMode(m){
-  document.getElementById('mode-vic').classList.toggle('active',m=='vic');
-  document.getElementById('mode-mil').classList.toggle('active',m=='mil');
-  document.getElementById('sched-vic').style.display=m=='vic'?'block':'none';
-  document.getElementById('sched-mil').style.display=m=='mil'?'block':'none';
+function switchPlanner(loc,load){
+  if(loc)curLoc=loc;if(load)curLoad=load;
+  ['vic','mil'].forEach(function(id){document.getElementById('pl-'+id).classList.toggle('active',id==curLoc);});
+  ['light','medium','maxx'].forEach(function(id){document.getElementById('pl-'+id).classList.toggle('active',id==curLoad);});
+  renderPlanner();
 }
 document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('cal').innerHTML=buildCal();updStats();
-  document.getElementById('cal').addEventListener('click',function(e){var d=e.target.closest('.dy');if(d&&!d.classList.contains('em')){if(po)closeP();else openP(d,e);}});
+  document.getElementById('cal').innerHTML=buildCal();updStats();renderPlanner();
+  document.getElementById('cal').addEventListener('click',function(e){var d=e.target.closest('.dy');if(d&&!d.classList.contains('em')&&!d.classList.contains('pre')){if(po)closeP();else openP(d,e);}});
   document.addEventListener('click',function(){if(po)closeP();});
   document.getElementById('ov').addEventListener('click',closeP);
   document.getElementById('pp').addEventListener('click',function(e){e.stopPropagation();});
