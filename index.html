@@ -373,19 +373,29 @@ function di(y,m,d){return(new Date(y,m,d).getDay()+6)%7;}
 function dm(y,m){return new Date(y,m+1,0).getDate();}
 function isd(s){return s&&s!='off'&&s.indexOf('esame:')<0;}
 function todayKey(){var t=new Date();return t.getFullYear()+'-'+t.getMonth()+'-'+t.getDate();}
-function calcExpected(){
+function calcGap(){
+  // Per ogni giorno di studio passato: confronta lezioni registrate vs obiettivo
   var today=new Date();today.setHours(0,0,0,0);
-  var exp=0;
-  Object.keys(PL).forEach(function(key){var pts=key.split('-');var d=new Date(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));d.setHours(0,0,0,0);if(d<today&&isd(PL[key]))exp+=OBJ.vic.medium;});
-  return exp;
+  var gapLez=0;
+  Object.keys(PL).forEach(function(key){
+    var pts=key.split('-');
+    var d=new Date(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));
+    d.setHours(0,0,0,0);
+    if(d>=today||!isd(PL[key]))return;
+    var obj=getObj(key); // obiettivo salvato per quel giorno (vic/mil + load)
+    var fatto=gDL(key);  // lezioni effettivamente registrate quel giorno
+    if(fatto<obj) gapLez+=(obj-fatto);
+  });
+  return Math.max(0,gapLez);
 }
 function calcStats(){
   var tl=0,done=0;
   Object.keys(M).forEach(function(k){var m=M[k];done+=Math.min(Math.round(m.lez*m.pct0)+gLez(k),m.lez);tl+=m.lez;});
   var pct=tl>0?Math.round(done/tl*100):0;
   var remOre=Math.round((tl-done)*0.5);
-  var exp=calcExpected();var gapLez=Math.max(0,exp-done);
-  var gapOre=(gapLez*0.5).toFixed(1);var extra=gapLez>0?Math.ceil(gapLez/RECOVER_DAYS):0;
+  var gapLez=calcGap();
+  var gapOre=(gapLez*0.5).toFixed(1);
+  var extra=gapLez>0?Math.ceil(gapLez/RECOVER_DAYS):0;
   return{remOre:remOre,pct:pct,gapLez:gapLez,gapOre:gapOre,extra:extra};
 }
 function updStats(){
