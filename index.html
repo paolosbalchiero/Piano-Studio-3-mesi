@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -74,8 +75,16 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 .dy.today.sk{box-shadow:0 0 0 2px var(--red) inset;}
 .dy.today .dn2{color:var(--txt);font-weight:800;}
 .dy.boost{outline:1.5px solid var(--pur);}
+.dy.emg{border-color:#ff8c00!important;border-width:2px!important;animation:emg-pulse 2s infinite;}
+@keyframes emg-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,140,0,.4);}50%{box-shadow:0 0 0 4px rgba(255,140,0,.0);}}
 .dst{position:absolute;top:2px;right:3px;font-size:11px;font-weight:800;line-height:1;}
 .dst.sd{color:var(--grn);}.dst.sp{color:var(--yel);}.dst.ss{color:var(--red);}
+.emg-warn{margin-bottom:8px;padding:8px 10px;border-radius:5px;border:1px solid rgba(255,140,0,.5);background:rgba(255,140,0,.08);font-size:10px;color:#ff8c00;line-height:1.6;}
+.emg-warn strong{font-weight:700;display:block;margin-bottom:2px;font-size:11px;}
+.pb.pbe{border-color:rgba(255,140,0,.6);font-size:9px;}
+.pb.pbe.ac,.pb.pbe:hover{background:rgba(255,140,0,.18);color:#ff8c00;border-color:#ff8c00;}
+.sb.emergenza{border-left:3px solid #ff8c00;}
+.emg-badge{display:inline-block;font-size:8px;font-weight:700;padding:1px 4px;border-radius:2px;background:#ff8c00;color:#fff;margin-left:4px;vertical-align:middle;}
 .dn2{font-size:10px;font-weight:500;color:var(--mut);line-height:1;margin-bottom:1px;flex-shrink:0;}
 .dy.ie .dn2,.dy.dn .dn2,.dy.pt .dn2,.dy.sk .dn2{color:var(--txt);font-weight:700;}
 .tg{font-size:7.5px;font-weight:500;padding:2px 3px;border-radius:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;display:block;}
@@ -194,6 +203,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 <div class="app-body" id="app-body">
 
 <!-- PANEL CALENDARIO -->
+
 <div class="panel active" id="panel-cal">
   <div class="sbar">
     <div class="st"><div class="stn d" id="s-rem">--</div><div class="stl">ore rimaste</div></div>
@@ -232,6 +242,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 </div>
 
 <!-- PANEL PROGRESSI -->
+
 <div class="panel" id="panel-prog">
   <div class="sec" style="padding-top:18px">
     <div class="sech"><div class="sect">Progressi per materia</div><div class="secs">aggiornato in tempo reale</div></div>
@@ -252,6 +263,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 </div>
 
 <!-- PANEL PLANNER -->
+
 <div class="panel" id="panel-plan">
   <div class="sec" style="padding-top:18px;padding-bottom:28px">
     <div class="sech"><div class="sect">Planner giornaliero</div><div class="secs">seleziona luogo e intensita</div></div>
@@ -272,6 +284,7 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
 </div><!-- /app-body -->
 
 <!-- POPUP -->
+
 <div class="ov" id="ov"></div>
 <div class="pp" id="pp">
   <div class="ppd" id="ppd"></div>
@@ -319,6 +332,13 @@ body{background:var(--bg);color:var(--txt);font-family:'IBM Plex Mono',monospace
     <button class="pb pbs" id="b3">x Saltato</button>
     <button class="pb pbr" id="b4">Reset</button>
   </div>
+  <div id="emg-section" style="display:none;margin-bottom:7px;">
+    <div class="emg-warn" id="emg-warn-box"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+      <button class="pb pbe" id="b-emg">⚡ Emergenza</button>
+      <button class="pb pbr" id="b-emg-off" style="display:none;">✕ Annulla emg.</button>
+    </div>
+  </div>
   <div class="pph2">tocca fuori per chiudere</div>
 </div>
 
@@ -365,6 +385,53 @@ function gLoc(k){try{return localStorage.getItem('loc_'+k)||'vic';}catch(e){retu
 function sLoc(k,v){try{localStorage.setItem('loc_'+k,v);}catch(e){MEM['loc_'+k]=v;}}
 function gLoad(k){try{return localStorage.getItem('load_'+k)||'medium';}catch(e){return MEM['load_'+k]||'medium';}}
 function sLoad(k,v){try{localStorage.setItem('load_'+k,v);}catch(e){MEM['load_'+k]=v;}}
+// EMERGENCY MODE
+function gEmg(mat){try{return localStorage.getItem('emg_'+mat)==='1';}catch(e){return MEM['emg_'+mat]==='1';}}
+function sEmg(mat,v){try{if(v)localStorage.setItem('emg_'+mat,'1');else localStorage.removeItem('emg_'+mat);}catch(e){if(v)MEM['emg_'+mat]='1';else delete MEM['emg_'+mat];}}
+function getExamDate(mat){
+  var m=M[mat];if(!m||!m.e)return null;
+  var parts=m.e.split(' ');var dd=parseInt(parts[0]);
+  var mmap={gen:0,feb:1,mar:2,apr:3,mag:4,giu:5,lug:6,ago:7,set:8,ott:9,nov:10,dic:11};
+  var mm=mmap[parts[1]];if(mm===undefined)return null;
+  return new Date(2026,mm,dd);
+}
+function daysToExam(mat){
+  var ed=getExamDate(mat);if(!ed)return 999;
+  var today=new Date();today.setHours(0,0,0,0);
+  return Math.round((ed-today)/(1000*60*60*24));
+}
+function matBehind(mat){
+  // Controlla se la materia è indietro: lezioni fatte < lezioni attese al giorno d'oggi
+  var m=M[mat];if(!m)return false;
+  var today=new Date();today.setHours(0,0,0,0);
+  // Trova i giorni del piano passati per questa materia
+  var totalPlanned=0,totalDone=0;
+  Object.keys(PL).forEach(function(key){
+    if(PL[key]!==mat)return;
+    var pts=key.split('-');
+    var d=new Date(parseInt(pts[0]),parseInt(pts[1]),parseInt(pts[2]));
+    d.setHours(0,0,0,0);
+    if(d>=today)return;
+    totalPlanned+=getObjByKey(key);
+    totalDone+=gDL(key);
+  });
+  return totalPlanned>0&&totalDone<totalPlanned*0.7;
+}
+function getObjByKey(key){var loc=gLoc(key),load=gLoad(key);return(OBJ[loc]&&OBJ[loc][load])||10;}
+function calcEmgInfo(mat){
+  var m=M[mat];if(!m)return null;
+  var ini=Math.round(m.lez*m.pct0);var done=Math.min(ini+gLez(mat),m.lez);
+  var lezRimaste=m.lez-done;
+  var lez70=Math.round(m.lez*0.7);var lezViste=Math.min(done,lez70);
+  var lezDaFare=Math.max(0,lez70-lezViste);// lezioni da vedere al 70%
+  var lezTest=Math.max(0,m.lez-lez70);// lezioni coperte con 2h test
+  var dtx=daysToExam(mat);
+  return{lezRimaste:lezRimaste,lezDaFare:lezDaFare,lezTest:lezTest,giorni:dtx,mat:mat};
+}
+function shouldSuggestEmg(mat){
+  var dtx=daysToExam(mat);
+  return dtx<=5&&dtx>=0&&matBehind(mat)&&!gEmg(mat);
+}
 function getObj(key){var loc=gLoc(key),load=gLoad(key);return(OBJ[loc]&&OBJ[loc][load])||10;}
 var DOW=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
 var MON=['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
@@ -415,7 +482,7 @@ function rt(s,key){
   if(!s)return '';if(s=='off')return '<div class="tg to">Riposo</div>';
   var isE=s.indexOf('esame:')>=0,h='';
   if(isE){var k=s.replace('esame:','');var m=M[k];h='<div class="tg te">Esame '+(m?m.l.split(' ')[0]:k)+'</div>';}
-  else{var m=M[s];if(m)h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+'</div>';}
+  else{var m=M[s];if(m){var emgBadge=gEmg(s)?'<span class="emg-badge">EMG</span>':'';h='<div class="tg ts" style="background:'+m.c+'">'+m.l.split(' ')[0]+emgBadge+'</div>';}}
   if(!isE){h+='<div class="tg tm">Musica</div>';var dl=key?gDL(key):0;if(dl>0){var obj=key?getObj(key):10;var col=dl>=obj?'var(--grn)':dl>=LMIN?'var(--yel)':'var(--red)';h+='<div class="tg dl-tag" style="color:'+col+';font-size:8px">'+dl+'/'+obj+'</div>';}}
   return h;
 }
@@ -431,7 +498,8 @@ function buildCal(){
       var key=y+'-'+mo+'-'+d,s=PL[key]||null;
       if(y==2026&&mo==3&&d<13)return '<div class="dy pre"><div class="dn2">'+d+'</div></div>';
       var isE=s&&s.indexOf('esame:')>=0,isO=s=='off',st=gs(key),isBoost=BOOST_DAYS[key],isToday=(key==tk);
-      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(st=='done'?' dn':st=='partial'?' pt':st=='skipped'?' sk':'')+(isBoost&&!isO?' boost':'')+(isToday?' today':'');
+      var isEmg=s&&!isE&&!isO&&gEmg(s);
+      var cls='dy'+(isE?' ie':'')+(isO?' of':'')+(st=='done'?' dn':st=='partial'?' pt':st=='skipped'?' sk':'')+(isBoost&&!isO?' boost':'')+(isToday?' today':'')+(isEmg?' emg':'');
       var tb='';if(s&&!isE&&!isO&&M[s])tb='border-top:2px solid '+M[s].c+';';
       var pre=PRE[key]&&M[PRE[key]]?'<div class="tg tr">ripasso</div>':'';
       var si=st=='done'?'<div class="dst sd">+</div>':st=='partial'?'<div class="dst sp">~</div>':st=='skipped'?'<div class="dst ss">x</div>':'';
@@ -489,6 +557,32 @@ function openP(el,e){
   updTracker();
   var btns=document.getElementById('ppb');btns.style.display=isd(s)?'grid':'none';
   if(isd(s)){var st=gs(key);document.getElementById('b1').className='pb pbd'+(st=='done'?' ac':'');document.getElementById('b2').className='pb pbp'+(st=='partial'?' ac':'');document.getElementById('b3').className='pb pbs'+(st=='skipped'?' ac':'');}
+  // EMERGENCY SECTION
+  var emgSec=document.getElementById('emg-section');
+  var bEmg=document.getElementById('b-emg');var bEmgOff=document.getElementById('b-emg-off');
+  if(isd(s)&&cmat){
+    emgSec.style.display='block';
+    var isEmgOn=gEmg(cmat);
+    var autoSuggest=shouldSuggestEmg(cmat);
+    var ei=calcEmgInfo(cmat);
+    var warnBox=document.getElementById('emg-warn-box');
+    if(isEmgOn){
+      warnBox.innerHTML='<strong>⚡ Modalità Emergenza attiva</strong>Obiettivo: guarda il 70% ('+Math.round(M[cmat].lez*0.7)+' lez) + 2h test sulle restanti '+ei.lezTest+'.';
+      bEmg.className='pb pbe ac';bEmg.textContent='⚡ Emergenza ON';
+      bEmgOff.style.display='block';
+    } else if(autoSuggest){
+      warnBox.innerHTML='<strong>⚠ Auto-suggerita emergenza!</strong>Mancano '+ei.giorni+' giorni all\'esame e sei indietro. Passa al 70%+test: '+ei.lezDaFare+' lez da vedere, 2h di quiz sul resto.';
+      bEmg.className='pb pbe';bEmg.textContent='⚡ Attiva Emergenza';
+      bEmgOff.style.display='none';
+    } else {
+      warnBox.innerHTML='Piano normale. Attiva emergenza manualmente se necessario (70%+test).';
+      warnBox.style.color='var(--mut)';warnBox.style.borderColor='var(--bor)';warnBox.style.background='transparent';
+      bEmg.className='pb pbe';bEmg.textContent='⚡ Emergenza';
+      bEmgOff.style.display='none';
+    }
+  } else {
+    emgSec.style.display='none';
+  }
   var pp=document.getElementById('pp');pp.classList.add('on');document.getElementById('ov').classList.add('on');po=true;
   pp.style.left='0';pp.style.top='0';
   var r=el.getBoundingClientRect(),pw=pp.offsetWidth,ph=pp.offsetHeight,vw=window.innerWidth,vh=window.innerHeight;
@@ -508,6 +602,14 @@ function addLez(delta){
   sDL(ck,dl);sLez(cmat,newTot);updTracker();updTable();updDLTag(ck);
 }
 function switchTab(t){['cal','prog','plan'].forEach(function(id){document.getElementById('tab-'+id).classList.toggle('active',id==t);document.getElementById('panel-'+id).classList.toggle('active',id==t);});}
+function toggleEmg(activate){
+  if(!cmat)return;
+  sEmg(cmat,activate);
+  // Rebuild calendar to update emg borders on all days of that subject
+  document.getElementById('cal').innerHTML=buildCal();
+  updStats();
+  openP(document.querySelector('[data-k="'+ck+'"]'),{stopPropagation:function(){}});
+}
 function switchPair(pair){
   var show={cp:['cal','prog'],cpl:['cal','plan'],pp:['prog','plan']}[pair]||['cal','prog'];
   ['cal','prog','plan'].forEach(function(id){document.getElementById('panel-'+id).classList.toggle('hd',show.indexOf(id)<0);});
@@ -528,10 +630,25 @@ var PLANS={
 var curLoc='vic',curLoad='medium';
 function renderPlanner(){
   var data=PLANS[curLoc][curLoad];
-  var colMap={studio:'var(--grn)',lavoro:'var(--yel)',musica:'var(--pur)',pausa:'var(--mut)'};
+  var colMap={studio:'var(--grn)',lavoro:'var(--yel)',musica:'var(--pur)',pausa:'var(--mut)',emergenza:'#ff8c00'};
   var html='<div class="day-tot"><div class="dt-tot-lbl">Lezioni disponibili</div><div class="dt-tot-num">'+data.tot+'</div></div>';
+  // Check if any active subject today is in emergency
+  var today=new Date();var tk2=today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+  var todayMat=PL[tk2];
+  var emgActive=todayMat&&isd(todayMat)&&gEmg(todayMat);
+  if(emgActive){
+    var ei=calcEmgInfo(todayMat);var m=M[todayMat];
+    html='<div style="background:rgba(255,140,0,.08);border:1px solid rgba(255,140,0,.4);border-radius:6px;padding:11px 13px;margin-bottom:12px;">'
+      +'<div style="font-family:\'Syne\',sans-serif;font-size:13px;font-weight:800;color:#ff8c00;margin-bottom:5px;">⚡ Emergenza: '+m.l.split(' ')[0]+'</div>'
+      +'<div style="font-size:10px;color:var(--mut);line-height:1.7;">70% lezioni ('+Math.round(m.lez*0.7)+' tot) + 2h test sul resto ('+ei.lezTest+' lez coperte dai quiz).<br>Esame: <strong style="color:#ff8c00">'+m.e+'</strong> — '+ei.giorni+' giorni.</div>'
+      +'</div>';
+    html+='<div class="day-tot"><div class="dt-tot-lbl">Lezioni da vedere oggi (70%)</div><div class="dt-tot-num" style="color:#ff8c00">'+data.tot+'</div></div>';
+    // Inject 2h emergency test block at start of day
+    var emgBlock={t:'emergenza',h:'Prima sessione',l:'2h Test + Domande finali',b:'Vai sulla piattaforma. Fai i test di fine capitolo sulle lezioni che NON hai visto ('+ei.lezTest+' lezioni). Rispondi a tutte le domande. Segna gli errori. Ripeti solo gli errori.'};
+    data={tot:data.tot,blocks:[emgBlock].concat(data.blocks)};
+  }
   data.blocks.forEach(function(b){
-    html+='<div class="sb '+b.t+'"><div class="sb-hd"><div class="sb-time">'+b.h+'</div><div class="sb-lez" style="color:'+colMap[b.t]+'">'+b.l+'</div></div><div class="sb-body">'+b.b+'</div></div>';
+    html+='<div class="sb '+b.t+'"><div class="sb-hd"><div class="sb-time">'+b.h+'</div><div class="sb-lez" style="color:'+(colMap[b.t]||'var(--txt)')+'">'+b.l+'</div></div><div class="sb-body">'+b.b+'</div></div>';
   });
   document.getElementById('pl-content').innerHTML=html;
 }
@@ -560,7 +677,10 @@ document.addEventListener('DOMContentLoaded',function(){
   });
   document.getElementById('dt-plus').addEventListener('click',function(e){e.stopPropagation();addLez(1);});
   document.getElementById('dt-minus').addEventListener('click',function(e){e.stopPropagation();addLez(-1);});
+  document.getElementById('b-emg').addEventListener('click',function(e){e.stopPropagation();toggleEmg(true);});
+  document.getElementById('b-emg-off').addEventListener('click',function(e){e.stopPropagation();toggleEmg(false);});
 });
 </script>
+
 </body>
 </html>
